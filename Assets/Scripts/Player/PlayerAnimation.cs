@@ -30,7 +30,7 @@ public class PlayerAnimation : MonoBehaviour
         IsChangeDirection();
     }
     public void IsChangeDirection(){
-        if(_playerMoving._lastHorizontal <0){
+        if(_playerMoving.lastHorizontalVector <0){
             _spriteRender.flipX = true;
         }
         else{
