@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class BulletBehaviour : WeaponBehaviour
 {
-    WeaponController weaponController;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        weaponController = FindObjectOfType<BulletController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += weaponController.speed*direction*Time.deltaTime; // chuyển động và vị trí của viên đạn
+        transform.position += wst.Speed*direction*Time.deltaTime; // chuyển động và vị trí của viên đạn
     }
 }

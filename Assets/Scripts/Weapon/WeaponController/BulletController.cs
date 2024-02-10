@@ -16,9 +16,8 @@ public class BulletController : WeaponController
 
         Debug.Log("Attack() is called."); // Thêm dòng này để kiểm tra xem Attack() được gọi hay không
                                           // StartCoroutine(SpawnRoutine());
-        GameObject spawnBullet = Instantiate(prefabs);
+        GameObject spawnBullet = Instantiate(wst.Prefabs);
         spawnBullet.transform.position = transform.position;
         spawnBullet.GetComponent<BulletBehaviour>().DirectionChecker(playerMoving.lastMovedVector);
     }
-
 }

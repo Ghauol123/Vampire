@@ -4,9 +4,22 @@ using UnityEngine;
 
 public class WeaponBehaviour : MonoBehaviour
 {
+    public WeaponScriptableObject wst;
+
     protected Vector3 direction;
 
     public float destroyAfterSeconds;
+    protected float currentDamage;
+    protected float currentSpeed;
+    protected float currentCooldownDuration;
+    protected int currentPierce;
+    private void Awake()
+    {
+        currentDamage = wst.Damage;
+        currentSpeed = wst.Speed;
+        currentCooldownDuration = wst.CooldownDuration;
+        currentPierce = wst.Pierce;
+    }
 
     protected virtual void Start()
     {
@@ -60,4 +73,17 @@ public class WeaponBehaviour : MonoBehaviour
         transform.localScale = scale;
         transform.rotation = Quaternion.Euler(rotation);    //Can't simply set the vector because cannot convert
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
+            if (enemy != null)
+            {
+                enemy.TakeDamage(currentDamage);
+            }
+            Destroy(gameObject);
+        }
+    }
+
 }

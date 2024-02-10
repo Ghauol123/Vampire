@@ -13,7 +13,7 @@ public class SpiderCookingController : WeaponController
     protected override void Attack()
     {
         base.Attack();
-        GameObject spawnSpiderCooking = Instantiate(prefabs);
+        GameObject spawnSpiderCooking = Instantiate(wst.Prefabs);
         spawnSpiderCooking.transform.position = transform.position;
         spawnSpiderCooking.transform.parent = transform;
     }
