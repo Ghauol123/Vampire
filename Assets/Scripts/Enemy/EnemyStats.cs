@@ -22,4 +22,10 @@ public class EnemyStats : MonoBehaviour
     public void Kill(){
         Destroy(gameObject);
     }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Player")){
+            PlayerStats playerStats = other.GetComponent<PlayerStats>();
+            playerStats.TakeDamage(currentDamage);
+        }
+    }
 }

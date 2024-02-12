@@ -69,6 +69,8 @@ public class PlayerMoving : MonoBehaviour
     //References
     Rigidbody2D rb;
 
+    public CharacterScriptableObject characterScriptableObject;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -112,6 +114,6 @@ public class PlayerMoving : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = new Vector2(moveDir.x * moveSpeed, moveDir.y * moveSpeed);
+        rb.velocity = new Vector2(moveDir.x * characterScriptableObject.MoveSpeed, moveDir.y * characterScriptableObject.MoveSpeed);
     }
 }
