@@ -40,5 +40,10 @@ public class CharacterScriptableObject : ScriptableObject
         get { return projectileSpeed; }
         set { projectileSpeed = value; }
     }
-
+    [SerializeField]
+    private float magnet;
+    public float Magnet {
+        get { return magnet; }
+        set { magnet = value; }
+    }
 }

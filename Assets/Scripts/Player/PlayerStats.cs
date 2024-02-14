@@ -5,12 +5,22 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public CharacterScriptableObject cst;
+    // [HideInInspector]
+    public float currentHeal;
+    [HideInInspector]
+    public float currentRecovery;
+    [HideInInspector]
+    public float currentSpeed;
+    [HideInInspector]
+    public float currentMight;
+    [HideInInspector]
+    public float currentProjectileSpeed;
+    [HideInInspector]
+    public float currentManget;
 
-    float currentHeal;
-    float currentRecovery;
-    float currentSpeed;
-    float currentMight;
-    float currentProjectileSpeed;
+    Vector2 newPosition;
+
+    public List<GameObject> startWeapon;
 
     [Header("Experience/Level")]
     public int experience = 0;
@@ -31,11 +41,17 @@ public class PlayerStats : MonoBehaviour
     public List<levelRange> levelRanges;
     private void Awake()
     {
+        cst = CharacterSelected.GetData();
+        CharacterSelected.instance.DestroyInstance();
         currentHeal = cst.Maxheal;
         currentMight = cst.Might;
         currentProjectileSpeed = cst.ProjectileSpeed;
         currentRecovery = cst.Recovery;
         currentSpeed = cst.MoveSpeed;
+        currentManget = cst.Magnet;
+        newPosition = new Vector2(transform.position.x, -0.40f);
+
+        SpawnWeapon(cst.StartingWeapon);
     }
     private void Start()
     {
@@ -49,26 +65,38 @@ public class PlayerStats : MonoBehaviour
             invicibleTime -= Time.deltaTime;
 
         }
-        else if(isInvicible)
+        else if (isInvicible)
         {
             isInvicible = false;
         }
+        Recovery();
     }
     public void IncreaseExperience(int amount)
     {
         experience += amount;
         levelCheckerUp();
     }
-    public void IncreaseHeal(float heal){
-        if(currentHeal < cst.Maxheal){
+    public void IncreaseHeal(float heal)
+    {
+        if (currentHeal < cst.Maxheal)
+        {
             currentHeal += heal;
-            if(currentHeal > cst.Maxheal){
+            if (currentHeal > cst.Maxheal)
+            {
                 currentHeal = cst.Maxheal;
             }
-        }    
-        else if(currentHeal == cst.Maxheal){
-            return;
-        }    
+        }
+    }
+    public void Recovery()
+    {
+        if (currentHeal < cst.Maxheal)
+        {
+            currentHeal += currentRecovery * Time.deltaTime;
+            if (currentHeal > cst.Maxheal)
+            {
+                currentHeal = cst.Maxheal;
+            }
+        }
     }
     public void levelCheckerUp()
     {
@@ -105,4 +133,11 @@ public class PlayerStats : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    public void SpawnWeapon(GameObject weapon)
+    {
+        GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
+        spawnWeapon.transform.SetParent(transform);
+        startWeapon.Add(spawnWeapon);
+    }
+
 }

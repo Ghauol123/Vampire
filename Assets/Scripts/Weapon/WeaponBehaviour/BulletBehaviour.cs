@@ -13,6 +13,6 @@ public class BulletBehaviour : WeaponBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += wst.Speed*direction*Time.deltaTime; // chuyển động và vị trí của viên đạn
+        transform.position += currentSpeed*direction*Time.deltaTime; // chuyển động và vị trí của viên đạn
     }
 }

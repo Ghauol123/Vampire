@@ -68,13 +68,12 @@ public class PlayerMoving : MonoBehaviour
 
     //References
     Rigidbody2D rb;
-
-    public CharacterScriptableObject characterScriptableObject;
-
+    PlayerStats playerStats;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = new Vector2(1, 0f); //If we don't do this and game starts up and don't move, the projectile weapon will have no momentum
+        playerStats = GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -114,6 +113,6 @@ public class PlayerMoving : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = new Vector2(moveDir.x * characterScriptableObject.MoveSpeed, moveDir.y * characterScriptableObject.MoveSpeed);
+        rb.velocity = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
     }
 }

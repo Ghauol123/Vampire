@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7833051464201114812}
   - component: {fileID: 7009144084922902625}
   - component: {fileID: 7329589432529997191}
-  - component: {fileID: 387351188747388473}
-  m_Layer: 0
+  - component: {fileID: -5158203929983172855}
+  m_Layer: 7
   m_Name: AmeGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wst: {fileID: 11400000, guid: 02b496d1b15c6dd42a5b3e191c57a87c, type: 2}
   destroyAfterSeconds: 3
---- !u!58 &387351188747388473
+--- !u!58 &-5158203929983172855
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
