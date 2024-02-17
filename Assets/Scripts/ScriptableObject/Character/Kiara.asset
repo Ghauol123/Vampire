@@ -19,3 +19,5 @@ MonoBehaviour:
   might: 0
   projectileSpeed: 0
   magnet: 0.5
+  image: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
+  _animation: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}

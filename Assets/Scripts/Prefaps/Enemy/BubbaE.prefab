@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 4376654599123577330}
   m_Layer: 0
   m_Name: BubbaE
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: eb28e1da40f86e64fbfb67bfce0c60fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -165,12 +165,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8363618435026398200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 833029e5edf95b340ba9655f609d7d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  est: {fileID: 0}
 --- !u!114 &-1604600731095012083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +183,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   est: {fileID: 11400000, guid: 95e09640791cfcf40952138127d729a3, type: 2}
+  currentMoveSpeed: 0
   currentHealts: 0
+  currentDamage: 0
 --- !u!114 &4376654599123577330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +202,6 @@ MonoBehaviour:
   - name: Exp1
     itemsPrefabs: {fileID: 5984390164189770510, guid: 5d682cbc6dc4a2c4e8eeaf0b97244a1b, type: 3}
     dropRate: 100
+  - name: Burger
+    itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
+    dropRate: 25

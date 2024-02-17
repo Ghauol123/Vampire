@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Exp: 100
+  _name: Exp
 --- !u!50 &1791356709844297893
 Rigidbody2D:
   serializedVersion: 4

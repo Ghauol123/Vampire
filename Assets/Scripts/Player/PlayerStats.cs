@@ -27,6 +27,9 @@ public class PlayerStats : MonoBehaviour
     public int level = 1;
     public int experienceCap;
 
+    SpriteRenderer spr;
+    Animator playerAnimation;
+
     [System.Serializable]
     public class levelRange
     {
@@ -41,8 +44,8 @@ public class PlayerStats : MonoBehaviour
     public List<levelRange> levelRanges;
     private void Awake()
     {
-        cst = CharacterSelected.GetData();
-        CharacterSelected.instance.DestroyInstance();
+        // cst = CharacterSelected.GetData();
+        // CharacterSelected.instance.DestroyInstance();
         currentHeal = cst.Maxheal;
         currentMight = cst.Might;
         currentProjectileSpeed = cst.ProjectileSpeed;
@@ -50,13 +53,16 @@ public class PlayerStats : MonoBehaviour
         currentSpeed = cst.MoveSpeed;
         currentManget = cst.Magnet;
         newPosition = new Vector2(transform.position.x, -0.40f);
-
         SpawnWeapon(cst.StartingWeapon);
     }
     private void Start()
     {
         experienceCap = levelRanges[0].experienceCapIncrese;
         // đặt max kinh nghiệp đầu tiên là max kinh nghiệm ở level 0
+        // playerAnimation = GetComponent<Animator>();
+        // playerAnimation.runtimeAnimatorController = cst._Animation;
+        // spr = GetComponent<SpriteRenderer>();
+        // spr.sprite = cst.Image;
     }
     private void Update()
     {

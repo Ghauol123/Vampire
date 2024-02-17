@@ -6,7 +6,7 @@ public class WeaponController : MonoBehaviour
 {
     [Header("Weapon Stats")]
     public WeaponScriptableObject wst;
-    private float currentCooldown;
+    public float currentCooldown;
 
     protected PlayerMoving playerMoving;
     // Start is called before the first frame update
