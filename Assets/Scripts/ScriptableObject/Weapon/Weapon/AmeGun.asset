@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939e47db6a3f37a4d879b51992b4cdf2, type: 3}
+  m_Name: AmeGun
+  m_EditorClassIdentifier: 
+  prefabs: {fileID: 6895634297413164743, guid: 7c2bbe183b9cf7c40b6e80554baf1a33, type: 3}
+  damage: 5
+  speed: 10
+  cooldownDuration: 2
+  pierce: 3
+  level: 1
+  nextLevelPrefabs: {fileID: 8301730121519313429, guid: eea308e10291b5c4cb3d6479ffb51699, type: 3}
+  icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}

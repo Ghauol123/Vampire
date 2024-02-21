@@ -16,6 +16,7 @@ MonoBehaviour:
   maxheal: 100
   recovery: 1
   moveSpeed: 5
-  might: 0
+  might: 1
   projectileSpeed: 0
   magnet: 0.5
+  icon: {fileID: 21300000, guid: 08a46bdc288196d4f96fe3fe7cbe6014, type: 3}

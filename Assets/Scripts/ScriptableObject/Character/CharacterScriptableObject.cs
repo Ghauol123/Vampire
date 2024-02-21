@@ -54,6 +54,13 @@ public class CharacterScriptableObject : ScriptableObject
         get { return magnet; }
         set { magnet = value; }
     }
+    [SerializeField]
+    Sprite icon;
+    public Sprite Icon
+    {
+        get { return icon; }
+        set { icon = value; }
+    }
     // [SerializeField]
     // private Sprite image;
 

@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+// using Microsoft.Unity.VisualStudio.Editor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -9,18 +12,18 @@ public class PlayerStats : MonoBehaviour
     public float currentHeal;
     [HideInInspector]
     public float currentRecovery;
-    [HideInInspector]
+    // [HideInInspector]
     public float currentSpeed;
-    [HideInInspector]
+    // [HideInInspector]
     public float currentMight;
     [HideInInspector]
     public float currentProjectileSpeed;
     [HideInInspector]
     public float currentManget;
 
-    Vector2 newPosition;
+    public Vector2 newPosition;
 
-    public List<GameObject> startWeapon;
+    // public List<GameObject> startWeapon;
 
     [Header("Experience/Level")]
     public int experience = 0;
@@ -29,6 +32,13 @@ public class PlayerStats : MonoBehaviour
 
     SpriteRenderer spr;
     Animator playerAnimation;
+    InventoryManager inventoryManager;
+    public int weaponIndex;
+    public int passiveItemsIndex;
+    public GameObject weaponTest;
+    public GameObject passiveItemsText;
+    public GameObject passiveItemsText2;
+    public Image IconCharacter;
 
     [System.Serializable]
     public class levelRange
@@ -44,16 +54,21 @@ public class PlayerStats : MonoBehaviour
     public List<levelRange> levelRanges;
     private void Awake()
     {
-        // cst = CharacterSelected.GetData();
-        // CharacterSelected.instance.DestroyInstance();
+        cst = CharacterSelected.GetData();
+        CharacterSelected.instance.DestroyInstance();
+        inventoryManager = GetComponent<InventoryManager>();
         currentHeal = cst.Maxheal;
         currentMight = cst.Might;
         currentProjectileSpeed = cst.ProjectileSpeed;
         currentRecovery = cst.Recovery;
         currentSpeed = cst.MoveSpeed;
-        currentManget = cst.Magnet;
+        currentManget = cst.Magnet; 
+        IconCharacter.sprite = cst.Icon;
         newPosition = new Vector2(transform.position.x, -0.40f);
         SpawnWeapon(cst.StartingWeapon);
+        SpawnPassiveItems(passiveItemsText);
+        SpawnPassiveItems(passiveItemsText2);
+        SpawnWeapon(weaponTest);
     }
     private void Start()
     {
@@ -141,9 +156,30 @@ public class PlayerStats : MonoBehaviour
     }
     public void SpawnWeapon(GameObject weapon)
     {
+        if (weaponIndex > inventoryManager.weaponSlot.Count - 1)// trừ 1 vì bắt đầu từ 0;
+        {
+            Debug.Log("Full weapon");
+            return;
+        }
         GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
         spawnWeapon.transform.SetParent(transform);
-        startWeapon.Add(spawnWeapon);
+        // startWeapon.Add(spawnWeapon);
+        inventoryManager.AddWeapon(weaponIndex, spawnWeapon.GetComponent<WeaponController>()); // thêm vũ khí vào inventory
+
+        weaponIndex++;
+    }
+    public void SpawnPassiveItems(GameObject passiveItems){
+        if (passiveItemsIndex > inventoryManager.passiveItemsSlot.Count - 1)// trừ 1 vì bắt đầu từ 0;
+        {
+            Debug.Log("Full weapon");
+            return;
+        }
+        GameObject spawnPassiveItems = Instantiate(passiveItems, newPosition, Quaternion.identity);
+        spawnPassiveItems.transform.SetParent(transform);
+        // startWeapon.Add(spawnWeapon);
+        inventoryManager.AddPassiveItem(passiveItemsIndex, spawnPassiveItems.GetComponent<PassiveItems>()); // thêm vũ khí vào inventory
+
+        passiveItemsIndex++;
     }
 
 }

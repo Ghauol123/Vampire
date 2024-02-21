@@ -41,6 +41,7 @@ public class PlayerMoving : MonoBehaviour
 
         moveDir = new Vector2(moveX, moveY).normalized;
 
+
         if (moveDir != Vector2.zero)
         {
             if (moveDir.x != 0)
@@ -65,6 +66,10 @@ public class PlayerMoving : MonoBehaviour
     {
         //     Vector2 movement = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
         //     rb.MovePosition(rb.position + movement * Time.fixedDeltaTime)
-        rb.velocity = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
+        // rb.velocity = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
+        // Vector2 newPos = Vector2.Lerp(transform.parent.position, moveDir, playerStats.currentSpeed);
+        // transform.parent.position = newPos;
+        Vector2 movement = moveDir * playerStats.currentSpeed * Time.deltaTime;
+        transform.Translate(movement);
     }
 }

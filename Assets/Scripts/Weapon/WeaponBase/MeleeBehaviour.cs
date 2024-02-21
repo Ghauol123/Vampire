@@ -20,6 +20,10 @@ public class MeleeBehaviour : MonoBehaviour
         currentPierce = wst.Pierce;
         currentSpeed = wst.Speed;
     }
+        public float GetCurrrentDamage(){
+        return currentDamage *= FindObjectOfType<PlayerStats>().currentMight;
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
@@ -27,7 +31,7 @@ public class MeleeBehaviour : MonoBehaviour
             EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
             if (enemy != null)
             {
-                enemy.TakeDamage(currentDamage);
+                enemy.TakeDamage(GetCurrrentDamage());
             }
         }
     }

@@ -17,27 +17,52 @@ public class WeaponScriptableObject : ScriptableObject
     // Base stat for weapon
     [SerializeField]
     float damage;
-    public float Damage {
+    public float Damage
+    {
         get { return damage; }
         set { damage = value; }
     }
     [SerializeField]
     float speed;
-    public float Speed {
+    public float Speed
+    {
         get { return speed; }
         set { speed = value; }
     }
     [SerializeField]
     float cooldownDuration;
-    public float CooldownDuration {
+    public float CooldownDuration
+    {
         get { return cooldownDuration; }
         set { cooldownDuration = value; }
     }
     [SerializeField]
     int pierce;
-    public int Pierce {
+    public int Pierce
+    {
         get { return pierce; }
         set { pierce = value; }
+    }
+    [SerializeField]
+    int level;
+    public int Level
+    {
+        get { return level; }
+        set { level = value; }
+    }
+    [SerializeField]
+    GameObject nextLevelPrefabs;
+    public GameObject NextLevelPrefabs
+    {
+        get { return nextLevelPrefabs; }
+        set { nextLevelPrefabs = value; }
+    }
+    [SerializeField]
+    Sprite icon;
+    public Sprite Icon
+    {
+        get { return icon; }
+        set { icon = value; }
     }
 }
 

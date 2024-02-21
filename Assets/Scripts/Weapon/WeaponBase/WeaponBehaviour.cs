@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class WeaponBehaviour : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class WeaponBehaviour : MonoBehaviour
     protected virtual void Start()
     {
         Destroy(gameObject, destroyAfterSeconds);
+    }
+    public float GetCurrrentDamage(){
+        return currentDamage *= FindObjectOfType<PlayerStats>().currentMight;
     }
 
     public void DirectionChecker(Vector3 dir)
@@ -80,7 +84,7 @@ public class WeaponBehaviour : MonoBehaviour
             EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
             if (enemy != null)
             {
-                enemy.TakeDamage(currentDamage);
+                enemy.TakeDamage(GetCurrrentDamage());
             }
             Destroy(gameObject);
         }
