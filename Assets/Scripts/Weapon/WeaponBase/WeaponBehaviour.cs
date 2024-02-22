@@ -27,7 +27,7 @@ public class WeaponBehaviour : MonoBehaviour
         Destroy(gameObject, destroyAfterSeconds);
     }
     public float GetCurrrentDamage(){
-        return currentDamage *= FindObjectOfType<PlayerStats>().currentMight;
+        return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
     }
 
     public void DirectionChecker(Vector3 dir)

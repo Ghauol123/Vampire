@@ -61,20 +61,11 @@ public class CharacterScriptableObject : ScriptableObject
         get { return icon; }
         set { icon = value; }
     }
-    // [SerializeField]
-    // private Sprite image;
-
-    // public Sprite Image
-    // {
-    //     get { return image; }
-    //     set { image = value; }
-    // }
-    //  [SerializeField]
-    // private RuntimeAnimatorController _animation;
-
-    // public RuntimeAnimatorController _Animation
-    // {
-    //     get { return _animation; }
-    //     set { _animation = value; }
-    // }
+    [SerializeField]
+    string nameCharacter;
+    public string NameCharacter
+    {
+        get { return nameCharacter; }
+        set { nameCharacter = value; }
+    }
 }

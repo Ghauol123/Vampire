@@ -7,6 +7,6 @@ public class SpeedItems : PassiveItems
     protected override void AppliedModifire()
     {
         base.AppliedModifire();
-        playerStats.currentSpeed += passiveItemsScriptableObject.Multiple;
+        playerStats.CurrentSpeed += passiveItemsScriptableObject.Multiple;
     }
 }

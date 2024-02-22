@@ -36,6 +36,12 @@ public class PlayerMoving : MonoBehaviour
 
     void InputManagement()
     {
+        if(GameManager.instance.IsGameOver){
+            return;
+        }
+        else if(GameManager.instance.IsGamePause){
+            return;
+        }
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
@@ -69,7 +75,13 @@ public class PlayerMoving : MonoBehaviour
         // rb.velocity = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
         // Vector2 newPos = Vector2.Lerp(transform.parent.position, moveDir, playerStats.currentSpeed);
         // transform.parent.position = newPos;
-        Vector2 movement = moveDir * playerStats.currentSpeed * Time.deltaTime;
+        if(GameManager.instance.IsGameOver){
+            return;
+        }
+        else if(GameManager.instance.IsGamePause){
+            return;
+        }
+        Vector2 movement = moveDir * playerStats.CurrentSpeed * Time.fixedDeltaTime;
         transform.Translate(movement);
     }
 }

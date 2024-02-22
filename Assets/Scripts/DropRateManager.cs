@@ -12,6 +12,9 @@ public class DropRateManager : MonoBehaviour
     }
     public List<Drops> drops;
     private void OnDestroy() {
+        if(!gameObject.scene.isLoaded){
+            return;
+        }
         float randomNumber = Random.Range(0f,100f);// random 1 số
         List<Drops> possibleDrops = new List<Drops>();// tạo 1 list mới
         foreach(Drops rate in drops){// check drops trong list

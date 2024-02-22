@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class EnemyStats : MonoBehaviour
 {
@@ -8,18 +9,20 @@ public class EnemyStats : MonoBehaviour
     [HideInInspector]
     public float currentMoveSpeed;
     [HideInInspector]
-    public float currentHealts;
+    public float CurrentHealts;
     [HideInInspector]
     public float currentDamage;
     float distanceDespawn = 20f;
     Transform playerMoving;
+    PlayerStats PlayerStats;
     private void Awake() {
         currentDamage = est.Damage;
-        currentHealts = est.maxhealt;
+        CurrentHealts = est.maxhealt;
         currentMoveSpeed = est.MoveSpeed;
     }
     private void Start() {
         playerMoving = FindObjectOfType<PlayerMoving>().transform;
+        PlayerStats = FindObjectOfType<PlayerStats>();
     }
     private void Update() {
         if(Vector2.Distance(transform.position,playerMoving.position) > distanceDespawn){
@@ -27,13 +30,15 @@ public class EnemyStats : MonoBehaviour
         }
     }
     public void TakeDamage(float dmg){
-        currentHealts -= dmg;
-        if(currentHealts <= 0){
+        CurrentHealts -= dmg;
+        if(CurrentHealts <= 0){
             Kill();
         }
     }
     public void Kill(){
         Destroy(gameObject);
+        PlayerStats.PlusScore();
+        // GameManager.instance.ScoreEndGame.text = "Score: "+PlayerStats.score.ToString();
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")){
@@ -42,6 +47,9 @@ public class EnemyStats : MonoBehaviour
         }
     }
     private void OnDestroy() {
+        if(!gameObject.scene.isLoaded){
+            return;
+        }
         EnemySpawn enemySpawn = FindObjectOfType<EnemySpawn>();
         enemySpawn.OnEnemyKill();
     }

@@ -21,7 +21,7 @@ public class MeleeBehaviour : MonoBehaviour
         currentSpeed = wst.Speed;
     }
         public float GetCurrrentDamage(){
-        return currentDamage *= FindObjectOfType<PlayerStats>().currentMight;
+        return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

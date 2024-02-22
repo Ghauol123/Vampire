@@ -7,6 +7,6 @@ public class DamageItems : PassiveItems
     protected override void AppliedModifire()
     {
         base.AppliedModifire();
-        playerStats.currentMight += passiveItemsScriptableObject.Multiple;
+        playerStats.CurrentMight += passiveItemsScriptableObject.Multiple;
     }
 }

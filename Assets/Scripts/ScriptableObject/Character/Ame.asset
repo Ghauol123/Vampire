@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Ame
   m_EditorClassIdentifier: 
   startingWeapon: {fileID: 8301730121519313429, guid: fba04fff601115845ba6a39b483c7dd2, type: 3}
-  maxheal: 100
+  maxheal: 10
   recovery: 1
   moveSpeed: 5
   might: 1
   projectileSpeed: 0
   magnet: 0.5
   icon: {fileID: 21300000, guid: 08a46bdc288196d4f96fe3fe7cbe6014, type: 3}
+  nameCharacter: Amelia Watson
