@@ -28,7 +28,5 @@ public class BulletController : WeaponController
             // Đợi một khoảng thời gian giữa các viên đạn
             yield return new WaitForSeconds(0.1f);
         }
-
-
     }
 }

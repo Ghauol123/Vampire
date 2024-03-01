@@ -103,7 +103,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject weaponTest;
     public GameObject passiveItemsText;
     public GameObject passiveItemsText2;
-    public int score =0;
+    public int score = 0;
 
     [System.Serializable]
     public class levelRange
@@ -117,6 +117,11 @@ public class PlayerStats : MonoBehaviour
     float invicibleTime;
     bool isInvicible;
     public List<levelRange> levelRanges;
+    [Header("UI")]
+    public Image healBar;
+    public Image ExpBar;
+    public Text levelDisplay;
+    public Text healDisplay;
     private void Awake()
     {
         cst = CharacterSelected.GetData();
@@ -128,11 +133,11 @@ public class PlayerStats : MonoBehaviour
         currentRecovery = cst.Recovery;
         currentSpeed = cst.MoveSpeed;
         currentManget = cst.Magnet;
-        newPosition = new Vector2(transform.position.x, -0.40f);
+        newPosition = new Vector2(transform.position.x, -0.70f);
         SpawnWeapon(cst.StartingWeapon);
         SpawnPassiveItems(passiveItemsText);
-        SpawnPassiveItems(passiveItemsText2);
-        SpawnWeapon(weaponTest);
+        // SpawnPassiveItems(passiveItemsText2);
+        // SpawnWeapon(weaponTest);
     }
     private void Start()
     {
@@ -151,6 +156,9 @@ public class PlayerStats : MonoBehaviour
 
         GameManager.instance.AssignCharacter(cst);
         GameManager.instance.Icon(cst);
+        updateHealBar();
+        updateExpBar();
+        updateLevelDisplay();
     }
     private void Update()
     {
@@ -169,6 +177,7 @@ public class PlayerStats : MonoBehaviour
     {
         experience += amount;
         levelCheckerUp();
+        updateExpBar();
     }
     public void IncreaseHeal(float heal)
     {
@@ -179,6 +188,7 @@ public class PlayerStats : MonoBehaviour
             {
                 CurrentHeal = cst.Maxheal;
             }
+            updateHealBar();
         }
     }
     public void Recovery()
@@ -190,6 +200,7 @@ public class PlayerStats : MonoBehaviour
             {
                 CurrentHeal = cst.Maxheal;
             }
+            updateHealBar();
         }
     }
     public void levelCheckerUp()
@@ -208,6 +219,8 @@ public class PlayerStats : MonoBehaviour
                 }
             }
             experienceCap += experienceCapIncrese;
+            GameManager.instance.StartLevelUp();
+            updateLevelDisplay();
         }
     }
     public void TakeDamage(float dmg)
@@ -221,18 +234,32 @@ public class PlayerStats : MonoBehaviour
             {
                 Kill();
             }
+            updateHealBar();
         }
+    }
+    void updateHealBar()
+    {
+        healBar.fillAmount = currentHeal / cst.Maxheal;
+        healDisplay.text = (currentHeal/cst.Maxheal).ToString();
+    }
+    void updateExpBar(){
+        ExpBar.fillAmount = (float)experience/experienceCap;
+    }
+    void updateLevelDisplay(){
+        levelDisplay.text = "LV:" + level.ToString();
     }
     public void Kill()
     {
-        if(!GameManager.instance.IsGameOver){
+        if (!GameManager.instance.IsGameOver)
+        {
             GameManager.instance.AssignLevel(level);
             GameManager.instance.AssignScore(score);
-            GameManager.instance.AssignWeaponAndPassiveItem(inventoryManager.weaponImageSlot,inventoryManager.passiveItemImageSlot);
+            GameManager.instance.AssignWeaponAndPassiveItem(inventoryManager.weaponImageSlot, inventoryManager.passiveItemImageSlot);
             GameManager.instance.GameOver();
         }
     }
-    public void PlusScore(){
+    public void PlusScore()
+    {
         score += 10;
     }
     public void SpawnWeapon(GameObject weapon)
@@ -242,7 +269,7 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
+        GameObject spawnWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
         spawnWeapon.transform.SetParent(transform);
         // startWeapon.Add(spawnWeapon);
         inventoryManager.AddWeapon(weaponIndex, spawnWeapon.GetComponent<WeaponController>()); // thêm vũ khí vào inventory

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5816397ccb933348a921ac86ae625d8, type: 3}
   m_Name: Might
   m_EditorClassIdentifier: 
+  damage: 0
+  description: "s\u1EE9c m\u1EA1nh c\u1EE7a nh\xE2n v\u1EADt"
+  name: Might
+  type: PassiveItems
   multiple: 1
   level: 1
   nextLevelPrefabs: {fileID: 994647683157480201, guid: a728919f03232bc43ab9d364627064e4, type: 3}

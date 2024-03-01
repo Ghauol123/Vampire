@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5816397ccb933348a921ac86ae625d8, type: 3}
   m_Name: Speed
   m_EditorClassIdentifier: 
+  damage: 0
+  description: "T\u1ED1c \u0111\u1ED9 ch\u1EA1y"
+  name: Speed
+  type: PassiveItem
   multiple: 0.5
   level: 1
   nextLevelPrefabs: {fileID: 7968604507556502903, guid: dd6b466f7dbefbb48b7cd1caef751c11, type: 3}

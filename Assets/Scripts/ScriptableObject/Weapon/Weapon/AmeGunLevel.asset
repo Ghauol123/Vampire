@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939e47db6a3f37a4d879b51992b4cdf2, type: 3}
   m_Name: AmeGunLevel
   m_EditorClassIdentifier: 
-  prefabs: {fileID: 6895634297413164743, guid: 7c2bbe183b9cf7c40b6e80554baf1a33, type: 3}
+  prefabs: {fileID: 8301730121519313429, guid: eea308e10291b5c4cb3d6479ffb51699, type: 3}
+  name: Ame Gun Level 2
+  type: Weapon
   damage: 10
+  description: "T\u0103ng dame"
   speed: 10
   cooldownDuration: 1.5
   pierce: 3

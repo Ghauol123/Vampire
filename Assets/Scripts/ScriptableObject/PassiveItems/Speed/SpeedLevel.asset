@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5816397ccb933348a921ac86ae625d8, type: 3}
   m_Name: SpeedLevel
   m_EditorClassIdentifier: 
+  damage: 0
+  description: "T\u0103ng t\u1ED1c \u0111\u1ED9 ch\u1EA1y c\u1EE7a nh\xE2n v\u1EADt
+    th\xEAm 0.5%"
+  name: Speed Level 2
+  type: PassiveItems
   multiple: 1
   level: 2
   nextLevelPrefabs: {fileID: 0}
+  icon: {fileID: 0}

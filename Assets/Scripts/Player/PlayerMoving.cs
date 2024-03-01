@@ -42,6 +42,9 @@ public class PlayerMoving : MonoBehaviour
         else if(GameManager.instance.IsGamePause){
             return;
         }
+        else if(GameManager.instance.isLevelUp){
+            return;
+        }
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
@@ -79,6 +82,9 @@ public class PlayerMoving : MonoBehaviour
             return;
         }
         else if(GameManager.instance.IsGamePause){
+            return;
+        }
+        else if(GameManager.instance.isLevelUp){
             return;
         }
         Vector2 movement = moveDir * playerStats.CurrentSpeed * Time.fixedDeltaTime;

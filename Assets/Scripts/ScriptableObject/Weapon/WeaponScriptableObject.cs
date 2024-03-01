@@ -13,14 +13,35 @@ public class WeaponScriptableObject : ScriptableObject
         get { return prefabs; }
         set { prefabs = value; }
     }
-
-    // Base stat for weapon
+    [SerializeField]
+    new string name;
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+    [SerializeField]
+    string type;
+    public string Type
+    {
+        get { return type; }
+        set { type = value; }
+    }
     [SerializeField]
     float damage;
     public float Damage
     {
         get { return damage; }
         set { damage = value; }
+    }
+
+    // Base stat for weapon
+    [SerializeField]
+    string description;
+    public string Description
+    {
+        get { return description; }
+        set { description = value; }
     }
     [SerializeField]
     float speed;
