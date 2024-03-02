@@ -14,6 +14,14 @@ public class WeaponScriptableObject : ScriptableObject
         set { prefabs = value; }
     }
     [SerializeField]
+    private int numofBullet;
+
+    public int NumofBullet
+    {
+        get { return numofBullet; }
+        set { numofBullet = value; }
+    }
+    [SerializeField]
     new string name;
     public string Name
     {

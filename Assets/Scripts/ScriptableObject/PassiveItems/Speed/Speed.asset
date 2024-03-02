@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "T\u1ED1c \u0111\u1ED9 ch\u1EA1y"
   name: Speed
   type: PassiveItem
-  multiple: 0.5
+  multiple: 0
   level: 1
   nextLevelPrefabs: {fileID: 7968604507556502903, guid: dd6b466f7dbefbb48b7cd1caef751c11, type: 3}
   icon: {fileID: 21300000, guid: b65611fb4b14b3c4ea2b51ef9c72f722, type: 3}

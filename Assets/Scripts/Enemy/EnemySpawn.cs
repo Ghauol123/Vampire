@@ -26,11 +26,12 @@ public class EnemySpawn : MonoBehaviour
 
     Transform player;
     [Header("Spawn Atttributes")]
-    public float spawnTime;
-    public float waveInterval;
-    public int enemysAlive;
-    public int maxEnemiesAllowed;
-    public bool maxEnemiesReached =false; // cho biết số lượng enemies đã max hay chưa
+    public float spawnTime; // đếm thời gian của spawnInterval
+    public float waveInterval;  // thời gian giữa các làn sóng
+    public int enemysAlive; // số lượng quái vật hiện tại
+    public int maxEnemiesAllowed;   // số lượng quái vật có thể max
+    public bool maxEnemiesReached = false; // cho biết số lượng enemies đã max hay chưa
+    bool isWaveActive = false;
     [Header("Spawning Position")]
     public List<Transform> spawningPosition;
 
@@ -44,7 +45,7 @@ public class EnemySpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentWaveCount < waves.Count && waves[currentWaveCount].spawnCount == 0)
+        if (currentWaveCount < waves.Count && waves[currentWaveCount].spawnCount == 0 && !isWaveActive)
         {
             StartCoroutine(BeginNextWave());
         }
@@ -57,9 +58,11 @@ public class EnemySpawn : MonoBehaviour
     }
     IEnumerator BeginNextWave()
     {
+        isWaveActive = true;
         yield return new WaitForSeconds(waveInterval);
         if (currentWaveCount < waves.Count - 1)
         {
+            isWaveActive = false;
             currentWaveCount++;
             CalculateWaveQuota();
         }
@@ -85,22 +88,25 @@ public class EnemySpawn : MonoBehaviour
                 // kiểm tra xem số lượng kẻ thù tối thiểu thuộc loại này đã được sinh ra chưa
                 if (enemyGroups.spawnCount < enemyGroups.enemyCount)
                 {
-                    if(enemysAlive >= maxEnemiesAllowed){
-                        maxEnemiesReached = true;
-                        return;
-                    }
-                    Instantiate(enemyGroups.enemyPrefabs,player.position + spawningPosition[Random.Range(0,spawningPosition.Count)].position, Quaternion.identity);
+                    Instantiate(enemyGroups.enemyPrefabs, player.position + spawningPosition[Random.Range(0, spawningPosition.Count)].position, Quaternion.identity);
                     enemyGroups.spawnCount++;
                     waves[currentWaveCount].spawnCount++;
                     enemysAlive++;
+                    if (enemysAlive >= maxEnemiesAllowed)
+                    {
+                        maxEnemiesReached = true;
+                        return;
+                    }
                 }
-            }   
-        }
-        if(enemysAlive < maxEnemiesAllowed){
-            maxEnemiesReached = false;
+            }
         }
     }
-    public void OnEnemyKill() {
+    public void OnEnemyKill()
+    {
         enemysAlive--;
+        if (enemysAlive < maxEnemiesAllowed)
+        {
+            maxEnemiesReached = false;
+        }
     }
 }

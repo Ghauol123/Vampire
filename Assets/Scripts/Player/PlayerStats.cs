@@ -34,7 +34,7 @@ public class PlayerStats : MonoBehaviour
             }
         }
     }
-    float currentSpeed;
+    public float currentSpeed;
     public float CurrentSpeed
     {
         get { return currentSpeed; }
@@ -43,7 +43,7 @@ public class PlayerStats : MonoBehaviour
             currentSpeed = value;
             if (GameManager.instance != null)
             {
-                GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + currentManget;
+                GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + currentSpeed;
             }
         }
     }
@@ -133,7 +133,7 @@ public class PlayerStats : MonoBehaviour
         currentRecovery = cst.Recovery;
         currentSpeed = cst.MoveSpeed;
         currentManget = cst.Magnet;
-        newPosition = new Vector2(transform.position.x, -0.70f);
+        // newPosition = new Vector2(transform.position.x, -0.70f);
         SpawnWeapon(cst.StartingWeapon);
         SpawnPassiveItems(passiveItemsText);
         // SpawnPassiveItems(passiveItemsText2);
@@ -149,7 +149,7 @@ public class PlayerStats : MonoBehaviour
         // spr.sprite = cst.Image;
         GameManager.instance.CurrentHealDisplay.text = "Heal:" + currentHeal;
         GameManager.instance.CurrentrecoveryDisplay.text = "Recovery:" + currentRecovery;
-        GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + currentManget;
+        GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + currentSpeed;
         GameManager.instance.CurrentMightDisplay.text = "Might:" + currentMight;
         GameManager.instance.CurrentProjectTileSpeedDisplay.text = "ProjectileSpeed:" + currentProjectileSpeed;
         GameManager.instance.CurrentMagnetDisplay.text = "Magnet:" + currentManget;

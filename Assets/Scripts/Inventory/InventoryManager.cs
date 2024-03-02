@@ -91,7 +91,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void LevelUpPassiveItem(int slotIndex, int upgradeIndex)
     {
-        if (passiveItemsSlot.Count < slotIndex)
+        if (passiveItemsSlot.Count > slotIndex)
         {
             PassiveItems passiveItems = passiveItemsSlot[slotIndex];
             if (!passiveItems.passiveItemsScriptableObject.NextLevelPrefabs)

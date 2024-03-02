@@ -5,7 +5,7 @@ using UnityEngine;
 public class PassiveItems : MonoBehaviour
 {
     [SerializeField]
-    public PlayerStats playerStats;
+    protected PlayerStats playerStats;
     public PassiveItemsScriptableObject passiveItemsScriptableObject;
     // Start is called before the first frame update
     void Start()

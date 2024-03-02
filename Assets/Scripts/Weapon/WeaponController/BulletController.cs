@@ -9,6 +9,15 @@ public class BulletController : WeaponController
     {
         base.Start();
     }
+    private Vector3 bulletDirection;
+
+    // Hàm để thiết lập hướng viên đạn (có thể đặt trong hàm Start hoặc Awake)
+    private void SetBulletDirection()
+    {
+        // Lấy hướng từ playerMoving.lastMovedVector hoặc từ bất kỳ nguồn thông tin hướng nào khác
+        bulletDirection = playerMoving.lastMovedVector.normalized;
+    }
+
 
     protected override void Attack()
     {
@@ -19,14 +28,18 @@ public class BulletController : WeaponController
     }
     IEnumerator Shooting()
     {
-        for (int i = 0; i < 3; i++)
+        SetBulletDirection();
+
+        for (int i = 0; i < wst.NumofBullet; i++)
         {
             // Bắn đạn tại điểm xuất phát
             GameObject spawnBullet = Instantiate(wst.Prefabs);
             spawnBullet.transform.position = transform.position;
-            spawnBullet.GetComponent<BulletBehaviour>().DirectionChecker(playerMoving.lastMovedVector);
+            spawnBullet.GetComponent<BulletBehaviour>().DirectionChecker(bulletDirection);
             // Đợi một khoảng thời gian giữa các viên đạn
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
+
+
     }
 }

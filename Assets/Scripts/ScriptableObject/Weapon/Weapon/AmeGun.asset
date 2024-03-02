@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AmeGun
   m_EditorClassIdentifier: 
   prefabs: {fileID: 6895634297413164743, guid: 7c2bbe183b9cf7c40b6e80554baf1a33, type: 3}
+  numofBullet: 3
   name: Ame Gun
   type: Weapon
   damage: 5

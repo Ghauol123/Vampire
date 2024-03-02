@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "T\u0103ng s\u1EE9c m\u1EA1nh c\u1EE7a nh\xE2n v\u1EADt l\xEAn 2"
   name: Might Level 2
   type: PassiveItems
-  multiple: 2
+  multiple: 1
   level: 2
   nextLevelPrefabs: {fileID: 0}
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
