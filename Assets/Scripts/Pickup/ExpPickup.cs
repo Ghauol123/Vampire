@@ -8,8 +8,14 @@ public class ExpPickup : Pickup, ICollect
     private void Start()
     {
     }
-    public void Collect()
+    public override void Collect()
     {
+        if(hasBeenPickUp){
+            return;
+        }
+        else {
+            base.Collect();
+        }
         PlayerStats playerStats = FindObjectOfType<PlayerStats>();
         playerStats.IncreaseExperience(Exp);
     }

@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
     public bool isLevelUp = false;
     public bool chosingUpgrade;
 
-    public GameObject playerStats;
+    // public GameObject player;
+    PlayerStats playerStats;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         LevelUpScreen.SetActive(false);
+        playerStats = FindObjectOfType<PlayerStats>();
     }
 
     // Update is called once per frame
@@ -193,7 +195,7 @@ public class GameManager : MonoBehaviour
         DisplayTime();
         if (stopWatchTime >= TimeLimit)
         {
-            GameOver();
+            playerStats.SendMessage("Kill");
         }
     }
     public void DisplayTime()

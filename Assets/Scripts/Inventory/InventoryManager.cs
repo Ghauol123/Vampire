@@ -247,10 +247,12 @@ public class InventoryManager : MonoBehaviour
         RemoveUpgradeOption();
         ApplyUpgradeOptions();
     }
-    public void DisableUpgrade(UpgradeUI ui){
+    public void DisableUpgrade(UpgradeUI ui)
+    {
         ui.upgradeNameDisplay.transform.parent.gameObject.SetActive(false);
     }
-    public void EnableUpgrade(UpgradeUI ui){
+    public void EnableUpgrade(UpgradeUI ui)
+    {
         ui.upgradeNameDisplay.transform.parent.gameObject.SetActive(true);
     }
 }

@@ -2549,7 +2549,7 @@ MonoBehaviour:
   - {fileID: 1303919346}
   - {fileID: 678812552}
   - {fileID: 34537004}
-  TimeLimit: 100
+  TimeLimit: 10
   stopWatchTime: 0
   stopWacthDisplay: {fileID: 446793735}
   IsGameOver: 0
