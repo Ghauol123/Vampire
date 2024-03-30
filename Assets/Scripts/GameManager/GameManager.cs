@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,25 +16,25 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject LevelUpScreen;
     [Header("Current Stas Displays")]
-    public Text CurrentSpeedDisplay;
-    public Text CurrentHealDisplay;
-    public Text CurrentMightDisplay;
-    public Text CurrentProjectTileSpeedDisplay;
-    public Text CurrentrecoveryDisplay;
-    public Text CurrentMagnetDisplay;
-    public Text levelReach;
-    public Text ScoreEndGame;
-    public Text timeSurvival;
+    public TMP_Text CurrentSpeedDisplay;
+    public TMP_Text CurrentHealDisplay;
+    public TMP_Text CurrentMightDisplay;
+    public TMP_Text CurrentProjectTileSpeedDisplay;
+    public TMP_Text CurrentrecoveryDisplay;
+    public TMP_Text CurrentMagnetDisplay;
+    public TMP_Text levelReach;
+    public TMP_Text ScoreEndGame;
+    public TMP_Text timeSurvival;
     [Header("Result Screen Displays")]
     public Image characterImage;
-    public Text characterName;
+    public TMP_Text characterName;
     public Image IconCharacter;
     public List<Image> weaponIcon;
     public List<Image> passiveItemIcon;
     [Header("Time")]
     public float TimeLimit;
     public float stopWatchTime;
-    public Text stopWacthDisplay;
+    public TMP_Text stopWacthDisplay;
 
     public bool IsGameOver = false;
     public bool IsGamePause = false;

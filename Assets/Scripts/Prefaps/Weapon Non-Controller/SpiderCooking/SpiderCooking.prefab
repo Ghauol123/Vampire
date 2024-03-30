@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wst: {fileID: 11400000, guid: fa716e2d5b96a0a499d4bec866f6efc3, type: 2}
-  destroyAfterSeconds: 2
+  destroyAfterSeconds: 3
 --- !u!58 &-885559327885822528
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
-
+using TMPro;
 
 
 public class InventoryManager : MonoBehaviour
 {
+    public CharacterScriptableObject cst;
+    public WeaponScriptableObject wst;
     public List<WeaponController> weaponSlot = new List<WeaponController>(6);
     public int[] weaponLevels = new int[6];
     public List<Image> weaponImageSlot = new List<Image>(6);
@@ -35,16 +37,28 @@ public class InventoryManager : MonoBehaviour
     [System.Serializable]
     public class UpgradeUI
     {
-        public Text upgradeNameDisplay;
-        public Text upgradeDescriptionDisplay;
+        public TMP_Text upgradeNameDisplay;
+        public TMP_Text upgradeDescriptionDisplay;
         public Image upgradeIcon;
-        public Text upgradeType;
+        public TMP_Text upgradeType;
         public Button upgradeButton;
     }
     public List<WeaponUpgrade> weaponUpgradeOptions = new List<WeaponUpgrade>();
     public List<PassiveItemUpgrade> passiveItemUpgradeOptions = new List<PassiveItemUpgrade>();
     public List<UpgradeUI> upgradeUI = new List<UpgradeUI>();
-
+    public List<WeaponEvolutionBluePrint> weaponEvolutions = new List<WeaponEvolutionBluePrint>();
+    private void Start() {
+        WeaponUpgrade newUpgrade = new WeaponUpgrade();
+        cst = CharacterSelected.GetData();
+        // Gán các giá trị cho đối tượng mới
+        newUpgrade.weaponUpgradeIndex = 1; // ví dụ
+        newUpgrade.initialWeapon = cst.StartingWeapon; // Thay yourGameObjectReference bằng GameObject của vũ khí ban đầu
+        newUpgrade.weaponScriptableObject = wst; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
+        
+        // Thêm đối tượng mới vào danh sách
+        weaponUpgradeOptions.Add(newUpgrade);
+        playerStats = GetComponent<PlayerStats>();
+    }
     public void AddWeapon(int slotIndex, WeaponController weaponController)
     {
         weaponSlot[slotIndex] = weaponController;
@@ -111,16 +125,13 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerStats = GetComponent<PlayerStats>();
-    }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(GetPossibleEvolution().Count > 0){
+            Debug.Log(GetPossibleEvolution());
+        }
     }
     public void ApplyUpgradeOptions()
     {
@@ -254,6 +265,42 @@ public class InventoryManager : MonoBehaviour
     public void EnableUpgrade(UpgradeUI ui)
     {
         ui.upgradeNameDisplay.transform.parent.gameObject.SetActive(true);
+    }
+    public List<WeaponEvolutionBluePrint> GetPossibleEvolution(){
+        List<WeaponEvolutionBluePrint> possibleEvolution = new List<WeaponEvolutionBluePrint>();
+        foreach(WeaponController weapon in weaponSlot){
+            if(weapon != null){
+                foreach(PassiveItems catalyst in passiveItemsSlot){
+                    if(catalyst != null){
+                        foreach(WeaponEvolutionBluePrint evolution in weaponEvolutions){
+                            if(weapon.wst.Level >= evolution.baseWeaponData.Level && catalyst.passiveItemsScriptableObject.Level >= evolution.catalystPassiveItemData.Level){
+                               possibleEvolution.Add(evolution); 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return possibleEvolution;
+    }
+    public void Evolved(WeaponEvolutionBluePrint evolution){
+        for(int weaponSlotIndex = 0; weaponSlotIndex < weaponSlot.Count; weaponSlotIndex++){
+            WeaponController weapon = weaponSlot[weaponSlotIndex];
+            for(int catalystSlotIndex = 0; catalystSlotIndex < passiveItemsSlot.Count;catalystSlotIndex++){
+                PassiveItems passiveItems = passiveItemsSlot[catalystSlotIndex];
+                if(weapon.wst.Level >= evolution.baseWeaponData.Level && passiveItems.passiveItemsScriptableObject.Level >= evolution.catalystPassiveItemData.Level){
+                    GameObject evolvedWeapon = Instantiate(evolution.evovelWeapon, transform.position, Quaternion.identity);
+                    WeaponController evolvelweaponController = evolvedWeapon.GetComponent<WeaponController>();
+                    evolvedWeapon.transform.SetParent(transform);
+                    AddWeapon(weaponSlotIndex,evolvelweaponController);
+                    Destroy(weapon.gameObject);
+                    weaponLevels[weaponSlotIndex] = evolvelweaponController.wst.Level;
+                    weaponImageSlot[weaponSlotIndex].sprite = evolvelweaponController.wst.Icon;
+                    Debug.LogWarning("evolution Weapon");
+                    return;
+                }
+            }
+        }
     }
 }
 

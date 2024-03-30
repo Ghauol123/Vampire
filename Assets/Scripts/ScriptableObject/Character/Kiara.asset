@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a52d06467f2ac64e9b0148bdbab1d2b, type: 3}
   m_Name: Kiara
   m_EditorClassIdentifier: 
-  startingWeapon: {fileID: 6655260754505994751, guid: 3ab363d59eeeca040934e521b8040cd4, type: 3}
+  startingWeapon: {fileID: 6655260754505994751, guid: 0c764afcf611765428e9d2a8e40788a3, type: 3}
   maxheal: 100
   recovery: 1
   moveSpeed: 5
-  might: 0
+  might: 1
   projectileSpeed: 0
   magnet: 0.5
-  image: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
-  _animation: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
+  icon: {fileID: 21300000, guid: 07a45381036d8e24180f30ddb286c65e, type: 3}
+  nameCharacter: Kiara
+  sprite: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
+  animatorController: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}

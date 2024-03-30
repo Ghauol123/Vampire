@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,15 +13,19 @@ public class MeleeBehaviour : MonoBehaviour
 
     public float destroyAfterSeconds;
     // Start is called before the first frame update
+      private void Awake()
+    {
+        currentDamage = wst.Damage;
+        currentSpeed = wst.Speed;
+        currentCooldownDuration = wst.CooldownDuration;
+        currentPierce = wst.Pierce;
+    }
+
     protected virtual void Start()
     {
         Destroy(gameObject, destroyAfterSeconds);
-        currentDamage = wst.Damage;
-        currentCooldownDuration = wst.CooldownDuration;
-        currentPierce = wst.Pierce;
-        currentSpeed = wst.Speed;
     }
-        public float GetCurrrentDamage(){
+    public float GetCurrrentDamage(){
         return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
     }
 
@@ -29,10 +34,8 @@ public class MeleeBehaviour : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
-            if (enemy != null)
-            {
-                enemy.TakeDamage(GetCurrrentDamage());
-            }
+            enemy.TakeDamage(GetCurrrentDamage());
+            Debug.Log("va chạm enemy");
         }
     }
 }   

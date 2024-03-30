@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24cedba45ba8d74ebfb4367b1f223dd, type: 3}
+  m_Name: WeaponEvolutionBluePrint
+  m_EditorClassIdentifier: 
+  baseWeaponData: {fileID: 11400000, guid: fb8e24facb73b8642b21b0a31b63ce7a, type: 2}
+  catalystPassiveItemData: {fileID: 11400000, guid: ef48b14ac5436cf4ab42311fbebf3f8e, type: 2}
+  evolvelWeaponData: {fileID: 0}
+  evovelWeapon: {fileID: 0}

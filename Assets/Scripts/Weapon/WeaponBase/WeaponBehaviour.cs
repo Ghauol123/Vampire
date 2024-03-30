@@ -21,7 +21,6 @@ public class WeaponBehaviour : MonoBehaviour
         currentCooldownDuration = wst.CooldownDuration;
         currentPierce = wst.Pierce;
     }
-
     protected virtual void Start()
     {
         Destroy(gameObject, destroyAfterSeconds);

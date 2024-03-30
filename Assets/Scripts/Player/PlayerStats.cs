@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -95,8 +96,8 @@ public class PlayerStats : MonoBehaviour
     public int level = 1;
     public int experienceCap;
 
-    SpriteRenderer spr;
-    Animator playerAnimation;
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
     InventoryManager inventoryManager;
     public int weaponIndex;
     public int passiveItemsIndex;
@@ -120,11 +121,23 @@ public class PlayerStats : MonoBehaviour
     [Header("UI")]
     public Image healBar;
     public Image ExpBar;
-    public Text levelDisplay;
-    public Text healDisplay;
+    public TMP_Text levelDisplay;
+    public TMP_Text healDisplay;
+    // public int characterIndex;
+    // public GameObject[] playerPrefabs;
+    // public static Vector2 lastCheckPointPos = new Vector2(-3,0);
     private void Awake()
     {
+
+        // characterIndex =  PlayerPrefs.GetInt("SelectedCharacter", 0);
+        // playerAnimation = playerPrefabs[characterIndex].GetComponent<RuntimeAnimatorController>();
+        // spr = playerPrefabs[characterIndex].GetComponent<SpriteRenderer>();
         cst = CharacterSelected.GetData();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        spriteRenderer.sprite = cst.sprite;
+        animator.runtimeAnimatorController = cst.animatorController;
+
         CharacterSelected.instance.DestroyInstance();
         inventoryManager = GetComponent<InventoryManager>();
         CurrentHeal = cst.Maxheal;
@@ -141,6 +154,8 @@ public class PlayerStats : MonoBehaviour
     }
     private void Start()
     {
+
+
         experienceCap = levelRanges[0].experienceCapIncrese;
         // đặt max kinh nghiệp đầu tiên là max kinh nghiệm ở level 0
         // playerAnimation = GetComponent<Animator>();
@@ -269,7 +284,11 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        GameObject spawnWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
+        Vector3 newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
+
+        // Instantiate vật phẩm với vị trí mới
+        GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
+
         spawnWeapon.transform.SetParent(transform);
         // startWeapon.Add(spawnWeapon);
         inventoryManager.AddWeapon(weaponIndex, spawnWeapon.GetComponent<WeaponController>()); // thêm vũ khí vào inventory

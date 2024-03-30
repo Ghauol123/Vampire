@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PhoenixSwordController : WeaponController
+{
+    // Start is called before the first frame update
+   protected override void Start()
+    {
+        base.Start();
+    }
+    protected override void Attack()
+    {
+        base.Attack();
+        GameObject spawnSpiderCooking = Instantiate(wst.Prefabs);
+        spawnSpiderCooking.transform.position = transform.position;
+        spawnSpiderCooking.transform.parent = transform;
+    }
+}

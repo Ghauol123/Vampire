@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939e47db6a3f37a4d879b51992b4cdf2, type: 3}
   m_Name: SpiderCookingLevel
   m_EditorClassIdentifier: 
-  prefabs: {fileID: 6655260754505994751, guid: c523624c55d306543b4bcb9b3cf73c71, type: 3}
+  prefabs: {fileID: 4288829201470643550, guid: e9bec3523fab2674a8b134fad5ddaf15, type: 3}
+  numofBullet: 0
   name: Spider Cooking Level 2
   type: Weapon
   damage: 10
-  description: "Gi\u1EA3m m\xE1y nhi\u1EC1u h\u01A1n, gi\u1EA3m th\u1EDDi gian h\u1ED3i
+  description: "Gi\u1EA3m m\xE1u nhi\u1EC1u h\u01A1n, gi\u1EA3m th\u1EDDi gian h\u1ED3i
     chi\xEAu"
   speed: 0
   cooldownDuration: 2.5

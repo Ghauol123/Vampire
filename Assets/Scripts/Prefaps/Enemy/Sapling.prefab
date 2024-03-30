@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -7225305356661482798}
   - component: {fileID: -1604600731095012083}
   - component: {fileID: 4376654599123577330}
+  - component: {fileID: 8337754322258264617}
   m_Layer: 0
   m_Name: Sapling
   m_TagString: Enemy
@@ -97,7 +98,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8363618435026398200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -205,3 +206,40 @@ MonoBehaviour:
   - name: Burger
     itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
     dropRate: 25
+--- !u!60 &8337754322258264617
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8363618435026398200}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.17999999, y: 0.01}
+      - {x: 0.059897386, y: 0.008711517}
+      - {x: -0.17, y: 0.02}
+      - {x: -0.19, y: -0.01}
+      - {x: -0.19, y: -0.04}
+      - {x: -0.17999999, y: -0.07}
+      - {x: -0.094846085, y: -0.10613456}
+      - {x: -0.13, y: -0.28}
+      - {x: 0.12, y: -0.28}
+      - {x: 0.14, y: -0.22999999}
+      - {x: 0.19, y: -0.11}
+      - {x: 0.19, y: -0.03}

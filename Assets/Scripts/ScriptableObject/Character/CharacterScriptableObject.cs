@@ -68,4 +68,7 @@ public class CharacterScriptableObject : ScriptableObject
         get { return nameCharacter; }
         set { nameCharacter = value; }
     }
+    public Sprite sprite;
+    public RuntimeAnimatorController animatorController;
+
 }

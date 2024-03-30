@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs: {fileID: 6895634297413164743, guid: 47f39d9ee8ae4c34a93e65ce591f9dd6, type: 3}
   numofBullet: 5
-  name: Ame Gun Level 2
+  name: Pistol Shot 2
   type: Weapon
-  damage: 10
-  description: "T\u0103ng dame"
+  damage: 5
+  description: Shoot 2 additional shot
   speed: 10
   cooldownDuration: 1.5
   pierce: 3

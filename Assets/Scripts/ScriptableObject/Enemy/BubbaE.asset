@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d210a7146ac0a3b46b853467b3e0cbc8, type: 3}
   m_Name: BubbaE
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 0.5
   maxHealh: 10
   damage: 10

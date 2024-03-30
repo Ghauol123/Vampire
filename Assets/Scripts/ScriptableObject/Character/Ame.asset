@@ -21,3 +21,5 @@ MonoBehaviour:
   magnet: 0.5
   icon: {fileID: 21300000, guid: 08a46bdc288196d4f96fe3fe7cbe6014, type: 3}
   nameCharacter: Amelia Watson
+  sprite: {fileID: 21300000, guid: 9c7fa6d8e95d6a24bac8c486631b083c, type: 3}
+  animatorController: {fileID: 9100000, guid: d42369e5f500c734dba095e3aa202abe, type: 2}

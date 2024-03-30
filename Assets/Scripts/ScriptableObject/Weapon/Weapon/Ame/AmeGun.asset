@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs: {fileID: 6895634297413164743, guid: 7c2bbe183b9cf7c40b6e80554baf1a33, type: 3}
   numofBullet: 3
-  name: Ame Gun
+  name: Pistol Shot
   type: Weapon
   damage: 5
-  description: "S\xFAng c\u1EE7a Ame"
+  description: Shoots 3 Projectiles forward
   speed: 10
   cooldownDuration: 2
   pierce: 3

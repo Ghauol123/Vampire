@@ -8,7 +8,7 @@ public class EnemyStats : MonoBehaviour
     public EnemyScriptableObject est;
     [HideInInspector]
     public float currentMoveSpeed;
-    [HideInInspector]
+    // [HideInInspector]
     public float CurrentHealts;
     [HideInInspector]
     public float currentDamage;
