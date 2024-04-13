@@ -15,7 +15,7 @@ MonoBehaviour:
   startingWeapon: {fileID: 6655260754505994751, guid: 0c764afcf611765428e9d2a8e40788a3, type: 3}
   maxheal: 100
   recovery: 1
-  moveSpeed: 5
+  moveSpeed: 2.3
   might: 1
   projectileSpeed: 0
   magnet: 0.5
@@ -23,3 +23,4 @@ MonoBehaviour:
   nameCharacter: Kiara
   sprite: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
   animatorController: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
+  weaponScriptableObject: {fileID: 11400000, guid: b168018abb8ed114f8cd5324017ddf90, type: 2}

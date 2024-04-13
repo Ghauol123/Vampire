@@ -255,7 +255,7 @@ public class PlayerStats : MonoBehaviour
     void updateHealBar()
     {
         healBar.fillAmount = currentHeal / cst.Maxheal;
-        healDisplay.text = (currentHeal/cst.Maxheal).ToString();
+        // healDisplay.text = (currentHeal/cst.Maxheal).ToString();
     }
     void updateExpBar(){
         ExpBar.fillAmount = (float)experience/experienceCap;

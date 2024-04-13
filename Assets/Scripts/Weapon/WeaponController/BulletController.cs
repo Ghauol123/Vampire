@@ -36,6 +36,7 @@ public class BulletController : WeaponController
             GameObject spawnBullet = Instantiate(wst.Prefabs);
             spawnBullet.transform.position = transform.position;
             spawnBullet.GetComponent<BulletBehaviour>().DirectionChecker(bulletDirection);
+            spawnBullet.transform.parent = transform;
             // Đợi một khoảng thời gian giữa các viên đạn
             yield return new WaitForSeconds(0.05f);
         }

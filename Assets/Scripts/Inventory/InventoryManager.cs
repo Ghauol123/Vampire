@@ -10,7 +10,7 @@ using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    public CharacterScriptableObject cst;
+    public CharacterScriptableObject cst1;
     public WeaponScriptableObject wst;
     public List<WeaponController> weaponSlot = new List<WeaponController>(6);
     public int[] weaponLevels = new int[6];
@@ -48,13 +48,13 @@ public class InventoryManager : MonoBehaviour
     public List<UpgradeUI> upgradeUI = new List<UpgradeUI>();
     public List<WeaponEvolutionBluePrint> weaponEvolutions = new List<WeaponEvolutionBluePrint>();
     private void Start() {
+        playerStats = GetComponent<PlayerStats>();
         WeaponUpgrade newUpgrade = new WeaponUpgrade();
-        cst = CharacterSelected.GetData();
+        // playerStats.cst = cst1;
         // Gán các giá trị cho đối tượng mới
         newUpgrade.weaponUpgradeIndex = 1; // ví dụ
-        newUpgrade.initialWeapon = cst.StartingWeapon; // Thay yourGameObjectReference bằng GameObject của vũ khí ban đầu
-        newUpgrade.weaponScriptableObject = wst; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
-        
+        newUpgrade.initialWeapon = playerStats.cst.StartingWeapon; // Thay yourGameObjectReference bằng GameObject của vũ khí ban đầu
+        newUpgrade.weaponScriptableObject = playerStats.cst.weaponScriptableObject; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
         // Thêm đối tượng mới vào danh sách
         weaponUpgradeOptions.Add(newUpgrade);
         playerStats = GetComponent<PlayerStats>();

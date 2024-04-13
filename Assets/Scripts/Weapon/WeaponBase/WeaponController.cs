@@ -8,7 +8,7 @@ public class WeaponController : MonoBehaviour
     public WeaponScriptableObject wst;
      float currentCooldown;
 
-    protected PlayerMoving playerMoving;
+    public PlayerMoving playerMoving;
     // Start is called before the first frame update
     protected virtual void Start()
     {

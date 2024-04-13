@@ -70,5 +70,5 @@ public class CharacterScriptableObject : ScriptableObject
     }
     public Sprite sprite;
     public RuntimeAnimatorController animatorController;
-
+    public WeaponScriptableObject weaponScriptableObject;
 }

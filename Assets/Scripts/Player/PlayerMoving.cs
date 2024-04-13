@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class PlayerMoving : MonoBehaviour
 {
+    private TrailRenderer _trailrender;
+    [Header("Dashing")]
+    [SerializeField]
+    private float _dashingVelocity = 14f;
+    [SerializeField]
+    private float _dashingTime = 0.5f;
+    private Vector2 _dashingDir;
+    private bool _isDashing;
+    private bool _canDash = true;
+
     [HideInInspector]
     public Vector2 moveDir;
     [HideInInspector]
@@ -12,6 +22,7 @@ public class PlayerMoving : MonoBehaviour
     public float lastVerticalVector;
     [HideInInspector]
     public Vector2 lastMovedVector;
+    Animator _animator;
 
     // References
     Rigidbody2D rb;
@@ -22,6 +33,8 @@ public class PlayerMoving : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = new Vector2(1, 0f);
         playerStats = FindObjectOfType<PlayerStats>();
+        _trailrender = GetComponent<TrailRenderer>();
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -33,7 +46,11 @@ public class PlayerMoving : MonoBehaviour
     {
         Move();
     }
-
+    private IEnumerator StopDashing(){
+        yield return new WaitForSeconds(_dashingTime);
+        _trailrender.emitting = false;
+        _isDashing = false;
+    }
     void InputManagement()
     {
         if(GameManager.instance.IsGameOver){
@@ -47,10 +64,24 @@ public class PlayerMoving : MonoBehaviour
         }
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
+        var dashInput = Input.GetButtonDown("Dash");
 
         moveDir = new Vector2(moveX, moveY).normalized;
-
-
+        if(dashInput && _canDash){
+            _isDashing = true;
+            _canDash = false;
+            _trailrender.emitting = true;
+            _dashingDir = moveDir;
+            if(_dashingDir == Vector2.zero){
+                _dashingDir = new Vector2(transform.localScale.x,0);
+            }
+            StartCoroutine(StopDashing());
+        }
+        _animator.SetBool("IsDashing",_isDashing);
+        if(_isDashing){
+            rb.velocity = _dashingDir.normalized * _dashingVelocity;
+            return;
+        }
         if (moveDir != Vector2.zero)
         {
             if (moveDir.x != 0)

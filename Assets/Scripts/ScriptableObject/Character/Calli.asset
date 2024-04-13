@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a52d06467f2ac64e9b0148bdbab1d2b, type: 3}
+  m_Name: Calli
+  m_EditorClassIdentifier: 
+  startingWeapon: {fileID: 6655260754505994751, guid: d37e03bd4619df3419bc6f3840877daa, type: 3}
+  maxheal: 70
+  recovery: 1
+  moveSpeed: 2.3
+  might: 1.15
+  projectileSpeed: 0
+  magnet: 0
+  icon: {fileID: 21300000, guid: 100d9da774883d84c8b351bff13990e8, type: 3}
+  nameCharacter: 
+  sprite: {fileID: 21300000, guid: 8b63a6cdb0dfcf64585154236fb1bf9e, type: 3}
+  animatorController: {fileID: 9100000, guid: 484ab909bbbabd042afe77d144284e3b, type: 2}
+  weaponScriptableObject: {fileID: 11400000, guid: 89a87e17bd33d9149a728a65d8636db3, type: 2}
