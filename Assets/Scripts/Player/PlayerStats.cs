@@ -9,6 +9,7 @@ using TMPro;
 public class PlayerStats : MonoBehaviour
 {
     public CharacterScriptableObject cst;
+    public WeaponScriptableObject wst;
     public float currentHeal;
     public float CurrentHeal
     {
@@ -284,7 +285,14 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        Vector3 newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
+        Vector3 newPosition = new Vector3();
+        // if(wst.Type == "Multishot"){
+        //     newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
+        // }
+        // if(wst.Type == "Melee"){
+        //     newPosition = new Vector3(0.5f, -0.40f, transform.position.z);
+        // }
+                    newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
 
         // Instantiate vật phẩm với vị trí mới
         GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
