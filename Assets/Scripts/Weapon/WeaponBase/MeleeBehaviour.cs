@@ -81,7 +81,10 @@ public class MeleeBehaviour : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
-            enemy.TakeDamage(GetCurrrentDamage());
+            if (enemy != null)
+            {
+                enemy.TakeDamage(GetCurrrentDamage());
+            }
             Debug.Log("va chạm enemy");
         }
     }
