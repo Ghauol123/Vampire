@@ -88,8 +88,6 @@ public class PlayerStats : MonoBehaviour
             }
         }
     }
-    public Vector2 newPosition;
-
     // public List<GameObject> startWeapon;
 
     [Header("Experience/Level")]
@@ -285,17 +283,11 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        Vector3 newPosition = new Vector3();
-        // if(wst.Type == "Multishot"){
-        //     newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
-        // }
-        // if(wst.Type == "Melee"){
-        //     newPosition = new Vector3(0.5f, -0.40f, transform.position.z);
-        // }
-                    newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
+        // Vector3 newPosition = new Vector3();
+        // newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
 
         // Instantiate vật phẩm với vị trí mới
-        GameObject spawnWeapon = Instantiate(weapon, newPosition, Quaternion.identity);
+        GameObject spawnWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
 
         spawnWeapon.transform.SetParent(transform);
         // startWeapon.Add(spawnWeapon);
@@ -310,7 +302,7 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        GameObject spawnPassiveItems = Instantiate(passiveItems, newPosition, Quaternion.identity);
+        GameObject spawnPassiveItems = Instantiate(passiveItems, transform.position, Quaternion.identity);
         spawnPassiveItems.transform.SetParent(transform);
         // startWeapon.Add(spawnWeapon);
         inventoryManager.AddPassiveItem(passiveItemsIndex, spawnPassiveItems.GetComponent<PassiveItems>()); // thêm vũ khí vào inventory

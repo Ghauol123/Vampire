@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 939e47db6a3f37a4d879b51992b4cdf2, type: 3}
-  m_Name: SpiderCooking
+  m_Name: SpiderCookingLevel
   m_EditorClassIdentifier: 
-  prefabs: {fileID: 4288829201470643550, guid: d6a870b49c1db6649a01c5dbdab03900, type: 3}
-  name: Spider Cooking
+  prefabs: {fileID: 4288829201470643550, guid: e9bec3523fab2674a8b134fad5ddaf15, type: 3}
+  numofBullet: 0
+  name: Spider Cooking Level 2
   type: Weapon
-  damage: 5
-  description: "gi\u1EA3m m\xE1u c\u1EE7a k\u1EBB \u0111\u1ECBch xung quanh theo
-    th\u1EDDi gian"
+  damage: 10
+  description: "Gi\u1EA3m m\xE1u nhi\u1EC1u h\u01A1n, gi\u1EA3m th\u1EDDi gian h\u1ED3i
+    chi\xEAu"
   speed: 0
-  cooldownDuration: 3
+  cooldownDuration: 5
   pierce: 0
-  level: 1
-  nextLevelPrefabs: {fileID: 6655260754505994751, guid: c523624c55d306543b4bcb9b3cf73c71, type: 3}
+  level: 2
+  nextLevelPrefabs: {fileID: 0}
   icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}

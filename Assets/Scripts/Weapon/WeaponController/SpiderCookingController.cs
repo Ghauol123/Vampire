@@ -17,5 +17,4 @@ public class SpiderCookingController : WeaponController
         spawnSpiderCooking.transform.position = transform.position;
         spawnSpiderCooking.transform.parent = transform;
     }
-
-}
+}   

@@ -76,17 +76,16 @@ public class WeaponBehaviour : MonoBehaviour
         transform.localScale = scale;
         transform.rotation = Quaternion.Euler(rotation);    //Can't simply set the vector because cannot convert
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
-            EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
-            if (enemy != null)
+            EnemyStats enemyStats = other.GetComponent<EnemyStats>();
+            if (enemyStats != null)
             {
-                enemy.TakeDamage(GetCurrrentDamage());
+                enemyStats.TakeDamage(GetCurrrentDamage());
             }
             Destroy(gameObject);
         }
     }
-
 }

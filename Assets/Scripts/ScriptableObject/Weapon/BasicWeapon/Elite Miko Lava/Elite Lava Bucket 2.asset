@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 939e47db6a3f37a4d879b51992b4cdf2, type: 3}
-  m_Name: SpiderCookingLevel
+  m_Name: Elite Lava Bucket 2
   m_EditorClassIdentifier: 
-  prefabs: {fileID: 4288829201470643550, guid: e9bec3523fab2674a8b134fad5ddaf15, type: 3}
+  prefabs: {fileID: 4288829201470643550, guid: 40c2fd7289f1afe4c8e44a20c05c0f5e, type: 3}
   numofBullet: 0
-  name: Spider Cooking Level 2
-  type: Weapon
-  damage: 10
-  description: "Gi\u1EA3m m\xE1u nhi\u1EC1u h\u01A1n, gi\u1EA3m th\u1EDDi gian h\u1ED3i
-    chi\xEAu"
+  name: Elite Lava Bucket
+  type: Multishot
+  damage: 5
+  description: Increase lava area by 20%.
   speed: 0
-  cooldownDuration: 2.5
+  cooldownDuration: 5
   pierce: 0
   level: 2
   nextLevelPrefabs: {fileID: 0}
-  icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
+  icon: {fileID: 21300000, guid: a013c7f17ede0994ba515279b192119c, type: 3}
