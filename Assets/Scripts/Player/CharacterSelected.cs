@@ -7,7 +7,7 @@ public class CharacterSelected : MonoBehaviour
     //  public GameObject[] skins;
     // public int selectedCharacter;
     public static CharacterSelected instance;
-    public CharacterScriptableObject cst;
+    public CharacterData characterData;
     // public GameObject[] skins;
 
     private void Awake() {
@@ -21,11 +21,18 @@ public class CharacterSelected : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public static CharacterScriptableObject GetData(){
-        return instance.cst;
+    public static CharacterData GetData(){
+        if(instance && instance.characterData) return instance.characterData;
+        else{
+            CharacterData[] characters = Resources.FindObjectsOfTypeAll<CharacterData>();
+            if(characters.Length > 0){
+                return characters[Random.Range(0,characters.Length)];
+            }
+        }
+        return null;
     }
-    public void SelectCharacter(CharacterScriptableObject characters){ 
-        cst = characters;
+    public void SelectCharacter(CharacterData characters){ 
+        characterData = characters;
     }
 
     public void DestroyInstance(){

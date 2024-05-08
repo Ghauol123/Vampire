@@ -13,7 +13,7 @@ public class PsychoAxeBehaviour : RangeBehaviour
     protected override void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Enemy") && !markerEnemies.Contains(other.gameObject)){
             EnemyStats enemyStats = other.GetComponent<EnemyStats>();
-            enemyStats.TakeDamage(GetCurrrentDamage());
+            enemyStats.TakeDamage(GetCurrrentDamage(),transform.position);
         }
     }
 }

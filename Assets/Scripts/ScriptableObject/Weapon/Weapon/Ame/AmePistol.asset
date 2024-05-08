@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   maxLevel: 7
-  behaviour: 
+  behaviour: ProjectileWeapon
   baseStats:
     name: Pistol Shot
     description: Shoots 3 Projectiles forward
+    projectilePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -39,6 +40,7 @@ MonoBehaviour:
   linearGrowth:
   - name: Level 2
     description: Shoot 2 additional shot, and each bullet can pierce +1 times.
+    projectilePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2

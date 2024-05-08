@@ -141,12 +141,12 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.GameOver);
         gameOverScreen.SetActive(true);
     }
-    public void AssignCharacter(CharacterScriptableObject cst)
+    public void AssignCharacter(CharacterData cst)
     {
         characterImage.sprite = cst.Icon;
-        characterName.text = cst.NameCharacter;
+        characterName.text = cst.Name;
     }
-    public void Icon(CharacterScriptableObject cst)
+    public void Icon(CharacterData cst)
     {
         IconCharacter.sprite = cst.Icon;
     }

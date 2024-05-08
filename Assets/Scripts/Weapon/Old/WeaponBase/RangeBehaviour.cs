@@ -74,7 +74,7 @@ public class RangeBehaviour : MonoBehaviour
             EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
             if (enemy != null)
             {
-                enemy.TakeDamage(GetCurrrentDamage());
+                enemy.TakeDamage(GetCurrrentDamage(),transform.position);
             }
             Debug.Log("va chạm enemy");
         }

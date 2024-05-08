@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObject/WeaponData", order = 0)]
-public class WeaponData : ScriptableObject
+public class WeaponData : ItemData
 {
-    public Sprite icon;
-    public int maxLevel;
     [HideInInspector] public string behaviour;
     public Weapon.Stats baseStats;
     public Weapon.Stats[] linearGrowth;

@@ -4,12 +4,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : Item
 {
     [System.Serializable]
     public struct Stats{
         public string name, description;
         [Header("Visuals")]
+        public Projectile projectilePrefabs;
         public ParticleSystem hitEffect;
         public Rect spawnVariance;
         [Header("Values")]
@@ -38,16 +39,13 @@ public abstract class Weapon : MonoBehaviour
             return damage + Random.Range(0,damageVariance);
         }
     }
-    public int currentLevel = 1, maxLevel = 1;
-    protected PlayerStats owner;
     protected Stats currentStats;
     public WeaponData data;
     protected float currentCooldown;
     protected PlayerMoving movement;
     // For dynamically created weapons, call initialise to set everything up
     public virtual void Initialise(WeaponData data){
-        maxLevel = data.maxLevel;
-        owner = FindObjectOfType<PlayerStats>();
+        base.Initialise(data);
         this.data = data;
         currentStats = data.baseStats;
         movement =  GetComponentInParent<PlayerMoving>();
@@ -67,10 +65,8 @@ public abstract class Weapon : MonoBehaviour
             Attack(currentStats.number);
         }
     }
-    public virtual bool CanLevelUp(){
-        return currentLevel <= maxLevel;
-    }
-    public virtual bool DoLevelUp(){
+    public override bool DoLevelUp(){
+        base.DoLevelUp();
         if(!CanLevelUp()){
             Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max leve of {2} already reached", name,currentLevel, data.maxLevel));
             return false;
