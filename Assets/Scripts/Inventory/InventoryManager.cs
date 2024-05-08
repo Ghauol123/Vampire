@@ -47,18 +47,21 @@ public class InventoryManager : MonoBehaviour
     public List<PassiveItemUpgrade> passiveItemUpgradeOptions = new List<PassiveItemUpgrade>();
     public List<UpgradeUI> upgradeUI = new List<UpgradeUI>();
     public List<WeaponEvolutionBluePrint> weaponEvolutions = new List<WeaponEvolutionBluePrint>();
+    public WeaponUpgrade newUpgrade = new WeaponUpgrade();
+
     private void Start() {
         playerStats = GetComponent<PlayerStats>();
-        WeaponUpgrade newUpgrade = new WeaponUpgrade();
         // playerStats.cst = cst1;
         // Gán các giá trị cho đối tượng mới
-        newUpgrade.weaponUpgradeIndex = 1; // ví dụ
-        newUpgrade.initialWeapon = playerStats.cst.StartingWeapon; // Thay yourGameObjectReference bằng GameObject của vũ khí ban đầu
-        newUpgrade.weaponScriptableObject = playerStats.cst.weaponScriptableObject; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
-        // Thêm đối tượng mới vào danh sách
-        weaponUpgradeOptions.Add(newUpgrade);
-        playerStats = GetComponent<PlayerStats>();
+
+newUpgrade.weaponUpgradeIndex = 0; // ví dụ
+newUpgrade.initialWeapon = playerStats.cst.StartingWeapon; // Thay yourGameObjectReference bằng GameObject của vũ khí ban đầu
+newUpgrade.weaponScriptableObject = playerStats.cst.weaponScriptableObject; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
+// Thêm đối tượng mới vào vị trí đầu tiên trong danh sách
+weaponUpgradeOptions.Insert(0, newUpgrade);
+
     }
+
     public void AddWeapon(int slotIndex, WeaponController weaponController)
     {
         weaponSlot[slotIndex] = weaponController;
@@ -171,7 +174,7 @@ public class InventoryManager : MonoBehaviour
                             newWeapon = false;
                             if (!newWeapon)
                             {
-                                if (!choosingWeaponUpgrade.weaponScriptableObject.NextLevelPrefabs)
+                                if (choosingWeaponUpgrade.weaponScriptableObject.NextLevelPrefabs == null)
                                 {
                                     DisableUpgrade(upgradeOption);
                                     break;

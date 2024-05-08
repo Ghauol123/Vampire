@@ -6,6 +6,8 @@ public class EnemyMovement : MonoBehaviour
 {
     private PlayerMoving player;
     private EnemyStats enemyStats;
+    Vector2 knockbackVelocity;
+    float knockbackDuration;
     SpriteRenderer _spr;
     // Start is called before the first frame update
     void Start()
@@ -18,14 +20,17 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemyStats.currentMoveSpeed * Time.deltaTime);
-        if (player.moveDir.x > 0)
-        {
-            _spr.flipX = false;
+        if(knockbackDuration > 0){
+            transform.position += (Vector3)transform.position * Time.deltaTime;
+            knockbackDuration -= Time.deltaTime;
         }
-        else if (player.moveDir.x < 0)
-        {
-            _spr.flipX = true;
+        else{
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemyStats.currentMoveSpeed * Time.deltaTime);
         }
+    }
+    public void KnockBack(Vector2 velocity, float duration){
+        if(knockbackDuration > 0) return;
+        knockbackVelocity = velocity;
+        knockbackDuration = duration;
     }
 }

@@ -22,5 +22,5 @@ MonoBehaviour:
   cooldownDuration: 5
   pierce: 0
   level: 1
-  nextLevelPrefabs: {fileID: 4288829201470643550, guid: 40c2fd7289f1afe4c8e44a20c05c0f5e, type: 3}
+  nextLevelPrefabs: {fileID: 6655260754505994751, guid: e1b59336b0b673b4584d78fec98cdac8, type: 3}
   icon: {fileID: 21300000, guid: a013c7f17ede0994ba515279b192119c, type: 3}

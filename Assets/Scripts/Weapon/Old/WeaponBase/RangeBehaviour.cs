@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeBehaviour : MonoBehaviour
+public class RangeBehaviour : MonoBehaviour
 {
     public WeaponScriptableObject wst;
     protected float currentDamage;
@@ -44,14 +43,6 @@ public class MeleeBehaviour : MonoBehaviour
             scale.x = scale.x * -1;
             scale.y = scale.y * -1;
         }
-        else if (dirx == 0 && diry < 0) //down
-        {
-            scale.y = scale.y * -1;
-        }
-        else if (dirx == 0 && diry > 0) //up
-        {
-            scale.x = scale.x * -1;
-        }
         else if (dirx > 0 && diry > 0) //right up
         {
             rotation.z = 0f;
@@ -88,4 +79,4 @@ public class MeleeBehaviour : MonoBehaviour
             Debug.Log("va chạm enemy");
         }
     }
-}   
+}

@@ -16,7 +16,7 @@ public class EliteLavaController : WeaponController
         base.Attack();
         
         // Tạo ra một điểm ngẫu nhiên trong bán kính 2 đơn vị xung quanh vị trí của người chơi
-        Vector2 randomOffset = Random.insideUnitCircle * 2f;
+        Vector2 randomOffset = Random.insideUnitCircle * 10f;
         Vector3 spawnPosition = transform.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
         
         // Sinh ra đối tượng tại vị trí ngẫu nhiên

@@ -1,26 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables;
 
-public class WeaponBehaviour : MonoBehaviour
+public class MeleeBehaviour : MonoBehaviour
 {
     public WeaponScriptableObject wst;
-
+    protected float currentDamage;
+    protected float currentCooldownDuration;
+    protected int currentPierce;
+    protected float currentSpeed;
     protected Vector3 direction;
 
     public float destroyAfterSeconds;
-    protected float currentDamage;
-    protected float currentSpeed;
-    protected float currentCooldownDuration;
-    protected int currentPierce;
-    private void Awake()
+    // Start is called before the first frame update
+      private void Awake()
     {
         currentDamage = wst.Damage;
         currentSpeed = wst.Speed;
         currentCooldownDuration = wst.CooldownDuration;
         currentPierce = wst.Pierce;
     }
+
     protected virtual void Start()
     {
         Destroy(gameObject, destroyAfterSeconds);
@@ -28,8 +29,7 @@ public class WeaponBehaviour : MonoBehaviour
     public float GetCurrrentDamage(){
         return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
     }
-
-    public void DirectionChecker(Vector3 dir)
+     public void DirectionChecker(Vector3 dir)
     {
         direction = dir;
 
@@ -80,12 +80,12 @@ public class WeaponBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            EnemyStats enemyStats = other.GetComponent<EnemyStats>();
-            if (enemyStats != null)
+            EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
+            if (enemy != null)
             {
-                enemyStats.TakeDamage(GetCurrrentDamage());
+                enemy.TakeDamage(GetCurrrentDamage(),transform.position);
             }
-            Destroy(gameObject);
+            Debug.Log("va chạm enemy");
         }
     }
-}
+}   

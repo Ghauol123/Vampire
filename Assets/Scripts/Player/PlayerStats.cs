@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -122,22 +123,14 @@ public class PlayerStats : MonoBehaviour
     public Image ExpBar;
     public TMP_Text levelDisplay;
     public TMP_Text healDisplay;
-    // public int characterIndex;
-    // public GameObject[] playerPrefabs;
-    // public static Vector2 lastCheckPointPos = new Vector2(-3,0);
-    private void Awake()
+        private void Awake()
     {
-
-        // characterIndex =  PlayerPrefs.GetInt("SelectedCharacter", 0);
-        // playerAnimation = playerPrefabs[characterIndex].GetComponent<RuntimeAnimatorController>();
-        // spr = playerPrefabs[characterIndex].GetComponent<SpriteRenderer>();
         cst = CharacterSelected.GetData();
+        CharacterSelected.instance.DestroyInstance();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         spriteRenderer.sprite = cst.sprite;
         animator.runtimeAnimatorController = cst.animatorController;
-
-        CharacterSelected.instance.DestroyInstance();
         inventoryManager = GetComponent<InventoryManager>();
         CurrentHeal = cst.Maxheal;
         currentMight = cst.Might;
@@ -145,11 +138,7 @@ public class PlayerStats : MonoBehaviour
         currentRecovery = cst.Recovery;
         currentSpeed = cst.MoveSpeed;
         currentManget = cst.Magnet;
-        // newPosition = new Vector2(transform.position.x, -0.70f);
         SpawnWeapon(cst.StartingWeapon);
-        SpawnPassiveItems(passiveItemsText);
-        // SpawnPassiveItems(passiveItemsText2);
-        // SpawnWeapon(weaponTest);
     }
     private void Start()
     {
@@ -283,10 +272,6 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Full weapon");
             return;
         }
-        // Vector3 newPosition = new Vector3();
-        // newPosition = new Vector3(transform.position.x, -0.40f, transform.position.z);
-
-        // Instantiate vật phẩm với vị trí mới
         GameObject spawnWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
 
         spawnWeapon.transform.SetParent(transform);
