@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
     {
         ScoreEndGame.text = score.ToString();
     }
-    public void AssignWeaponAndPassiveItem(List<Image> weapon, List<Image> passiveItems)
+    public void AssignWeaponAndPassiveItem(List<PlayerInventory.Slot> weapon, List<PlayerInventory.Slot> passiveItems)
     {
         if (weapon.Count != weaponIcon.Count || passiveItems.Count != passiveItemIcon.Count)
         {
@@ -167,9 +167,9 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < weaponIcon.Count; i++)
         {
-            if (weapon[i].sprite)
+            if (weapon[i].image.sprite)
             {
-                weaponIcon[i].sprite = weapon[i].sprite;
+                weaponIcon[i].sprite = weapon[i].image.sprite;
                 weaponIcon[i].enabled = true;
             }
             else
@@ -179,9 +179,9 @@ public class GameManager : MonoBehaviour
         }
         for (int i = 0; i < passiveItemIcon.Count; i++)
         {
-            if (passiveItems[i].sprite)
+            if (passiveItems[i].image.sprite)
             {
-                passiveItemIcon[i].sprite = passiveItems[i].sprite;
+                passiveItemIcon[i].sprite = passiveItems[i].image.sprite;
                 passiveItemIcon[i].enabled = true;
             }
             else

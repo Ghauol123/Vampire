@@ -8,7 +8,8 @@ public class Passive : Item
     [SerializeField] CharacterData.Stats currentBoots;
     [System.Serializable]
     public struct Modifier{
-        public string name, description;
+        public string name, description,type;
+        public Sprite Icon;
         public CharacterData.Stats boots;
     }
     // For dynamically create passive, call initialise to set everything up
@@ -22,7 +23,6 @@ public class Passive : Item
     }
     public override bool DoLevelUp()
     {
-        base.DoLevelUp();
         if(!CanLevelUp()){
             Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max leve of {2} already reached", name,currentLevel, data.maxLevel));
             return false;

@@ -14,6 +14,10 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     WeaponData startingWeapon;
     public WeaponData StartingWeapon {get => startingWeapon; private set => startingWeapon = value;}
+    public Sprite sprite;
+    public RuntimeAnimatorController animatorController;
+    public WeaponScriptableObject weaponScriptableObject;
+
     [System.Serializable]
     public struct Stats{
         public float maxHeal, recovery, moveSpeed;
@@ -28,11 +32,11 @@ public class CharacterData : ScriptableObject
         }
         public static Stats operator +(Stats s1, Stats s2){
             s1.maxHeal += s2.maxHeal;
-            s1.recovery += s2.maxHeal;
-            s1.moveSpeed += s2.maxHeal;
-            s1.might += s2.maxHeal;
-            s1.speed += s2.maxHeal;
-            s1.magnet += s2.maxHeal;
+            s1.recovery += s2.recovery;
+            s1.moveSpeed += s2.moveSpeed;
+            s1.might += s2.might;
+            s1.speed += s2.speed;
+            s1.magnet += s2.magnet;
             return s1;
         }
     }

@@ -8,15 +8,17 @@ public abstract class Weapon : Item
 {
     [System.Serializable]
     public struct Stats{
-        public string name, description;
+        public string name, description,type;
         [Header("Visuals")]
         public Projectile projectilePrefabs;
+        public Aura auraPrefabs;
         public ParticleSystem hitEffect;
         public Rect spawnVariance;
         [Header("Values")]
         public float lifespan;
         public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
         public int number, piercing, maxInstance;
+        public Sprite Icon;
         public static Stats operator +(Stats s1, Stats s2){
             Stats result = new Stats();
             result.name = s2.name ?? s1.name;

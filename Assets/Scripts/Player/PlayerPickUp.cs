@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-
+[RequireComponent(typeof(CircleCollider2D))]
 public class PlayerPickUp : MonoBehaviour
 {
     PlayerStats playerStats;
@@ -10,30 +10,16 @@ public class PlayerPickUp : MonoBehaviour
     public float pullSpeed;
     private void Start()
     {
-        playerStats = FindObjectOfType<PlayerStats>();
-        playerCollector = GetComponent<CircleCollider2D>();
+        playerStats = GetComponentInParent<PlayerStats>();
     }
-    private void Update()
-    {
-        playerCollector.radius = playerStats.CurrentManget;
+    public void SetMagnet(float r){
+        if(!playerCollector) playerCollector = GetComponent<CircleCollider2D>();
+        playerCollector.radius = r;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Exp"))
-        {
-            ExpPickup exp = other.GetComponent<ExpPickup>();
-            Rigidbody2D rb = other.gameObject.GetComponent<Rigidbody2D>();
-            Vector2 forceDirection = (transform.position - other.transform.position).normalized;
-            rb.AddForce(forceDirection*pullSpeed);
-            exp.Collect();
-        }
-        if (other.CompareTag("Burger"))
-        {
-            BurgerPickup burger = other.GetComponent<BurgerPickup>();
-            Rigidbody2D rb = other.gameObject.GetComponent<Rigidbody2D>();
-            Vector2 forceDirection = (transform.position - other.transform.position).normalized;
-            rb.AddForce(forceDirection*pullSpeed);
-            burger.Collect();
+        if(other.TryGetComponent(out Pickup p)){
+            p.Collect(playerStats,pullSpeed);
         }
     }
     // private void OnTriggerEnter2D(Collider2D other) {

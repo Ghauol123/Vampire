@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c97cfddb62df9ff4fa97ed1014d494ad, type: 3}
-  m_Name: Amelia
+  m_Name: Takanashi Kiara
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 08a46bdc288196d4f96fe3fe7cbe6014, type: 3}
-  name: Amelia Watson
+  icon: {fileID: 21300000, guid: 07a45381036d8e24180f30ddb286c65e, type: 3}
+  name: Takanashi Kiara
   startingWeapon: {fileID: 11400000, guid: ebb65440a5260734494c56747498caff, type: 2}
-  sprite: {fileID: 21300000, guid: 9c7fa6d8e95d6a24bac8c486631b083c, type: 3}
-  animatorController: {fileID: 9100000, guid: d42369e5f500c734dba095e3aa202abe, type: 2}
-  weaponScriptableObject: {fileID: 11400000, guid: 02b496d1b15c6dd42a5b3e191c57a87c, type: 2}
+  sprite: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
+  animatorController: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
+  weaponScriptableObject: {fileID: 11400000, guid: b168018abb8ed114f8cd5324017ddf90, type: 2}
   stats:
     maxHeal: 1000
     recovery: 0
-    moveSpeed: 4
-    might: 4
-    speed: 0.1
-    magnet: 0.3
+    moveSpeed: 3
+    might: 3
+    speed: 3
+    magnet: 0
