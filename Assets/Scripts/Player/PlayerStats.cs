@@ -185,7 +185,7 @@ public class PlayerStats : MonoBehaviour
     public Image ExpBar;
     public TMP_Text levelDisplay;
     public TMP_Text healDisplay;
-        private void Awake()
+     private void Awake()
     {
         cst = CharacterSelected.GetData();
         CharacterSelected.instance.DestroyInstance();
@@ -337,7 +337,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void Recover(){
         if(CurrentHeal < actualStats.maxHeal){
-            CurrentHeal += CurrentHeal*Time.deltaTime;
+            // CurrentHeal += CurrentHeal*Time.deltaTime;
             CurrentHeal += recoveryStats*Time.deltaTime;
             // đảm bảo rằng máu của người chơi không vượt ngưỡng
             if(CurrentHeal > actualStats.maxHeal){

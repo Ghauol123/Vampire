@@ -21,6 +21,7 @@ MonoBehaviour:
     type: Multishot
     projectilePrefabs: {fileID: 1194904874994523079, guid: 6433bd4e4af3f8447b5402cf9e688272, type: 3}
     auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -39,13 +40,14 @@ MonoBehaviour:
     number: 3
     piercing: 1
     maxInstance: 50
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   linearGrowth:
   - name: Level 2
     description: Shoot 2 additional shot, and each bullet can pierce +1 times
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -64,12 +66,13 @@ MonoBehaviour:
     number: 2
     piercing: 1
     maxInstance: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 3
     description: Increase damage by 20%
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -88,13 +91,14 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 4
     description: Each bullet can pierce +1 times. Reduce the time between attacks
       by 25%
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -113,12 +117,13 @@ MonoBehaviour:
     number: 0
     piercing: 1
     maxInstance: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 5
     description: Increase damage by 20%
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
     spawnVariance:
       serializedVersion: 2
@@ -137,5 +142,5 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: a468c0fd4f7e785458276a7ef37ff012, type: 3}
   randomGrowth: []

@@ -44,7 +44,7 @@ public class EnemyStats : MonoBehaviour
         StartCoroutine(DamageFlash());
         if(knockbackForce > 0){
             Vector2 dir = (Vector2)transform.position - sourcePosition;
-            movement.KnockBack(dir.normalized * knockbackForce, knockbackDuration);
+            // movement.KnockBack(dir.normalized * knockbackForce, knockbackDuration);
         }
         if(CurrentHealts <= 0){
             Kill();

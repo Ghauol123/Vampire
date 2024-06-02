@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3409822777522920264}
   - component: {fileID: 8212010954334989913}
-  - component: {fileID: 1104327069251834215}
   - component: {fileID: 1173542347637314810}
   - component: {fileID: 3663383860487740066}
   - component: {fileID: -7225305356661482798}
@@ -91,32 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1104327069251834215
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8363618435026398200}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.14}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.34, y: 0.22}
-  m_EdgeRadius: 0
 --- !u!50 &1173542347637314810
 Rigidbody2D:
   serializedVersion: 4
@@ -187,6 +160,9 @@ MonoBehaviour:
   currentMoveSpeed: 0
   CurrentHealts: 0
   currentDamage: 0
+  damageColor: {r: 0, g: 0, b: 0, a: 1}
+  damageFlashDuration: 0.2
+  deathFadeTime: 0.6
 --- !u!114 &4376654599123577330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,9 +179,11 @@ MonoBehaviour:
   - name: Exp1
     itemsPrefabs: {fileID: 5984390164189770510, guid: 5d682cbc6dc4a2c4e8eeaf0b97244a1b, type: 3}
     dropRate: 100
+    Amount: 2
   - name: Burger
     itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
-    dropRate: 25
+    dropRate: 10
+    Amount: 1
 --- !u!60 &8337754322258264617
 PolygonCollider2D:
   m_ObjectHideFlags: 0

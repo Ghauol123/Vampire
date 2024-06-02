@@ -9,7 +9,7 @@ public class DropRateManager : MonoBehaviour
         public string name;
         public GameObject itemsPrefabs;
         public float dropRate;
-        public int expAmount; // Thêm thuộc tính để xác định số lượng EXP rơi
+        public int Amount; // Thêm thuộc tính để xác định số lượng EXP rơi
     }
 
     public List<Drops> drops;
@@ -31,7 +31,7 @@ public class DropRateManager : MonoBehaviour
         if(possibleDrops.Count > 0){
             foreach (Drops drop in possibleDrops) {
                 // Instantiate item và set vị trí rơi
-                for (int i = 0; i < drop.expAmount; i++) {
+                for (int i = 0; i < drop.Amount; i++) {
                     Vector3 randomDropPosition = transform.position + Random.insideUnitSphere * 2f; // Điều chỉnh bán kính rơi tại đây
                     Instantiate(drop.itemsPrefabs, randomDropPosition, Quaternion.identity);
                 }

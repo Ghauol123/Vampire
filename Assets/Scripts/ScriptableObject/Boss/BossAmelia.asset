@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BossAmelia
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  maxHealh: 10
+  maxHealh: 1000
   damage: 25

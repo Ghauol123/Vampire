@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94637bfb1fa6ce44927a2b62331a7f2, type: 3}
+  m_Name: Scythe Swing
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  maxLevel: 0
+  behaviour: MeleeWeapon
+  baseStats:
+    name: Scythe Swing
+    description: Swings in a half circle arc in front
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 68950838842264648, guid: 7ab10341a38cb6940aa8b1998094b473, type: 3}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0.5
+    damage: 10
+    damageVariance: 10
+    area: 0.5
+    speed: 0
+    cooldown: 2
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 0}
+  linearGrowth: []
+  randomGrowth: []

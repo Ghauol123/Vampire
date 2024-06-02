@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e94637bfb1fa6ce44927a2b62331a7f2, type: 3}
+  m_Name: Phoenix Sword
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  maxLevel: 4
+  behaviour: MeleeWeapon
+  baseStats:
+    name: Phoenix Sword
+    description: Short ranged slash in front.
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 5578476039787461470, guid: 4274fac8583fda74086f3e7d74c3e58f, type: 3}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0.5
+    damage: 10
+    damageVariance: 10
+    area: 0.5
+    speed: 0
+    cooldown: 2
+    projectileInterval: 0
+    knockback: 0
+    number: 1
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  linearGrowth:
+  - name: Level 2
+    description: Increase damage by 20%
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 3
+    description: Increase attack area by 25%
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 4
+    description: Reduce the time between attacks by 15%.
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 5
+    description: Can hit twice per slash
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 6
+    description: Increase damage by 20%.
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 6
+    description: Increase damage by 20%.
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  - name: Level 7
+    description: Sword is engulfed in flames, and can hit many times. Also leave
+      a burning fire under hit targets
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 1
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
+  randomGrowth: []

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 381480298846400135}
   - component: {fileID: 381480298846400128}
   - component: {fileID: 4619091765976497674}
-  - component: {fileID: -1657939189416188970}
   - component: {fileID: -997934010050007953}
+  - component: {fileID: 3297235325318094945}
   m_Layer: 0
   m_Name: Burger
   m_TagString: Burger
@@ -135,19 +135,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.15}
   m_EdgeRadius: 0
---- !u!114 &-1657939189416188970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 381480298846400129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c39814a7abaeac48808087efed1392a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healing: 20
 --- !u!50 &-997934010050007953
 Rigidbody2D:
   serializedVersion: 4
@@ -169,3 +156,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3297235325318094945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381480298846400129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04731ee47f2a96468c0f08ad83e156b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeSpan: 0.5
+  Exp: 0
+  Heal: 10

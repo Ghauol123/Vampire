@@ -19,8 +19,8 @@ MonoBehaviour:
   animatorController: {fileID: 9100000, guid: d42369e5f500c734dba095e3aa202abe, type: 2}
   weaponScriptableObject: {fileID: 11400000, guid: 02b496d1b15c6dd42a5b3e191c57a87c, type: 2}
   stats:
-    maxHeal: 1000
-    recovery: 0
+    maxHeal: 100
+    recovery: 1
     moveSpeed: 4
     might: 4
     speed: 0.1
