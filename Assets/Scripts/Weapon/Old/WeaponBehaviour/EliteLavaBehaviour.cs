@@ -11,11 +11,11 @@ public class EliteLavaBehaviour: WeaponBehaviour
         base.Start();
         markerEnemies = new List<GameObject>();
     }
-    protected override void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Enemy") && !markerEnemies.Contains(other.gameObject)){
-            EnemyStats enemyStats = other.GetComponent<EnemyStats>();
-            enemyStats.TakeDamage(GetCurrrentDamage(),transform.position);
-            markerEnemies.Add(other.gameObject); // cooldown cho việc một đối tượng sẽ không bị dính dame liên tục từ một vũ khí cận chiến
-        }
-    }
+    // protected override void OnTriggerEnter2D(Collider2D other) {
+    //     if(other.CompareTag("Enemy") && !markerEnemies.Contains(other.gameObject)){
+    //         EnemyStats enemyStats = other.GetComponent<EnemyStats>();
+    //         enemyStats.TakeDamage(GetCurrrentDamage(),transform.position);
+    //         markerEnemies.Add(other.gameObject); // cooldown cho việc một đối tượng sẽ không bị dính dame liên tục từ một vũ khí cận chiến
+    //     }
+    // }
 }

@@ -91,7 +91,7 @@ public abstract class Weapon : Item
         return false;
     }
     public virtual float GetDamage(){
-        return currentStats.getDamage() *owner.CurrentMight;
+        return currentStats.getDamage() *owner.Stats.might;
     }
     public virtual Stats GetStats(){return currentStats;}
 }

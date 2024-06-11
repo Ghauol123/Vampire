@@ -25,9 +25,9 @@ public class RangeBehaviour : MonoBehaviour
     {
         Destroy(gameObject, destroyAfterSeconds);
     }
-    public float GetCurrrentDamage(){
-        return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
-    }
+    // public float GetCurrrentDamage(){
+    //     return currentDamage *= FindObjectOfType<PlayerStats>().CurrentMight;
+    // }
      public void DirectionChecker(Vector3 dir)
     {
         direction = dir;
@@ -67,16 +67,16 @@ public class RangeBehaviour : MonoBehaviour
         transform.localScale = scale;
         transform.rotation = Quaternion.Euler(rotation);    //Can't simply set the vector because cannot convert
     }
-    protected virtual void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
-            if (enemy != null)
-            {
-                enemy.TakeDamage(GetCurrrentDamage(),transform.position);
-            }
-            Debug.Log("va chạm enemy");
-        }
-    }
+    // protected virtual void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Enemy"))
+    //     {
+    //         EnemyStats enemy = other.GetComponent<EnemyStats>(); // Sửa dòng này
+    //         if (enemy != null)
+    //         {
+    //             enemy.TakeDamage(GetCurrrentDamage(),transform.position);
+    //         }
+    //         Debug.Log("va chạm enemy");
+    //     }
+    // }
 }

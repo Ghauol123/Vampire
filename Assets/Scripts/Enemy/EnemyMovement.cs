@@ -4,33 +4,70 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private PlayerMoving player;
+    private PlayerMoving playermoving;
+    private Transform player;
     private EnemyStats enemyStats;
     Vector2 knockbackVelocity;
     float knockbackDuration;
     SpriteRenderer _spr;
-    // Start is called before the first frame update
+    private bool isFlipped = false;
+    protected Rigidbody2D rb;
+
     void Start()
     {
-        player = FindObjectOfType<PlayerMoving>();
+        rb = GetComponent<Rigidbody2D>();
+        playermoving = FindObjectOfType<PlayerMoving>();
+        player = FindObjectOfType<PlayerStats>().transform;
         _spr = GetComponent<SpriteRenderer>();
         enemyStats = GetComponent<EnemyStats>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(knockbackDuration > 0){
-            transform.position += (Vector3)transform.position * Time.deltaTime;
-            knockbackDuration -= Time.deltaTime;
+        LookAtPlayer();
+    }
+
+    void FixedUpdate()
+    {
+        if (knockbackDuration > 0)
+        {
+            rb.velocity = knockbackVelocity;
+            knockbackDuration -= Time.fixedDeltaTime;
         }
-        else{
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, enemyStats.currentMoveSpeed * Time.deltaTime);
+        else
+        {
+            Vector2 direction = (player.position - transform.position).normalized;
+            rb.velocity = direction * enemyStats.currentMoveSpeed;
         }
     }
-    public void KnockBack(Vector2 velocity, float duration){
-        if(knockbackDuration > 0) return;
+
+    public void KnockBack(Vector2 velocity, float duration)
+    {
+        if (knockbackDuration > 0) return;
         knockbackVelocity = velocity;
         knockbackDuration = duration;
+    }
+
+    public void LookAtPlayer()
+    {
+        Vector3 directionToPlayer = player.position - transform.position;
+        float dotProduct = Vector3.Dot(directionToPlayer, transform.right);
+
+        if (dotProduct > 0 && isFlipped)
+        {
+            Flip();
+        }
+        else if (dotProduct < 0 && !isFlipped)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        isFlipped = !isFlipped;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }

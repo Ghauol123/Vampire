@@ -102,7 +102,7 @@ public class PlayerMoving : MonoBehaviour
         else if(GameManager.instance.isLevelUp){
             return;
         }
-        Vector2 movement = moveDir * playerStats.CurrentSpeed * Time.fixedDeltaTime;
+        Vector2 movement = moveDir * playerStats.Stats.moveSpeed*Time.deltaTime;
         transform.Translate(movement);
     }
 }

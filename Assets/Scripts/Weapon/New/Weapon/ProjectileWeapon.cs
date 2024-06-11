@@ -40,6 +40,7 @@ public class ProjectileWeapon : Weapon
             owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
             Quaternion.Euler(0,0,spawnAngle)
         );
+        Debug.Log(currentStats.projectilePrefabs);
         currentProjectile.weapon = this;
         currentProjectile.owner = owner;
 

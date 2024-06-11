@@ -10,10 +10,10 @@ public class PsychoAxeBehaviour : RangeBehaviour
     {
         base.Start();
     }
-    protected override void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("Enemy") && !markerEnemies.Contains(other.gameObject)){
-            EnemyStats enemyStats = other.GetComponent<EnemyStats>();
-            enemyStats.TakeDamage(GetCurrrentDamage(),transform.position);
-        }
-    }
+    // protected override void OnTriggerEnter2D(Collider2D other) {
+    //     if(other.CompareTag("Enemy") && !markerEnemies.Contains(other.gameObject)){
+    //         EnemyStats enemyStats = other.GetComponent<EnemyStats>();
+    //         enemyStats.TakeDamage(GetCurrrentDamage(),transform.position);
+    //     }
+    // }
 }

@@ -13,7 +13,13 @@ public class PlayerStats : MonoBehaviour
     public CharacterData cst;
     public CharacterData.Stats baseStat;
     [SerializeField] CharacterData.Stats actualStats;
-    public WeaponScriptableObject wst;
+    public CharacterData.Stats Stats
+    {
+        get{return actualStats;}
+        set{
+            actualStats = value;
+        }
+    }
     PlayerPickUp playerPickUp;
     float currentHeal;
     #region Current Stats Properties
@@ -33,116 +39,116 @@ public class PlayerStats : MonoBehaviour
             }
         }
     }
-    public float Maxheal{
-        get {return actualStats.maxHeal;}
-         set
-        {
-            if(actualStats.maxHeal != value){
-            actualStats.maxHeal = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentHealDisplay.text = string.Format("Health: {0} / {1}",currentHeal, actualStats.maxHeal);
-            }
-            }
-            //Update the real time value of the stat
-            //Add any additional logic here that needs to be excuted when the value changes
-        }
-    }
-    public float CurrentRecovery{
-        get{return recoveryStats;}
-        set{recoveryStats = value;}
-    }
-    public float recoveryStats
-    {
-        get { return actualStats.recovery; }
-        set
-        {
-            if(actualStats.recovery != value){
-            actualStats.recovery = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentrecoveryDisplay.text = "Recovery:" + actualStats.recovery;
-            }
-            }
-        }
-    }
+    // public float Maxheal{
+    //     get {return actualStats.maxHeal;}
+    //      set
+    //     {
+    //         if(actualStats.maxHeal != value){
+    //         actualStats.maxHeal = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentHealDisplay.text = string.Format("Health: {0} / {1}",currentHeal, actualStats.maxHeal);
+    //         }
+    //         }
+    //         //Update the real time value of the stat
+    //         //Add any additional logic here that needs to be excuted when the value changes
+    //     }
+    // }
+    // public float CurrentRecovery{
+    //     get{return recoveryStats;}
+    //     set{recoveryStats = value;}
+    // }
+    // public float recoveryStats
+    // {
+    //     get { return actualStats.recovery; }
+    //     set
+    //     {
+    //         if(actualStats.recovery != value){
+    //         actualStats.recovery = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentrecoveryDisplay.text = "Recovery:" + actualStats.recovery;
+    //         }
+    //         }
+    //     }
+    // }
     
-    public float CurrentSpeed
-    {
-        get { return MoveSpeed; }
-        set{MoveSpeed = value;}
-    }
-      public float MoveSpeed
-    {
-        get { return actualStats.moveSpeed; }
-        set
-        {
-            if(actualStats.moveSpeed != value){
-            actualStats.moveSpeed = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentSpeedDisplay.text = "MoveSpeed:" + actualStats.moveSpeed;
-            }
-            }
-        }
-    }
-    public float CurrentMight
-    {
-        get { return Might; }
-        set{Might = value;}
-    }
-      public float Might
-    {
-        get { return actualStats.might; }
-        set
-        {
-            if(actualStats.might != value){
-            actualStats.might = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentMightDisplay.text = "Might:" + actualStats.might;
-            }
-            }
-        }
-    }
-     public float CurrentProjectileSpeed
-    {
-        get { return ProjectileSpeed; }
-        set{ProjectileSpeed = value;}
-    }
-      public float ProjectileSpeed
-    {
-        get { return actualStats.speed; }
-        set
-        {
-            if(actualStats.speed != value){
-            actualStats.speed = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentProjectTileSpeedDisplay.text = "Projectile Speed:" + actualStats.speed;
-            }
-            }
-        }
-    }
-       public float CurrentManget
-    {
-        get { return Magnet; }
-        set{Magnet = value;}
-    }
-      public float Magnet
-    {
-        get { return actualStats.magnet; }
-        set
-        {
-            if(actualStats.magnet != value){
-            actualStats.magnet = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentMagnetDisplay.text = "Magnet:" + actualStats.magnet;
-            }
-            }
-        }
-    }
+    // public float CurrentSpeed
+    // {
+    //     get { return MoveSpeed; }
+    //     set{MoveSpeed = value;}
+    // }
+    //   public float MoveSpeed
+    // {
+    //     get { return actualStats.moveSpeed; }
+    //     set
+    //     {
+    //         if(actualStats.moveSpeed != value){
+    //         actualStats.moveSpeed = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentSpeedDisplay.text = "MoveSpeed:" + actualStats.moveSpeed;
+    //         }
+    //         }
+    //     }
+    // }
+    // public float CurrentMight
+    // {
+    //     get { return Might; }
+    //     set{Might = value;}
+    // }
+    //   public float Might
+    // {
+    //     get { return actualStats.might; }
+    //     set
+    //     {
+    //         if(actualStats.might != value){
+    //         actualStats.might = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentMightDisplay.text = "Might:" + actualStats.might;
+    //         }
+    //         }
+    //     }
+    // }
+    //  public float CurrentProjectileSpeed
+    // {
+    //     get { return ProjectileSpeed; }
+    //     set{ProjectileSpeed = value;}
+    // }
+    //   public float ProjectileSpeed
+    // {
+    //     get { return actualStats.speed; }
+    //     set
+    //     {
+    //         if(actualStats.speed != value){
+    //         actualStats.speed = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentProjectTileSpeedDisplay.text = "Projectile Speed:" + actualStats.speed;
+    //         }
+    //         }
+    //     }
+    // }
+    //    public float CurrentManget
+    // {
+    //     get { return Magnet; }
+    //     set{Magnet = value;}
+    // }
+    //   public float Magnet
+    // {
+    //     get { return actualStats.magnet; }
+    //     set
+    //     {
+    //         if(actualStats.magnet != value){
+    //         actualStats.magnet = value;
+    //         if (GameManager.instance != null)
+    //         {
+    //             GameManager.instance.CurrentMagnetDisplay.text = "Magnet:" + actualStats.magnet;
+    //         }
+    //         }
+    //     }
+    // }
     #endregion
     // public List<GameObject> startWeapon;
     public ParticleSystem dameEffect;
@@ -206,12 +212,12 @@ public class PlayerStats : MonoBehaviour
 
         spriteRenderer.sprite = cst.sprite;
         animator.runtimeAnimatorController = cst.animatorController;
-        CurrentHeal = cst.stats.maxHeal;
-        Might = cst.stats.might;
-        ProjectileSpeed = cst.stats.speed;
-        recoveryStats = cst.stats.recovery;
-        MoveSpeed = cst.stats.moveSpeed;
-        Magnet = cst.stats.magnet;
+        // CurrentHeal = cst.stats.maxHeal;
+        // Might = cst.stats.might;
+        // ProjectileSpeed = cst.stats.speed;
+        // recoveryStats = cst.stats.recovery;
+        // MoveSpeed = cst.stats.moveSpeed;
+        // Magnet = cst.stats.magnet;
 
         playerInventory.Add(cst.StartingWeapon);
 
@@ -222,13 +228,13 @@ public class PlayerStats : MonoBehaviour
         // playerAnimation.runtimeAnimatorController = cst._Animation;
         // spr = GetComponent<SpriteRenderer>();
         // spr.sprite = cst.Image;
-        GameManager.instance.CurrentHealDisplay.text = "Heal:" + currentHeal;
-        GameManager.instance.CurrentrecoveryDisplay.text = "Recovery:" + CurrentRecovery;
-        GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + CurrentSpeed;
-        GameManager.instance.CurrentMightDisplay.text = "Might:" + CurrentMight;
-        GameManager.instance.CurrentProjectTileSpeedDisplay.text = "ProjectileSpeed:" + CurrentProjectileSpeed;
-        GameManager.instance.CurrentMagnetDisplay.text = "Magnet:" + CurrentManget;
-
+        // GameManager.instance.CurrentHealDisplay.text = "Heal:" + currentHeal;
+        // GameManager.instance.CurrentrecoveryDisplay.text = "Recovery:" + CurrentRecovery;
+        // GameManager.instance.CurrentSpeedDisplay.text = "Speed:" + CurrentSpeed;
+        // GameManager.instance.CurrentMightDisplay.text = "Might:" + CurrentMight;
+        // GameManager.instance.CurrentProjectTileSpeedDisplay.text = "ProjectileSpeed:" + CurrentProjectileSpeed;
+        // GameManager.instance.CurrentMagnetDisplay.text = "Magnet:" + CurrentManget;
+        
         GameManager.instance.AssignCharacter(cst);
         GameManager.instance.Icon(cst);
     }
@@ -338,7 +344,7 @@ public class PlayerStats : MonoBehaviour
     public void Recover(){
         if(CurrentHeal < actualStats.maxHeal){
             // CurrentHeal += CurrentHeal*Time.deltaTime;
-            CurrentHeal += recoveryStats*Time.deltaTime;
+            CurrentHeal += Stats.recovery*Time.deltaTime;
             // đảm bảo rằng máu của người chơi không vượt ngưỡng
             if(CurrentHeal > actualStats.maxHeal){
                 CurrentHeal = actualStats.maxHeal;

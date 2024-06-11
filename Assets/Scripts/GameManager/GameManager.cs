@@ -217,5 +217,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         LevelUpScreen.SetActive(false);
         ChangeState(GameState.GamePlay);
+        stopWacthDisplay.enabled = true;
     }
 }
