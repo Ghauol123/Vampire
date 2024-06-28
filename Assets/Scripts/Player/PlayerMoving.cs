@@ -13,7 +13,7 @@ public class PlayerMoving : MonoBehaviour
     [HideInInspector]
     public Vector2 lastMovedVector;
     Animator _animator;
-
+    public const float DEFAULT_MOVESPEED = 5f;
     // References
     Rigidbody2D rb;
     PlayerStats playerStats;
@@ -102,7 +102,9 @@ public class PlayerMoving : MonoBehaviour
         else if(GameManager.instance.isLevelUp){
             return;
         }
-        Vector2 movement = moveDir * playerStats.Stats.moveSpeed*Time.deltaTime;
-        transform.Translate(movement);
+        // Vector2 movement = moveDir * playerStats.Stats.moveSpeed*Time.deltaTime;
+        // transform.Translate(movement);
+        rb.velocity = moveDir * DEFAULT_MOVESPEED *playerStats.Stats.moveSpeed;
+        // rb.velocity = new Vector2(moveDir.x*DEFAULT_MOVESPEED*playerStats.Stats.moveSpeed,moveDir.y*DEFAULT_MOVESPEED*playerStats.Stats.moveSpeed);
     }
 }

@@ -193,7 +193,7 @@ public class InventoryManager : MonoBehaviour
                     }
                     if (newWeapon)
                     {
-                        upgradeOption.upgradeButton.onClick.AddListener(() => playerStats.SpawnWeapon(choosingWeaponUpgrade.initialWeapon));
+                        // upgradeOption.upgradeButton.onClick.AddListener(() => playerStats.SpawnWeapon(choosingWeaponUpgrade.initialWeapon));
                         upgradeOption.upgradeDescriptionDisplay.text = choosingWeaponUpgrade.weaponScriptableObject.Description;
                         upgradeOption.upgradeNameDisplay.text = choosingWeaponUpgrade.weaponScriptableObject.Name;
                         upgradeOption.upgradeType.text = choosingWeaponUpgrade.weaponScriptableObject.Type;
@@ -236,7 +236,7 @@ public class InventoryManager : MonoBehaviour
                     }
                     if (newPassiveItem)
                     {
-                        upgradeOption.upgradeButton.onClick.AddListener(() => playerStats.SpawnPassiveItems(choosingPassiveItemUpgrade.initialPassiveItem));
+                        // upgradeOption.upgradeButton.onClick.AddListener(() => playerStats.SpawnPassiveItems(choosingPassiveItemUpgrade.initialPassiveItem));
                         upgradeOption.upgradeDescriptionDisplay.text = choosingPassiveItemUpgrade.passiveItemsScriptableObject.Description;
                         upgradeOption.upgradeNameDisplay.text = choosingPassiveItemUpgrade.passiveItemsScriptableObject.Name;
                         upgradeOption.upgradeType.text = choosingPassiveItemUpgrade.passiveItemsScriptableObject.Type;

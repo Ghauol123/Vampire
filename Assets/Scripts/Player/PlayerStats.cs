@@ -151,7 +151,9 @@ public class PlayerStats : MonoBehaviour
     // }
     #endregion
     // public List<GameObject> startWeapon;
+    [Header("Visual")]
     public ParticleSystem dameEffect;
+    public ParticleSystem blockEffect;
     //Experience and level of the player
     [Header("Experience/Level")]
     public int experience = 0;
@@ -209,7 +211,6 @@ public class PlayerStats : MonoBehaviour
     }
     private void Start()
     {
-
         spriteRenderer.sprite = cst.sprite;
         animator.runtimeAnimatorController = cst.animatorController;
         // CurrentHeal = cst.stats.maxHeal;
@@ -240,6 +241,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void Update()
     {
+        // If the invicible timer is greater than 0, reduce the timer
         if (invicibleTime > 0)
         {
             invicibleTime -= Time.deltaTime;
@@ -254,6 +256,7 @@ public class PlayerStats : MonoBehaviour
         updateLevelDisplay();
     }
     public void RecalculatedStats(){
+        // cộng thông số từ item
         actualStats = baseStat;
         foreach(PlayerInventory.Slot s in playerInventory.passiveSlot){
             Passive p = s.item as Passive;
@@ -265,13 +268,13 @@ public class PlayerStats : MonoBehaviour
         playerPickUp.SetMagnet(actualStats.magnet);
     }
     public void IncreaseExperience(int amount)
-    {
+    {// tăng kinh nghiệm
         experience += amount;
         levelCheckerUp();
         updateExpBar();
     }
     public void IncreaseHeal(float heal)
-    {
+    {// hồi máu
         if (CurrentHeal < cst.stats.maxHeal)
         {
             CurrentHeal += heal;
@@ -284,6 +287,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void levelCheckerUp()
     {
+        //Check if the player has enough experience to level up
         if (experience >= experienceCap)
         {
             //Level up the player and reduce their experience by the experience cap
@@ -291,6 +295,7 @@ public class PlayerStats : MonoBehaviour
             experience -= experienceCap;
             int experienceCapIncrese = 0;
             //find the experience cap increase for the current level range
+            // and increase the experience cap by that amount
             foreach (levelRange range in levelRanges)
             {
                 if (level >= range.startLevel && level <= range.endLevel)
@@ -307,32 +312,47 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         // nếu người chơi không bất tử thì nhận dame, giảm máu và đặt lại thời gian bất tử
+        // nếu máu nhỏ hơn hoặc bằng 0 thì chết
         if (isInvicible == false)
         {
-            CurrentHeal -= dmg;
-            //nếu có hiệu ứng dame thì thực hiện
-            if(dameEffect) Destroy(Instantiate(dameEffect,transform.position,Quaternion.identity),5f);
-            invicibleTime = invicibleDuration;
-            isInvicible = true;
-            if (CurrentHeal <= 0)
-            {
-                Kill();
+            // nếu có giáp thì giảm dame
+            dmg -= actualStats.armor;
+            // nếu dame lớn hơn 0 thì nhận dame
+            if(dmg >0){
+                CurrentHeal -= dmg;
+                //nếu có hiệu ứng dame thì thực hiện
+                // nếu máu nhỏ hơn hoặc bằng 0 thì chết
+                if(dameEffect) Destroy(Instantiate(dameEffect,transform.position,Quaternion.identity),5f);
+                invicibleTime = invicibleDuration;
+                isInvicible = true;
+                if (CurrentHeal <= 0)
+                {
+                    Kill();
+                }
+            }
+            // nếu có hiệu ứng block thì thực hiện
+            else{
+                if(blockEffect) Destroy(Instantiate(dameEffect,transform.position,Quaternion.identity),5f);
             }
             updateHealBar();
         }
     }
     void updateHealBar()
     {
+        // cập nhật thanh máu
         healBar.fillAmount = currentHeal / actualStats.maxHeal;
         // healDisplay.text = (currentHeal/cst.Maxheal).ToString();
     }
     void updateExpBar(){
+        // cập nhật thanh kinh nghiệm
         ExpBar.fillAmount = (float)experience/experienceCap;
     }
     void updateLevelDisplay(){
+        // cập nhật level
         levelDisplay.text = "LV:" + level.ToString();
     }
     public void RestoreHeal(float amount){
+        // hồi máu
         if(CurrentHeal < actualStats.maxHeal){
             // chỉ khi mà máu người chơi nhỏ hơn máu tối đa mới hồi máu
             CurrentHeal += amount;
@@ -342,6 +362,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
     public void Recover(){
+        // hồi máu theo thời gian
         if(CurrentHeal < actualStats.maxHeal){
             // CurrentHeal += CurrentHeal*Time.deltaTime;
             CurrentHeal += Stats.recovery*Time.deltaTime;
@@ -350,10 +371,12 @@ public class PlayerStats : MonoBehaviour
                 CurrentHeal = actualStats.maxHeal;
             }
         }
+        // cập nhật thanh máu
         updateHealBar();
     }
     public void Kill()
     {
+        // nếu người chơi chết thì gọi hàm gameover
         if (!GameManager.instance.IsGameOver)
         {
             GameManager.instance.AssignLevel(level);
@@ -366,36 +389,8 @@ public class PlayerStats : MonoBehaviour
     }
     public void PlusScore()
     {
+        // cộng điểm
         score += 10;
-    }
-    public void SpawnWeapon(GameObject weapon)
-    {
-        // if (weaponIndex > inventoryManager.weaponSlot.Count - 1)// trừ 1 vì bắt đầu từ 0;
-        // {
-        //     Debug.Log("Full weapon");
-        //     return;
-        // }
-        // GameObject spawnWeapon = Instantiate(weapon, transform.position, Quaternion.identity);
-
-        // spawnWeapon.transform.SetParent(transform);
-        // // startWeapon.Add(spawnWeapon);
-        // inventoryManager.AddWeapon(weaponIndex, spawnWeapon.GetComponent<WeaponController>()); // thêm vũ khí vào inventory
-
-        // weaponIndex++;
-    }
-    public void SpawnPassiveItems(GameObject passiveItems)
-    {
-        // if (passiveItemsIndex > inventoryManager.passiveItemsSlot.Count - 1)// trừ 1 vì bắt đầu từ 0;
-        // {
-        //     Debug.Log("Full weapon");
-        //     return;
-        // }
-        // GameObject spawnPassiveItems = Instantiate(passiveItems, transform.position, Quaternion.identity);
-        // spawnPassiveItems.transform.SetParent(transform);
-        // // startWeapon.Add(spawnWeapon);
-        // inventoryManager.AddPassiveItem(passiveItemsIndex, spawnPassiveItems.GetComponent<PassiveItems>()); // thêm vũ khí vào inventory
-
-        // passiveItemsIndex++;
     }
 
 }

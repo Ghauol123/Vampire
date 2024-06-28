@@ -94,4 +94,11 @@ public abstract class Weapon : Item
         return currentStats.getDamage() *owner.Stats.might;
     }
     public virtual Stats GetStats(){return currentStats;}
+
+    public virtual bool ActivateCooldown(bool strict = false){
+        if(strict && currentCooldown > 0) return false;
+        float actualCooldown = currentStats.cooldown *owner.Stats.cooldown;
+        currentCooldown = Mathf.Min(actualCooldown,currentCooldown*actualCooldown);
+        return true;
+    }    
 }

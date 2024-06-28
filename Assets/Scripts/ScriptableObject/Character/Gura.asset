@@ -21,7 +21,11 @@ MonoBehaviour:
   stats:
     maxHeal: 65
     recovery: 1
-    moveSpeed: 1.4
+    armor: 0
+    moveSpeed: 1
     might: 1.1
-    speed: 0.1
+    area: 1
+    amount: 1
+    cooldown: 1
     magnet: 0.3
+    revival: 0

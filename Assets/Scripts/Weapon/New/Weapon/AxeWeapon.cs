@@ -7,7 +7,7 @@ public class AxeWeapon : ProjectileWeapon
 {
     protected override float GetSpawnAngle(){
         int offset = currentAttackCount > 0 ? currentStats.number - currentAttackCount : 0;
-        return 90f - Math.Sign(movement.lastMovedVector.x) *(5*offset); 
+        return 90f - Math.Sign(movement.lastMovedVector.x) * (5*offset); 
     }
     protected override Vector2 GetSpawnOffset(float spawnAngle = 0){
         return new Vector2(
