@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Passive : Item
@@ -7,9 +8,8 @@ public class Passive : Item
     public PassiveData data;
     [SerializeField] CharacterData.Stats currentBoots;
     [System.Serializable]
-    public struct Modifier{
-        public string name, description,type;
-        public Sprite Icon;
+    public class Modifier : LevelData{
+        public string type;
         public CharacterData.Stats boots;
     }
     // For dynamically create passive, call initialise to set everything up
@@ -27,8 +27,8 @@ public class Passive : Item
             Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max leve of {2} already reached", name,currentLevel, data.maxLevel));
             return false;
         }
-        // otherwise, add stats of the next level to our weapon
-        currentBoots += data.GetLevelData(++currentLevel).boots;
+        // If the item can level up, increase the stats
+        currentBoots += ((Modifier)data.GetLevelData(++currentLevel)).boots;
         return true;
     }
 }

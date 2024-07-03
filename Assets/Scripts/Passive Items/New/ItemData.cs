@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class ItemData : ScriptableObject {
     public Sprite icon;
     public int maxLevel;
+    public abstract Item.LevelData GetLevelData(int level);
 }
 
 

@@ -13,8 +13,10 @@ public class GameManager : MonoBehaviour
     public GameState previousState;
     [Header("Screens")]
     public GameObject pauseScreen;
+    public GameObject ResultScreen;
     public GameObject gameOverScreen;
     public GameObject LevelUpScreen;
+    public int stackLevelups = 0;
     [Header("Current Stas Displays")]
     public TMP_Text CurrentSpeedDisplay;
     public TMP_Text CurrentHealDisplay;
@@ -36,10 +38,12 @@ public class GameManager : MonoBehaviour
     public float stopWatchTime;
     public TMP_Text stopWacthDisplay;
 
-    public bool IsGameOver = false;
     public bool IsGamePause = false;
-    public bool isLevelUp = false;
-    public bool chosingUpgrade;
+    public bool IsLevelUp = false;
+
+    public bool IsGameOver {get{return currentState == GameState.GameOver;}}
+    public bool chosingUpgrade {get{return currentState == GameState.LevelUp;}}
+
 
     // public GameObject player;
     PlayerStats playerStats;
@@ -76,30 +80,18 @@ public class GameManager : MonoBehaviour
                 IsGamePause = true;
                 break;
             case GameState.GameOver:
-                if (!IsGameOver)
-                {
-                    IsGameOver = true;
-                    GameOver();
-                    Debug.Log("Game is over");
-                    Time.timeScale = 0f;
-                }
-                break;
             case GameState.LevelUp:
-                if (!chosingUpgrade)
-                {
-                    chosingUpgrade = true;
-                    Debug.Log("Level Up");
-                    Time.timeScale = 0f;
-                    LevelUpScreen.SetActive(true);
-                }
                 break;
         }
     }
     public void ChangeState(GameState newState)
+    // Change the current state of the game
     {
+        previousState = currentState;
         currentState = newState;
     }
     public void PauseGame()
+    // Pause the game
     {
         if (currentState != GameState.Paused)
         {
@@ -111,6 +103,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public void ResumeGame()
+    // Resume the game
     {
         if (currentState == GameState.Paused)
         {
@@ -121,6 +114,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public void TestChangeState()
+    // Test if the game state should be changed
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -134,14 +128,30 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    public void DisableScreen()
+    // Disable all the screen
+    {
+        pauseScreen.SetActive(false);
+        gameOverScreen.SetActive(false);
+        LevelUpScreen.SetActive(false);
+    }
     public void GameOver()
+    // Display the game over screen
     {
         stopWacthDisplay.enabled = false;
         timeSurvival.text = stopWacthDisplay.text;
         ChangeState(GameState.GameOver);
+        Time.timeScale = 0f;
         gameOverScreen.SetActive(true);
+        DisplayResultScreen();
+    }
+    public void DisplayResultScreen()
+    // Display the result screen
+    {
+        ResultScreen.SetActive(true);
     }
     public void AssignCharacter(CharacterData cst)
+    // Assign the character data to the result screen
     {
         characterImage.sprite = cst.Icon;
         characterName.text = cst.Name;
@@ -159,6 +169,7 @@ public class GameManager : MonoBehaviour
         ScoreEndGame.text = score.ToString();
     }
     public void AssignWeaponAndPassiveItem(List<PlayerInventory.Slot> weapon, List<PlayerInventory.Slot> passiveItems)
+    // Assign the weapon and passive item to the result screen
     {
         if (weapon.Count != weaponIcon.Count || passiveItems.Count != passiveItemIcon.Count)
         {
@@ -208,15 +219,24 @@ public class GameManager : MonoBehaviour
     public void StartLevelUp()
     {
         ChangeState(GameState.LevelUp);
-        stopWacthDisplay.enabled = false;
-        playerStats.SendMessage("RemoveAndApplyUpgradeOption");
+        // if the level up screen is already active, record that another level up is requested
+        if(LevelUpScreen.activeSelf) stackLevelups++;
+        else{
+            LevelUpScreen.SetActive(true);
+            Time.timeScale = 0f;
+            stopWacthDisplay.enabled = false;
+            playerStats.SendMessage("RemoveAndApplyUpgradeOption");
+        }
     }
     public void EndLevelUp()
     {
-        chosingUpgrade = false;
         Time.timeScale = 1f;
         LevelUpScreen.SetActive(false);
         ChangeState(GameState.GamePlay);
         stopWacthDisplay.enabled = true;
+        if(stackLevelups > 0) {
+            stackLevelups--;
+            StartLevelUp();
+        };
     }
 }

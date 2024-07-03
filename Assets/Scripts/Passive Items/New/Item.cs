@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Item : MonoBehaviour
 {
     public int currentLevel = 1, maxLevel = 1;
     protected PlayerStats owner;
+    public class LevelData{
+        public string name;
+        public string description;
+        public Sprite Icon;
+
+    }
     public virtual void Initialise(ItemData itemData){
         maxLevel = itemData.maxLevel;
         owner = FindAnyObjectByType<PlayerStats>();

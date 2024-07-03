@@ -74,6 +74,7 @@ public class EnemyStats : MonoBehaviour
         if(other.CompareTag("Player")){
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
             playerStats.TakeDamage(currentDamage);
+            Debug.Log("Player Hit");
         }
     }
     private void OnDestroy() {

@@ -9,7 +9,8 @@ public class WeaponData : ItemData
     public Weapon.Stats[] linearGrowth;
     public Weapon.Stats[] randomGrowth;
 
-    public Weapon.Stats GetLevelData(int level){
+    public override Item.LevelData GetLevelData(int level){
+        if(level < 1) return baseStats;
         if(level - 2 < linearGrowth.Length) return linearGrowth[level -2];
         if(randomGrowth.Length > 0) return randomGrowth[Random.Range(0,randomGrowth.Length)];
         Debug.LogWarning(string.Format("Weapon doesn't have its level up stats configured for level {0}!", level));

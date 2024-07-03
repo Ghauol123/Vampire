@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using System;
+using UnityEngine.UIElements;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -189,8 +190,8 @@ public class PlayerStats : MonoBehaviour
     
 
     [Header("UI")]
-    public Image healBar;
-    public Image ExpBar;
+    public UnityEngine.UI.Image healBar;
+    public UnityEngine.UI.Image ExpBar;
     public TMP_Text levelDisplay;
     public TMP_Text healDisplay;
      private void Awake()
@@ -307,6 +308,7 @@ public class PlayerStats : MonoBehaviour
             experienceCap += experienceCapIncrese;
             GameManager.instance.StartLevelUp();
             updateLevelDisplay();
+            if(experience >= experienceCap) levelCheckerUp();
         }
     }
     public void TakeDamage(float dmg)
@@ -392,5 +394,14 @@ public class PlayerStats : MonoBehaviour
         // cộng điểm
         score += 10;
     }
-
+    public PlayerStats(PlayerStats playerStats){
+        playerInventory = playerStats.playerInventory;
+        weaponIndex = playerStats.weaponIndex;
+        passiveItemsIndex = playerStats.passiveItemsIndex;
+        actualStats = playerStats.actualStats;
+        float[] playerPosition = new float[3];
+        playerPosition[0] = playerStats.transform.position.x;
+        playerPosition[1] = playerStats.transform.position.y;
+        playerPosition[2] = playerStats.transform.position.z;
+    }
 }

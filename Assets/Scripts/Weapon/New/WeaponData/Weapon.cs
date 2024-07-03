@@ -7,8 +7,8 @@ using UnityEngine.Playables;
 public abstract class Weapon : Item
 {
     [System.Serializable]
-    public struct Stats{
-        public string name, description,type;
+    public class Stats : LevelData{
+        public string type;
         [Header("Visuals")]
         public Projectile projectilePrefabs;
         public Aura auraPrefabs;
@@ -19,7 +19,6 @@ public abstract class Weapon : Item
         public float lifespan;
         public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
         public int number, piercing, maxInstance;
-        public Sprite Icon;
         public static Stats operator +(Stats s1, Stats s2){
             Stats result = new Stats();
             result.name = s2.name ?? s1.name;
@@ -54,7 +53,9 @@ public abstract class Weapon : Item
         base.Initialise(data);
         this.data = data;
         currentStats = data.baseStats;
+        // Find the player stats
         movement =  GetComponentInParent<PlayerMoving>();
+        // Set the cooldown to 0
         currentCooldown = currentStats.cooldown;
     }
     protected virtual void Awake() {
@@ -77,7 +78,8 @@ public abstract class Weapon : Item
             Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max leve of {2} already reached", name,currentLevel, data.maxLevel));
             return false;
         }
-        currentStats += data.GetLevelData(++currentLevel);
+        // otherwise, add stats of the next level to our weapon
+        currentStats += (Stats)data.GetLevelData(++currentLevel);
         return true;
     }
     public virtual bool canAttack(){
@@ -91,13 +93,17 @@ public abstract class Weapon : Item
         return false;
     }
     public virtual float GetDamage(){
+        // Might is a multiplier for the damage
         return currentStats.getDamage() *owner.Stats.might;
     }
     public virtual Stats GetStats(){return currentStats;}
 
     public virtual bool ActivateCooldown(bool strict = false){
+        // If we are in strict mode, we can only activate cooldown if it is already 0
         if(strict && currentCooldown > 0) return false;
+        // Otherwise, we can always activate cooldown
         float actualCooldown = currentStats.cooldown *owner.Stats.cooldown;
+        // Cooldown is reduced by the cooldown reduction stat
         currentCooldown = Mathf.Min(actualCooldown,currentCooldown*actualCooldown);
         return true;
     }    

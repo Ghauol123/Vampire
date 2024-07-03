@@ -403,20 +403,18 @@ public class PlayerInventory : MonoBehaviour
                 if (item is Weapon)
                 {
                     Weapon w = item as Weapon;
-                    Weapon.Stats nextLevel = ((WeaponData)choosingUpgrade).GetLevelData(item.currentLevel + 1);
+                    Item.LevelData nextLevel = ((WeaponData)choosingUpgrade).GetLevelData(item.currentLevel + 1);
                     upgradeOption.upgradeDescripionDisplay.text = nextLevel.description;
                     upgradeOption.upgradeIcon.sprite = nextLevel.Icon;
                     upgradeOption.upgradeNameDisplay.text = nextLevel.name;
-                    upgradeOption.upgradeTypeDisplay.text = nextLevel.type;
                 }
                 else if (item is Passive)
                 {
                     Passive p = item as Passive;
-                    Passive.Modifier nextLevel = ((PassiveData)choosingUpgrade).GetLevelData(item.currentLevel + 1);
+                    Item.LevelData nextLevel = ((PassiveData)choosingUpgrade).GetLevelData(item.currentLevel + 1);
                     upgradeOption.upgradeDescripionDisplay.text = nextLevel.description;
                     upgradeOption.upgradeIcon.sprite = nextLevel.Icon;
                     upgradeOption.upgradeNameDisplay.text = nextLevel.name;
-                    upgradeOption.upgradeTypeDisplay.text = nextLevel.type;
                 }
             }
             else
