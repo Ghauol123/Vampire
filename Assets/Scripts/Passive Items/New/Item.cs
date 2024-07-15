@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class Item : MonoBehaviour
 {
     public int currentLevel = 1, maxLevel = 1;
+    [HideInInspector]
+    public ItemData itemData;
     protected PlayerStats owner;
     public class LevelData{
         public string name;

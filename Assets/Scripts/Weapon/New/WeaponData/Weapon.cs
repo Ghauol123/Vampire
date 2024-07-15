@@ -45,21 +45,22 @@ public abstract class Weapon : Item
         }
     }
     protected Stats currentStats;
-    public WeaponData data;
+    [HideInInspector]
+    public ItemData data;
     protected float currentCooldown;
     protected PlayerMoving movement;
     // For dynamically created weapons, call initialise to set everything up
-    public virtual void Initialise(WeaponData data){
+    public override void Initialise(ItemData data){
         base.Initialise(data);
         this.data = data;
-        currentStats = data.baseStats;
+        currentStats = ((WeaponData)data).baseStats;
         // Find the player stats
         movement =  GetComponentInParent<PlayerMoving>();
         // Set the cooldown to 0
         currentCooldown = currentStats.cooldown;
     }
     protected virtual void Awake() {
-        if(data) currentStats = data.baseStats;
+        if(data) currentStats = ((WeaponData)data).baseStats;
     }
     protected virtual void Start(){
         if(data){

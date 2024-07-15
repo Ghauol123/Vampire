@@ -5,10 +5,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+public static GameManager instance;
+public bool isGameLoaded;
     public GameState currentState;
     public GameState previousState;
     [Header("Screens")]
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameOver {get{return currentState == GameState.GameOver;}}
     public bool chosingUpgrade {get{return currentState == GameState.LevelUp;}}
+
 
 
     // public GameObject player;
@@ -239,4 +243,7 @@ public class GameManager : MonoBehaviour
             StartLevelUp();
         };
     }
+        // Save system methods
+
+
 }

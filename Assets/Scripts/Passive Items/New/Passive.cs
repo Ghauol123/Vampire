@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Passive : Item
 {
-    public PassiveData data;
+    [HideInInspector]
+    public ItemData data;
     [SerializeField] CharacterData.Stats currentBoots;
     [System.Serializable]
     public class Modifier : LevelData{

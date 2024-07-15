@@ -6,11 +6,8 @@ using UnityEngine.Playables;
 public class EnemyStats : MonoBehaviour
 {
     public EnemyScriptableObject est;
-    [HideInInspector]
     public float currentMoveSpeed;
-    // [HideInInspector]
     public float CurrentHealts;
-    [HideInInspector]
     public float currentDamage;
     float distanceDespawn = 20f;
     Transform playerMoving;

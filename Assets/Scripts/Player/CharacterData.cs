@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "CharacterData", order = 0)]
-
+[System.Serializable]
 public class CharacterData : ScriptableObject
 {
     [SerializeField]
@@ -13,9 +13,13 @@ public class CharacterData : ScriptableObject
     public string Name {get => name; private set => name = value;}
     [SerializeField]
     WeaponData startingWeapon;
+    [SerializeField]
     public WeaponData StartingWeapon {get => startingWeapon; private set => startingWeapon = value;}
+    [SerializeField]
     public Sprite sprite;
+    [SerializeField]
     public RuntimeAnimatorController animatorController;
+    [SerializeField]
     public WeaponScriptableObject weaponScriptableObject;
 
     [System.Serializable]
