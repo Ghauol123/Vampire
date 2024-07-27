@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public void SceneChange(string name){
+public static SceneController instance;
+
+    public void SceneChange(string name)
+    {
         SceneManager.LoadScene(name);
         Time.timeScale = 1f;
+        DataPersistenceManager.instance.isNewgame = true;
     }
 }

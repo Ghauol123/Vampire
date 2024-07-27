@@ -6,8 +6,9 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, IDataPersistence
 {
     public CharacterData cst;
     [HideInInspector]
@@ -83,37 +84,46 @@ public class PlayerStats : MonoBehaviour
     public TMP_Text healDisplay;
     PlayerData playerData;
     GameManager gameManager;
+    DataPersistenceManager dataPersistenceManager;
 
-private void Awake()
-{
-
-    // Lấy tham chiếu đến GameManager đã có sẵn
-    gameManager = FindObjectOfType<GameManager>();
-
-    if (gameManager != null && !gameManager.isGameLoaded)
+    private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        if(DataPersistenceManager.instance.isNewgame == true)
+        {
+            InitializeNewGame();
+            Debug.Log("New Game Data");
+        }
+        else
+        {
+            LoadGameData(DataPersistenceManager.instance.gameData);
+            Debug.Log("Load Game Data");
+        }
+    }
+
+
+    public  void InitializeNewGame()
+    {
+        // Khởi tạo cho trò chơi mới
         cst = CharacterSelected.GetData();
-        // CharacterSelected.instance.DestroyInstance();
+        if (CharacterSelected.instance != null && CharacterSelected.instance.gameObject.activeInHierarchy)
+        {
+            CharacterSelected.instance.DestroyInstance();
+        }
 
         playerInventory = GetComponent<PlayerInventory>();
         playerPickUp = GetComponentInChildren<PlayerPickUp>();
         baseStat = actualStats = cst.stats;
         playerPickUp.SetMagnet(actualStats.magnet);
         currentHeal = actualStats.maxHeal;
-                    spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
-    }
-}
-
-private void Start()
-{
-
-    if (gameManager != null && !gameManager.isGameLoaded)
-    {
+        // Thiết lập sprite và animator cho người chơi
         spriteRenderer.sprite = cst.sprite;
         animator.runtimeAnimatorController = cst.animatorController;
-
+        playerInventory.availableWeapons.Insert(0, cst.StartingWeapon);
+        // Thêm vũ khí khởi đầu vào kho người chơi
         playerInventory.Add(cst.StartingWeapon);
 
         experienceCap = levelRanges[0].experienceCapIncrese;
@@ -121,8 +131,6 @@ private void Start()
         gameManager.AssignCharacter(cst);
         gameManager.Icon(cst);
     }
-}
-  
 
     private void Update()
     {
@@ -137,47 +145,134 @@ private void Start()
         Recover();
         updateLevelDisplay();
     }
-            public void SaveGame()
+    public void LoadGameData(GameData gameData)
+{
+    spriteRenderer = GetComponent<SpriteRenderer>();
+    animator = GetComponent<Animator>();
+    transform.position = gameData.playerPosition;
+    baseStat = gameData.baseStat;
+    actualStats = gameData.actualStat;
+    level = gameData.level;
+    experience = gameData.experience;
+    currentHeal = gameData.currentHealth;
+    score = gameData.score;
+    gameManager.stopWatchTime = gameData.timeSurvival;
+
+    Sprite loadedSprite = Resources.Load<Sprite>(gameData.spriteRendererSpriteName);
+    if (loadedSprite != null)
+    {
+        spriteRenderer.sprite = loadedSprite;
+    }
+    else
+    {
+        Debug.LogWarning("Sprite not found: " + gameData.spriteRendererSpriteName);
+    }
+
+    RuntimeAnimatorController loadedAnimatorController = Resources.Load<RuntimeAnimatorController>(gameData.animatorControllerName);
+    if (loadedAnimatorController != null)
+    {
+        animator.runtimeAnimatorController = loadedAnimatorController;
+    }
+    else
+    {
+        Debug.LogWarning("Animator Controller not found: " + gameData.animatorControllerName);
+    }
+
+    playerInventory = GetComponent<PlayerInventory>();
+    playerInventory.ClearInventory();
+    playerInventory.availableWeapons = new List<WeaponData>(gameData.availableWeapons);
+    playerInventory.availablePassive = new List<PassiveData>(gameData.availablePassiveItems);
+    
+    foreach (WeaponData weapon in gameData.weaponsInSlots)
+    {
+        playerInventory.Add(weapon);
+    }
+    foreach (PassiveData passive in gameData.passiveItemsInSlots)
+    {
+        playerInventory.Add(passive);
+    }
+}
+
+public void SaveGameData(ref GameData gameData)
+{
+    spriteRenderer = GetComponent<SpriteRenderer>();
+    animator = GetComponent<Animator>();
+    gameData.playerPosition = transform.position;
+    gameData.actualStat = actualStats;
+    gameData.baseStat = baseStat;
+    gameData.level = level;
+    gameData.experience = experience;
+    gameData.currentHealth = currentHeal;
+    gameData.score = score;
+    gameData.spriteRendererSpriteName = spriteRenderer.sprite.name;
+    gameData.animatorControllerName = animator.runtimeAnimatorController.name;
+    gameData.timeSurvival = gameManager.stopWatchTime;
+
+    gameData.weaponsInSlots.Clear();
+    foreach (PlayerInventory.Slot slot in playerInventory.weaponSlot)
+    {
+        if (slot.item != null && slot.item is Weapon weapon)
+        {
+            gameData.weaponsInSlots.Add((WeaponData)weapon.data);
+        }
+    }
+
+    gameData.passiveItemsInSlots.Clear();
+    foreach (PlayerInventory.Slot slot in playerInventory.passiveSlot)
+    {
+        if (slot.item != null && slot.item is Passive passive)
+        {
+            gameData.passiveItemsInSlots.Add((PassiveData)passive.data);
+        }
+    }
+
+    gameData.availableWeapons = new List<WeaponData>(playerInventory.availableWeapons);
+    gameData.availablePassiveItems = new List<PassiveData>(playerInventory.availablePassive);
+}
+
+    public void SaveGame()
     {
         SaveSystem.SaveGame(cst, this);
     }
 
- public void LoadGame()
-{
-    PlayerData data = SaveSystem.LoadGame();
-    if (data != null)
+    public void LoadGame()
     {
-        PlayerStats playerStats = this;
-        playerStats.spriteRenderer = GetComponent<SpriteRenderer>();
-        playerStats.animator = GetComponent<Animator>();
-        // Load baseStat and actualStats separately
-        baseStat = data.baseStat;
-        actualStats = data.actualStat;
+        PlayerData data = SaveSystem.LoadGame();
+        if (data != null)
+        {
+            // Khôi phục các thuộc tính của PlayerStats
+            baseStat = data.baseStat;
+            actualStats = data.actualStat;
+            experience = data.experience;
+            level = data.level;
+            transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+            currentHeal = data.currentHealth;
+            score = data.score;
 
-        experience = data.experience;
-        level = data.level;
-        transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-        CurrentHeal = data.currentHealth;
-        score = data.score;
+            // Cập nhật sprite và animator
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = Resources.Load<Sprite>(data.spriteRendererSpriteName);
+            animator = GetComponent<Animator>();
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(data.animatorControllerName);
 
+            // Đảm bảo cập nhật experienceCap dựa trên cấp độ hiện tại
+            experienceCap = levelRanges[0].experienceCapIncrese;
 
-        playerStats.spriteRenderer.sprite = Resources.Load<Sprite>(data.spriteRendererSpriteName);
+            // Khôi phục kho đồ và các thành phần khác nếu cần
+            playerInventory = GetComponent<PlayerInventory>();
+            playerPickUp = GetComponentInChildren<PlayerPickUp>();
+            playerPickUp.SetMagnet(actualStats.magnet);
 
-        playerStats.animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(data.animatorControllerName);
-
-
-        // Ensure to update experienceCap based on current level
-        experienceCap = levelRanges[0].experienceCapIncrese;
-
-        GameManager.instance.AssignCharacter(cst);
-        GameManager.instance.Icon(cst);
+            GameManager.instance.AssignCharacter(cst);
+            GameManager.instance.Icon(cst);
+        }
+        else
+        {
+            Debug.LogError("Failed to load game data.");
+        }
     }
-    else
-    {
-        Debug.LogError("Failed to load game data.");
-    }
-}
-public void RecalculatedStats()
+
+    public void RecalculatedStats()
     {
         actualStats = baseStat;
         foreach(PlayerInventory.Slot s in playerInventory.passiveSlot)
@@ -261,23 +356,19 @@ public void RecalculatedStats()
 
     public void updateHealBar()
     {
-            if (gameManager != null && !gameManager.isGameLoaded)
-    {
-        healBar.fillAmount = currentHeal / actualStats.maxHeal;}
+        healBar.fillAmount = currentHeal / actualStats.maxHeal;
     }
 
     public void updateExpBar()
     {
-            if (gameManager != null && !gameManager.isGameLoaded)
-    {
-        ExpBar.fillAmount = (float)experience/experienceCap;}
+
+        ExpBar.fillAmount = (float)experience/experienceCap;
     }
 
     public void updateLevelDisplay()
     {
-            if (gameManager != null && !gameManager.isGameLoaded)
-    {
-        levelDisplay.text = "LV:" + level.ToString();}
+
+        levelDisplay.text = "LV:" + level.ToString();
     }
 
     public void RestoreHeal(float amount)
@@ -320,5 +411,4 @@ public void RecalculatedStats()
     {
         score += 10;
     }
-
 }

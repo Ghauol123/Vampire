@@ -428,6 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 873426124}
   - component: {fileID: 873426123}
+  - component: {fileID: 873426125}
   m_Layer: 0
   m_Name: SceneController
   m_TagString: Untagged
@@ -462,6 +463,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &873426125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873426122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 662d7eb4044325d4c86babca34f1da3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &899505021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1099,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1693206889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1693206891}
+  - component: {fileID: 1693206890}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1693206890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693206889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c70cc890972cfa4c9686da2601b88fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cst: {fileID: 0}
+  position: []
+  baseStat:
+    maxHeal: 0
+    recovery: 0
+    armor: 0
+    moveSpeed: 0
+    might: 0
+    area: 0
+    amount: 0
+    cooldown: 0
+    magnet: 0
+    revival: 0
+  actualStats:
+    maxHeal: 0
+    recovery: 0
+    armor: 0
+    moveSpeed: 0
+    might: 0
+    area: 0
+    amount: 0
+    cooldown: 0
+    magnet: 0
+    revival: 0
+  dameEffect: {fileID: 0}
+  blockEffect: {fileID: 0}
+  experience: 0
+  level: 1
+  experienceCap: 0
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
+  weaponTest: {fileID: 0}
+  passiveItemsText: {fileID: 0}
+  passiveItemsText2: {fileID: 0}
+  score: 0
+  invicibleDuration: 0
+  levelRanges: []
+  playerInventory: {fileID: 0}
+  weaponIndex: 0
+  passiveItemsIndex: 0
+  healBar: {fileID: 0}
+  ExpBar: {fileID: 0}
+  levelDisplay: {fileID: 0}
+  healDisplay: {fileID: 0}
+  isNewGame: 1
+--- !u!4 &1693206891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693206889}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.24629581, y: -0.074280344, z: 242.71252}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748034598
 GameObject:

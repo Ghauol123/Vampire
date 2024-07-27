@@ -1,38 +1,39 @@
-using System;
-using System.Resources;
-using UnityEngine;
+using System.Collections.Generic;
+using static PlayerStats;
 
-[Serializable]
+[System.Serializable]
 public class PlayerData
 {
-    public string characterName;
+    // public CharacterData characterData;
     public CharacterData.Stats baseStat;
     public CharacterData.Stats actualStat;
+    public float[] position;
     public int experience;
     public int level;
-    public float[] position;
     public float currentHealth;
     public int score;
-   public string spriteRendererSpriteName; // Store the sprite name
-    public string animatorControllerName; // Store the animator controller name
-    // public WeaponData startingWeaponName;
-    public PlayerData(CharacterData characterData, PlayerStats playerStats)
+    public string spriteRendererSpriteName;
+    public string animatorControllerName;
+    public List<levelRange> levelRanges;
+
+    // public List<PlayerInventory.Slot> inventory;
+
+    public PlayerData(CharacterData cst, PlayerStats playerStats)
     {
-        characterName = characterData.Name;
-        baseStat = characterData.stats;
+        // characterData = cst;
+        baseStat = playerStats.baseStat;
         actualStat = playerStats.actualStats;
-        experience = playerStats.experience;
-        level = playerStats.level;
         position = new float[3];
         position[0] = playerStats.transform.position.x;
         position[1] = playerStats.transform.position.y;
         position[2] = playerStats.transform.position.z;
+        experience = playerStats.experience;
+        level = playerStats.level;
         currentHealth = playerStats.CurrentHeal;
         score = playerStats.score;
-        // Store the name of the sprite
         spriteRendererSpriteName = playerStats.spriteRenderer.sprite.name;
-
-        // Store the name of the animator controller
         animatorControllerName = playerStats.animator.runtimeAnimatorController.name;
+        levelRanges = playerStats.levelRanges;
+        // inventory = playerStats.playerInventory.GetInventory();
     }
 }

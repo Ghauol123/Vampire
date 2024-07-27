@@ -52,7 +52,6 @@ public static class SaveSystem
                 if (stream.Length > 0)
                 {
                     PlayerData data = formatter.Deserialize(stream) as PlayerData;
-                                Debug.Log(data.characterName);
             Debug.Log(data.spriteRendererSpriteName);
             Debug.Log(data.animatorControllerName);
 

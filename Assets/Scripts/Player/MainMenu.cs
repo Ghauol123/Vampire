@@ -3,28 +3,24 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void NewGame()
+    public static MainMenu instance;
+    public void OnNewGame()
     {
-        // Start a new game
-        SaveSystem.DeleteSave();
+        Debug.Log("New Game");
         SceneManager.LoadScene("Menu");
+        DataPersistenceManager.instance.isNewgame = true;
+        DataPersistenceManager.instance.NewGameData();
     }
 
-    public void Continue()
+    public void OnContinue()
     {
-        // Continue from the last save
-        if (SaveSystem.SaveExists())
-        {
-            SceneManager.LoadScene("Game");
-        }
-        else
-        {
-            Debug.LogWarning("No save file found!");
-        }
+        Debug.Log("Continue");
+        DataPersistenceManager.instance.LoadGameData();
+        DataPersistenceManager.instance.isNewgame = false;
+        SceneManager.LoadScene("Game");
     }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+    public void ReturnMenu(){
+        SceneManager.LoadScene("Main Screen");
+        DataPersistenceManager.instance.SaveGameData();
     }
 }

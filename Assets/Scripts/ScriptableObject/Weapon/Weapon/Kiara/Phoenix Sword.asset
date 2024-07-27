@@ -18,6 +18,7 @@ MonoBehaviour:
   baseStats:
     name: Phoenix Sword
     description: Short ranged slash in front.
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -40,10 +41,10 @@ MonoBehaviour:
     number: 1
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   linearGrowth:
   - name: Level 2
     description: Increase damage by 20%
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -66,9 +67,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 3
     description: Increase attack area by 25%
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -91,9 +92,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 4
     description: Reduce the time between attacks by 15%.
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -116,9 +117,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 5
     description: Can hit twice per slash
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -141,9 +142,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 6
     description: Increase damage by 20%.
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -166,9 +167,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 6
     description: Increase damage by 20%.
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -191,10 +192,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   - name: Level 7
     description: Sword is engulfed in flames, and can hit many times. Also leave
       a burning fire under hit targets
+    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -217,5 +218,4 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
   randomGrowth: []

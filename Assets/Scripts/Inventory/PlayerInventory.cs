@@ -54,7 +54,7 @@ public class PlayerInventory : MonoBehaviour
         // newUpgrade.initialWeapon = playerStats.cst.StartingWeapon;
         // weaponData = playerStats.cst.StartingWeapon;
         // Thêm đối tượng mới vào vị trí đầu tiên trong danh sách
-        availableWeapons.Insert(0, playerStats.cst.StartingWeapon);
+        // availableWeapons.Insert(0, playerStats.cst.StartingWeapon);
     }
     //Check if the inventory has an item of a certaint type;
     public bool Has(ItemData type) {return Get(type);}
@@ -208,6 +208,17 @@ public class PlayerInventory : MonoBehaviour
         }
         return count;
     }
+    public void ClearInventory()
+{
+    foreach (var slot in weaponSlot)
+    {
+        slot.Clear();
+    }
+    foreach (var slot in passiveSlot)
+    {
+        slot.Clear();
+    }
+}
     // public void LevelUpWeapon(int slotIndex, int upgradeIndex){
     //     if(weaponSlot.Count > slotIndex){
     //         Weapon weapon = weaponSlot[slotIndex].item as Weapon;

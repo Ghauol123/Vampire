@@ -205,6 +205,16 @@ public bool isGameLoaded;
             }
         }
     }
+    public void SaveGameData(ref GameData data)
+    {
+        data.timeSurvival = stopWatchTime;
+    }
+
+    public void LoadGameData(GameData data)
+    {
+        stopWatchTime = data.timeSurvival;
+        DisplayTime();
+    }
     public void UpdateStopWatch()
     {
         stopWatchTime += Time.deltaTime;

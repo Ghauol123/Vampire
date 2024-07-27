@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Obsolete("This script is no longer used, please use EnemySpawnManager.cs instead.")]
 public class EnemySpawn : MonoBehaviour
 {
     [System.Serializable]

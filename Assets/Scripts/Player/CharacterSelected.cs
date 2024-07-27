@@ -8,6 +8,9 @@ public class CharacterSelected : MonoBehaviour
     // public int selectedCharacter;
     public static CharacterSelected instance;
     public CharacterData characterData;
+    
+    MainMenu mainMenu;
+    PlayerStats playerStats;
     // public GameObject[] skins;
 
     private void Awake() {
@@ -20,6 +23,8 @@ public class CharacterSelected : MonoBehaviour
             Debug.LogWarning("Extra"+ this + "Delete");
             Destroy(gameObject);
         }
+        mainMenu = FindObjectOfType<MainMenu>();
+        
     }
     public static CharacterData GetData(){
         if(instance && instance.characterData) return instance.characterData;
