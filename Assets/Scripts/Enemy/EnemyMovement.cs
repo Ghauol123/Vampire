@@ -10,14 +10,18 @@ public class EnemyMovement : MonoBehaviour
     Vector2 knockbackVelocity;
     float knockbackDuration;
     SpriteRenderer _spr;
+
+    public enum OutOffFrameAction {none, respawnAtEdge, despawn}
+    public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
+    protected bool spawnedOutOfFrame = false;
     private bool isFlipped = false;
     protected Rigidbody2D rb;
 
-    void Start()
+    protected virtual void Start()
     {
+        spawnedOutOfFrame = !SpawnManager.IsWithinCameraBounds(transform);
         rb = GetComponent<Rigidbody2D>();
         playermoving = FindObjectOfType<PlayerMoving>();
-        player = FindObjectOfType<PlayerStats>().transform;
         _spr = GetComponent<SpriteRenderer>();
         enemyStats = GetComponent<EnemyStats>();
     }
@@ -27,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
         LookAtPlayer();
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (knockbackDuration > 0)
         {
@@ -38,6 +42,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector2 direction = (player.position - transform.position).normalized;
             rb.velocity = direction * enemyStats.currentMoveSpeed;
+            HandleOutOfFrameAction();
         }
     }
 
@@ -69,5 +74,29 @@ public class EnemyMovement : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+    
+    // if the enemy falls outside of the frame, handle it
+    protected virtual void HandleOutOfFrameAction(){
+        // Handle the enemy when it is out of frame
+        if(!SpawnManager.IsWithinCameraBounds(transform)){
+            switch(outOffFrameAction){
+                case OutOffFrameAction.none : default:
+                    break;
+                case OutOffFrameAction.respawnAtEdge:
+                // if the enemy is outside the camera frame, teleport it back to the edge of the frame
+                    transform.position = SpawnManager.GeneratePosition();
+                    break;
+                case OutOffFrameAction.despawn:
+                    //Don't destroy if it is spawned outside the frame
+                    if(!spawnedOutOfFrame){
+                        Destroy(gameObject);
+                    }
+                    break;
+            }
+        }
+        else{
+            spawnedOutOfFrame = false;
+        }
     }
 }

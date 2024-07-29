@@ -9,7 +9,6 @@ public class EnemyStats : MonoBehaviour
     public float currentMoveSpeed;
     public float CurrentHealts;
     public float currentDamage;
-    float distanceDespawn = 20f;
     Transform playerMoving;
     PlayerStats PlayerStats;
     [Header("Damage Feedback")]
@@ -19,7 +18,9 @@ public class EnemyStats : MonoBehaviour
     Color originalColor;
     SpriteRenderer sr;
     EnemyMovement movement;
+    public static int count;
     private void Awake() {
+        count ++;
         currentDamage = est.Damage;
         CurrentHealts = est.maxhealt;
         currentMoveSpeed = est.MoveSpeed;
@@ -30,11 +31,6 @@ public class EnemyStats : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
         movement = GetComponent<EnemyMovement>();
-    }
-    private void Update() {
-        if(Vector2.Distance(transform.position,playerMoving.position) > distanceDespawn){
-            OnDespawnEnemy();
-        }
     }
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f){
         CurrentHealts -= dmg;
@@ -75,14 +71,6 @@ public class EnemyStats : MonoBehaviour
         }
     }
     private void OnDestroy() {
-        if(!gameObject.scene.isLoaded){
-            return;
-        }
-        EnemySpawn enemySpawn = FindObjectOfType<EnemySpawn>();
-        enemySpawn.OnEnemyKill();
-    }
-    public void OnDespawnEnemy(){
-        EnemySpawn enemySpawn = FindObjectOfType<EnemySpawn>();
-        transform.position = playerMoving.position + enemySpawn.spawningPosition[Random.Range(0,enemySpawn.spawningPosition.Count)].position;
+        count --;
     }
 }
