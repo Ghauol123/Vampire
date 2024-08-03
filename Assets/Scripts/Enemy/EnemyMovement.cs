@@ -24,6 +24,7 @@ public class EnemyMovement : MonoBehaviour
         playermoving = FindObjectOfType<PlayerMoving>();
         _spr = GetComponent<SpriteRenderer>();
         enemyStats = GetComponent<EnemyStats>();
+        player = playermoving.transform;
     }
 
     void Update()
@@ -42,7 +43,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector2 direction = (player.position - transform.position).normalized;
             rb.velocity = direction * enemyStats.currentMoveSpeed;
-            HandleOutOfFrameAction();
+            // HandleOutOfFrameAction();
         }
     }
 

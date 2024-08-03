@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2053434}
   - component: {fileID: 2053433}
+  - component: {fileID: 2053435}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
@@ -226,6 +227,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2053435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053432}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b743eb94e4ad94e9f14b7c9842030f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - {fileID: 11400000, guid: 321d8d7f1e8669c46b17028340dc02a0, type: 2}
+  referenceCamera: {fileID: 519420031}
+  maximumEnemies: 300
 --- !u!1 &7449234
 GameObject:
   m_ObjectHideFlags: 0
