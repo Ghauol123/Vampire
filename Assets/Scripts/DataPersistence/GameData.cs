@@ -9,6 +9,7 @@ public class GameData
     public CharacterData.Stats actualStat;
     public Vector3 playerPosition;
     public SerializableDictionary<string, bool> expCollected;
+    public float magnet;
     public int experience;
     public int level;
     public float currentHealth;
@@ -21,6 +22,12 @@ public class GameData
     public List<PassiveData> passiveItemsInSlots;
     public List<WeaponData> availableWeapons;
     public List<PassiveData> availablePassiveItems;
+    public List<int> weaponLevels; // Store the levels of weapons
+    public List<int> passiveLevels; // Store the levels of passive items
+    public List<EnemiesData> enemiesData;
+    public List<WaveDataSave> waveDataSaves = new List<WaveDataSave>();
+
+
 
     public GameData(){
         baseStat = actualStat = new CharacterData.Stats();
@@ -37,6 +44,12 @@ public class GameData
         passiveItemsInSlots = new List<PassiveData>();
         availableWeapons = new List<WeaponData>();
         availablePassiveItems = new List<PassiveData>();
+        expCollected = new SerializableDictionary<string, bool>();
+        magnet = 0;
+        weaponLevels = new List<int>();
+        passiveLevels = new List<int>();
+        enemiesData = new List<EnemiesData>();
+        waveDataSaves = new List<WaveDataSave>();
     }
 }
 

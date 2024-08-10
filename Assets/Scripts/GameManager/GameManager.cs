@@ -48,7 +48,6 @@ public bool isGameLoaded;
     public bool chosingUpgrade {get{return currentState == GameState.LevelUp;}}
 
 
-
     // public GameObject player;
     PlayerStats playerStats;
     // Start is called before the first frame update

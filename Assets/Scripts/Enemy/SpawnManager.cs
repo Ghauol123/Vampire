@@ -14,6 +14,11 @@ public class SpawnManager : MonoBehaviour
     float spawnTimer;
     float currentWaveDuration = 0f;
     public static SpawnManager instance;
+    private const float MaxX = 12f;
+    private const float MaxY = 6f;
+    private const float MinX = -12f; // Assuming a symmetric map, adjust if needed
+    private const float MinY = -6f;  // Assuming a symmetric map, adjust if needed
+
     private void Start() {
         if(instance) Debug.Log("There are multiple SpawnManagers in the scene");
         instance = this;
@@ -42,12 +47,19 @@ public class SpawnManager : MonoBehaviour
             GameObject[] enemies = waves[currentWaveIndex].GetSpawnPrefabs(EnemyStats.count);
             foreach(GameObject enemy in enemies){
                 if(!CanSpawn()) continue;
-                Instantiate(enemy, GeneratePosition(), Quaternion.identity);
+                Vector2 spawnPosition = GenerateRandomPosition();
+                Instantiate(enemy, spawnPosition, Quaternion.identity);
                 currentWaveSpawnCount++;
             }
             // Regenerate the spawn timer
             spawnTimer += waves[currentWaveIndex].GetSpawnTime();
         }
+    }
+        private Vector2 GenerateRandomPosition()
+    {
+        float randomX = Random.Range(MinX, MaxX);
+        float randomY = Random.Range(MinY, MaxY);
+        return new Vector2(randomX, randomY);
     }
     bool CanSpawn(){
         //Don't spawn if we have reached the maximum number of enemies
@@ -86,36 +98,40 @@ public class SpawnManager : MonoBehaviour
     private void Reset() {
         referenceCamera = Camera.main;
     }
-    public static Vector3 GeneratePosition(){
-        //if we do not have a reference camera, create one
-        if(!instance.referenceCamera) instance.referenceCamera = Camera.main;
+// public static Vector3 GeneratePosition(){
+//     // if we do not have a reference camera, create one
+//     if(!instance.referenceCamera) instance.referenceCamera = Camera.main;
 
-        //if the reference camera is not orthographic, log a warning
-        if(!instance.referenceCamera.orthographic){
-            Debug.LogWarning("The reference camera is not orthographic, the spawn position may not be correct");
-        }
+//     // if the reference camera is not orthographic, log a warning
+//     if(!instance.referenceCamera.orthographic){
+//         Debug.LogWarning("The reference camera is not orthographic, the spawn position may not be correct");
+//     }
 
-        // generate a position outside of camera boundaries using 2 random numbers
-        float x = Random.Range(0f,1f), y = Random.Range(0f,1f);
+//     // generate a position outside of camera boundaries using 2 random numbers
+//     float x = Random.Range(0f,1f), y = Random.Range(0f,1f);
 
-        // then, randomly choose whether we want to round the x or the y value
-        switch(Random.Range(0,2)){
-            case 0 : default:
-                return instance.referenceCamera.ViewportToWorldPoint(new Vector3(Mathf.Round(x),y));
-            case 1:
-                return instance.referenceCamera.ViewportToWorldPoint(new Vector3(x,Mathf.Round(y)));
-        }
-    }
+//     // Set the Z value to the desired spawn distance from the camera
+//     float z = instance.referenceCamera.nearClipPlane + 1; // You can adjust this value as needed
 
-    //Checking if the enemy is within the camera boundaries
-    public static bool IsWithinCameraBounds(Transform checkObject){
-        //Get the camera to check if we are within boundaries
-        Camera c = instance && instance.referenceCamera ? instance.referenceCamera : Camera.main;
+//     // then, randomly choose whether we want to round the x or the y value
+//     switch(Random.Range(0,2)){
+//         case 0 : default:
+//             return instance.referenceCamera.ViewportToWorldPoint(new Vector3(Mathf.Round(x), y, z));
+//         case 1:
+//             return instance.referenceCamera.ViewportToWorldPoint(new Vector3(x, Mathf.Round(y), z));
+//     }
+// }
 
-        Vector2 viewport = c.WorldToViewportPoint(checkObject.position);
 
-        if(viewport.x < 0f || viewport.x > 1f) return false;
-        if(viewport.y < 0f || viewport.y > 1f) return false;
-        return true;
-    }
+//     //Checking if the enemy is within the camera boundaries
+//     public static bool IsWithinCameraBounds(Transform checkObject){
+//         //Get the camera to check if we are within boundaries
+//         Camera c = instance && instance.referenceCamera ? instance.referenceCamera : Camera.main;
+
+//         Vector2 viewport = c.WorldToViewportPoint(checkObject.position);
+
+//         if(viewport.x < 0f || viewport.x > 1f) return false;
+//         if(viewport.y < 0f || viewport.y > 1f) return false;
+//         return true;
+//     }
 }

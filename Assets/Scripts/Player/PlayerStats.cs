@@ -145,10 +145,22 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
         Recover();
         updateLevelDisplay();
     }
-    public void LoadGameData(GameData gameData)
+public void LoadGameData(GameData gameData)
 {
+    PlayerStats playerStats = GetComponent<PlayerStats>();
+    if (playerStats == null)
+    {
+        Debug.LogError("Thành phần PlayerStats bị thiếu!");
+        return;
+    }
+
+    // Initialize other components
+    playerPickUp = GetComponentInChildren<PlayerPickUp>();
     spriteRenderer = GetComponent<SpriteRenderer>();
     animator = GetComponent<Animator>();
+    playerInventory = GetComponent<PlayerInventory>();
+
+    // Set basic stats and positions
     transform.position = gameData.playerPosition;
     baseStat = gameData.baseStat;
     actualStats = gameData.actualStat;
@@ -157,7 +169,26 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     currentHeal = gameData.currentHealth;
     score = gameData.score;
     gameManager.stopWatchTime = gameData.timeSurvival;
+    actualStats.magnet = gameData.magnet;
+    playerPickUp.SetMagnet(gameData.magnet);
 
+    // Load sprites and animator controllers
+    LoadSpriteAndAnimator(gameData);
+
+    // Clear and set inventory
+    playerInventory.ClearInventory();
+    playerInventory.availableWeapons = new List<WeaponData>(gameData.availableWeapons);
+    playerInventory.availablePassive = new List<PassiveData>(gameData.availablePassiveItems);
+    
+    // Add weapons and passives
+    AddInventoryItems(gameData);
+    SetExperienceCapForLevel(level);
+    Debug.Log($"Experience Cap set to: {experienceCap} for Level: {level}");
+    updateExpBar();
+}
+
+private void LoadSpriteAndAnimator(GameData gameData)
+{
     Sprite loadedSprite = Resources.Load<Sprite>(gameData.spriteRendererSpriteName);
     if (loadedSprite != null)
     {
@@ -177,23 +208,67 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     {
         Debug.LogWarning("Animator Controller not found: " + gameData.animatorControllerName);
     }
-
-    playerInventory = GetComponent<PlayerInventory>();
-    playerInventory.ClearInventory();
-    playerInventory.availableWeapons = new List<WeaponData>(gameData.availableWeapons);
-    playerInventory.availablePassive = new List<PassiveData>(gameData.availablePassiveItems);
-    
-    foreach (WeaponData weapon in gameData.weaponsInSlots)
-    {
-        playerInventory.Add(weapon);
-    }
-    foreach (PassiveData passive in gameData.passiveItemsInSlots)
-    {
-        playerInventory.Add(passive);
-    }
 }
 
-public void SaveGameData(ref GameData gameData)
+    private void AddInventoryItems(GameData gameData)
+    {
+        foreach (WeaponData weapon in gameData.weaponsInSlots)
+        {
+            playerInventory.Add(weapon);
+        }
+
+        foreach (PassiveData passive in gameData.passiveItemsInSlots)
+        {
+            playerInventory.Add(passive);
+        }
+    for (int i = 0; i < gameData.weaponsInSlots.Count; i++)
+        {
+            WeaponData weaponData = gameData.weaponsInSlots[i];
+            int level = gameData.weaponLevels[i];
+            Weapon weapon = playerInventory.Get(weaponData) as Weapon;
+            if (weapon != null)
+            {
+                weapon.SetLevel(level);
+            }
+        }
+
+        for (int i = 0; i < gameData.passiveItemsInSlots.Count; i++)
+        {
+            PassiveData passiveData = gameData.passiveItemsInSlots[i];
+            int level = gameData.passiveLevels[i];
+            Passive passive = playerInventory.Get(passiveData) as Passive;
+            if (passive != null)
+            {
+                passive.SetLevel(level);
+            }
+        }
+    }
+
+    // public void LoadEnemiesAndWave(GameData gameData){
+    //     foreach (EnemiesData enemyData in gameData.enemiesData)
+    // {
+    //     GameObject enemyPrefab = Resources.Load<GameObject>(enemyData.enemyPrefabName);
+    //     if (enemyPrefab != null)
+    //     {
+    //         GameObject enemyObject = Instantiate(enemyPrefab, enemyData.position, Quaternion.identity);
+    //         EnemyStats enemyStats = enemyObject.GetComponent<EnemyStats>();
+    //         enemyStats.CurrentHealts = enemyData.currentHealth;
+    //         enemyStats.currentMoveSpeed = enemyData.currentMoveSpeed;
+    //         enemyStats.currentDamage = enemyData.currentDamage;
+    //     }
+    // }
+    
+    // // Load wave data
+    // if (gameData.waveDataSave != null)
+    // {
+    //     WaveData.instance.spawnCount = gameData.waveDataSave.spawnedEnemiesCount;
+    //     gameManager.remainingTime = gameData.waveDataSave.remainingTime;
+    // }
+
+    // }
+
+
+   public void SaveGameData(ref GameData gameData)
 {
     spriteRenderer = GetComponent<SpriteRenderer>();
     animator = GetComponent<Animator>();
@@ -207,70 +282,56 @@ public void SaveGameData(ref GameData gameData)
     gameData.spriteRendererSpriteName = spriteRenderer.sprite.name;
     gameData.animatorControllerName = animator.runtimeAnimatorController.name;
     gameData.timeSurvival = gameManager.stopWatchTime;
-
+    gameData.magnet = actualStats.magnet;
     gameData.weaponsInSlots.Clear();
-    foreach (PlayerInventory.Slot slot in playerInventory.weaponSlot)
+    gameData.passiveItemsInSlots.Clear();
+    gameData.weaponLevels.Clear();
+    gameData.passiveLevels.Clear();
+        foreach (PlayerInventory.Slot slot in playerInventory.weaponSlot)
     {
         if (slot.item != null && slot.item is Weapon weapon)
         {
             gameData.weaponsInSlots.Add((WeaponData)weapon.data);
+            gameData.weaponLevels.Add(weapon.currentLevel); // Save the weapon level
+            Debug.Log(weapon.currentStats.number);
         }
     }
 
-    gameData.passiveItemsInSlots.Clear();
     foreach (PlayerInventory.Slot slot in playerInventory.passiveSlot)
     {
         if (slot.item != null && slot.item is Passive passive)
         {
             gameData.passiveItemsInSlots.Add((PassiveData)passive.data);
+            gameData.passiveLevels.Add(passive.currentLevel); // Save the passive level
         }
     }
+
+
 
     gameData.availableWeapons = new List<WeaponData>(playerInventory.availableWeapons);
     gameData.availablePassiveItems = new List<PassiveData>(playerInventory.availablePassive);
+    // EnemyStats.SaveEnemies();
+    // gameData.enemiesData = new List<EnemiesData>(EnemyStats.enemiesData);
+    
+    // // Save wave data
+    // gameData.waveDataSaves.Clear();
+    // foreach (var wave in FindObjectsOfType<WaveData>())
+    // {
+    //     WaveDataSave save = new WaveDataSave
+    //     {
+    //         remainingTime = TimeLimit - stopWatchTime, // Assuming remainingTime is the time left for the wave
+    //         spawnedEnemiesCount = wave.spawnCount,
+    //         startingEnemyCount = wave.startingEnemyCount,
+    //         maxEnemies = wave.maxEnemies,
+    //         exitCondition = wave.exitCondition,
+    //         mustKillAllEnemies = wave.mustKillAllEnemies
+    //     };
+    //     gameData.waveDataSaves.Add(save);
+    // }
+
+
 }
 
-    public void SaveGame()
-    {
-        SaveSystem.SaveGame(cst, this);
-    }
-
-    public void LoadGame()
-    {
-        PlayerData data = SaveSystem.LoadGame();
-        if (data != null)
-        {
-            // Khôi phục các thuộc tính của PlayerStats
-            baseStat = data.baseStat;
-            actualStats = data.actualStat;
-            experience = data.experience;
-            level = data.level;
-            transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
-            currentHeal = data.currentHealth;
-            score = data.score;
-
-            // Cập nhật sprite và animator
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = Resources.Load<Sprite>(data.spriteRendererSpriteName);
-            animator = GetComponent<Animator>();
-            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(data.animatorControllerName);
-
-            // Đảm bảo cập nhật experienceCap dựa trên cấp độ hiện tại
-            experienceCap = levelRanges[0].experienceCapIncrese;
-
-            // Khôi phục kho đồ và các thành phần khác nếu cần
-            playerInventory = GetComponent<PlayerInventory>();
-            playerPickUp = GetComponentInChildren<PlayerPickUp>();
-            playerPickUp.SetMagnet(actualStats.magnet);
-
-            GameManager.instance.AssignCharacter(cst);
-            GameManager.instance.Icon(cst);
-        }
-        else
-        {
-            Debug.LogError("Failed to load game data.");
-        }
-    }
 
     public void RecalculatedStats()
     {
@@ -307,26 +368,52 @@ public void SaveGameData(ref GameData gameData)
         }
     }
 
+    // public void levelCheckerUp()
+    // {
+    //     if (experience >= experienceCap)
+    //     {
+    //         level++;
+    //         experience -= experienceCap;
+    //         int experienceCapIncrese = 0;
+
+    //         foreach (levelRange range in levelRanges)
+    //         {
+    //             if (level >= range.startLevel && level <= range.endLevel)
+    //             {
+    //                 experienceCapIncrese = range.experienceCapIncrese;
+    //                 break;
+    //             }
+    //         }
+    //         experienceCap += experienceCapIncrese;
+    //         GameManager.instance.StartLevelUp();
+    //         updateLevelDisplay();
+    //         if(experience >= experienceCap) levelCheckerUp();
+    //     }
+    // }
+        private void SetExperienceCapForLevel(int currentLevel)
+    {
+        foreach (levelRange range in levelRanges)
+        {
+            if (currentLevel >= range.startLevel && currentLevel <= range.endLevel)
+            {
+                experienceCap = range.experienceCapIncrese;
+                break;
+            }
+        }
+    }
+
     public void levelCheckerUp()
     {
-        if (experience >= experienceCap)
+        while (experience >= experienceCap)
         {
             level++;
             experience -= experienceCap;
-            int experienceCapIncrese = 0;
+            
+            // Set experience cap for new level
+            SetExperienceCapForLevel(level);
 
-            foreach (levelRange range in levelRanges)
-            {
-                if (level >= range.startLevel && level <= range.endLevel)
-                {
-                    experienceCapIncrese = range.experienceCapIncrese;
-                    break;
-                }
-            }
-            experienceCap += experienceCapIncrese;
             GameManager.instance.StartLevelUp();
             updateLevelDisplay();
-            if(experience >= experienceCap) levelCheckerUp();
         }
     }
 
@@ -359,11 +446,19 @@ public void SaveGameData(ref GameData gameData)
         healBar.fillAmount = currentHeal / actualStats.maxHeal;
     }
 
-    public void updateExpBar()
+public void updateExpBar()
+{
+    // Ensure that experienceCap is not zero to avoid division by zero errors
+    if (experienceCap > 0)
     {
-
-        ExpBar.fillAmount = (float)experience/experienceCap;
+        ExpBar.fillAmount = (float)experience / experienceCap;
     }
+    else
+    {
+        ExpBar.fillAmount = 0f; // Or some other default value
+    }
+}
+
 
     public void updateLevelDisplay()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WaveData", menuName = "ScriptableObject/WaveData", order = 1)]
 public class WaveData : SpawnData
 {
+    
     [Header("Wave Data")]
     [Tooltip("If there are less than this number of enemies, we will spawn until we get there")]
     [Min(0)] public int startingEnemyCount = 0;
@@ -36,4 +37,17 @@ public class WaveData : SpawnData
         }
         return result;
     }
+    public WaveDataSave SaveWaveData(float currentRemainingTime)
+{
+    return new WaveDataSave
+    {
+        remainingTime = currentRemainingTime,
+        spawnedEnemiesCount = spawnCount,
+        startingEnemyCount = startingEnemyCount,
+        maxEnemies = maxEnemies,
+        exitCondition = exitCondition,
+        mustKillAllEnemies = mustKillAllEnemies
+    };
+}
+
 }

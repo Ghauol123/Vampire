@@ -18,6 +18,12 @@ public class PlayerMoving : MonoBehaviour
     Rigidbody2D rb;
     PlayerStats playerStats;
 
+    // Limits for the movement area
+    private const float MaxX = 12f;
+    private const float MaxY = 6f;
+    private const float MinX = -12f; // Assuming a symmetric map, adjust if needed
+    private const float MinY = -6f;  // Assuming a symmetric map, adjust if needed
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -35,37 +41,18 @@ public class PlayerMoving : MonoBehaviour
     {
         Move();
     }
+    
     void InputManagement()
     {
-        if(GameManager.instance.IsGameOver){
+        if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp){
             return;
         }
-        else if(GameManager.instance.IsGamePause){
-            return;
-        }
-        else if(GameManager.instance.IsLevelUp){
-            return;
-        }
+
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
-        var dashInput = Input.GetButtonDown("Dash");
 
         moveDir = new Vector2(moveX, moveY).normalized;
-        // if(dashInput && _canDash){
-        //     _isDashing = true;
-        //     _canDash = false;
-        //     _trailrender.emitting = true;
-        //     _dashingDir = moveDir;
-        //     if(_dashingDir == Vector2.zero){
-        //         _dashingDir = new Vector2(transform.localScale.x,0);
-        //     }
-        //     StartCoroutine(StopDashing());
-        // }
-        // _animator.SetBool("IsDashing",_isDashing);
-        // if(_isDashing){
-        //     rb.velocity = _dashingDir.normalized * _dashingVelocity;
-        //     return;
-        // }
+
         if (moveDir != Vector2.zero)
         {
             if (moveDir.x != 0)
@@ -86,25 +73,19 @@ public class PlayerMoving : MonoBehaviour
             }
         }
     }
+    
     void Move()
     {
-        //     Vector2 movement = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
-        //     rb.MovePosition(rb.position + movement * Time.fixedDeltaTime)
-        // rb.velocity = new Vector2(moveDir.x * playerStats.currentSpeed, moveDir.y * playerStats.currentSpeed);
-        // Vector2 newPos = Vector2.Lerp(transform.parent.position, moveDir, playerStats.currentSpeed);
-        // transform.parent.position = newPos;
-        if(GameManager.instance.IsGameOver){
+        if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp){
             return;
         }
-        else if(GameManager.instance.IsGamePause){
-            return;
-        }
-        else if(GameManager.instance.IsLevelUp){
-            return;
-        }
-        // Vector2 movement = moveDir * playerStats.Stats.moveSpeed*Time.deltaTime;
-        // transform.Translate(movement);
-        rb.velocity = moveDir * DEFAULT_MOVESPEED *playerStats.Stats.moveSpeed;
-        // rb.velocity = new Vector2(moveDir.x*DEFAULT_MOVESPEED*playerStats.Stats.moveSpeed,moveDir.y*DEFAULT_MOVESPEED*playerStats.Stats.moveSpeed);
+
+        Vector2 newPosition = rb.position + moveDir * DEFAULT_MOVESPEED * playerStats.Stats.moveSpeed * Time.fixedDeltaTime;
+
+        // Check if the new position is within the limits
+        newPosition.x = Mathf.Clamp(newPosition.x, MinX, MaxX);
+        newPosition.y = Mathf.Clamp(newPosition.y, MinY, MaxY);
+
+        rb.MovePosition(newPosition);
     }
 }

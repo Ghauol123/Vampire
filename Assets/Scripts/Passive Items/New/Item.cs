@@ -29,4 +29,5 @@ public class Item : MonoBehaviour
     //What effects you receive on equipping an item
     public virtual void onEquip(){}
     public virtual void OnUnEquip(){}
+
 }

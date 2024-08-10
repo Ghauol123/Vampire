@@ -48,22 +48,11 @@ public class CharacterData : ScriptableObject
             // s1.growth += s2.growth;
             // s1.greed += s2.greed;
             // s1.curse += s2.curse;
-            s1.recovery += s2.recovery;
+            s1.magnet += s2.magnet;
             return s1;
         }
     }
     public  Stats stats = new Stats{
         maxHeal = 100, moveSpeed = 1, might = 1, amount = 1, area = 1, cooldown =1,
     };
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

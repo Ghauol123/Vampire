@@ -34,6 +34,7 @@ public class EnemyStats : MonoBehaviour
     }
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f){
         CurrentHealts -= dmg;
+        Debug.Log(dmg);
         StartCoroutine(DamageFlash());
         if(knockbackForce > 0){
             Vector2 dir = (Vector2)transform.position - sourcePosition;
@@ -73,4 +74,26 @@ public class EnemyStats : MonoBehaviour
     private void OnDestroy() {
         count --;
     }
+    public EnemiesData SaveEnemyData()
+{
+    return new EnemiesData
+    {
+        position = transform.position,
+        currentHealth = CurrentHealts,
+        currentMoveSpeed = currentMoveSpeed,
+        currentDamage = currentDamage,
+        enemyPrefabName = est.name // Assuming the scriptable object has the same name as the prefab
+    };
+}
+public static List<EnemiesData> enemiesData = new List<EnemiesData>();
+
+public void SaveEnemies()
+{
+    enemiesData.Clear();
+    foreach (EnemyStats enemy in FindObjectsOfType<EnemyStats>())
+    {
+        enemiesData.Add(enemy.SaveEnemyData());
+    }
+}
+
 }

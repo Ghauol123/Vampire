@@ -17,35 +17,47 @@ MonoBehaviour:
   baseStats:
     name: Just Bandage
     description: Increases maximum HP by 10. Increases recovery by 10%
-    type: Healing
     Icon: {fileID: 0}
+    type: Healing
     boots:
-      maxHeal: 2
+      maxHeal: 10
       recovery: 1
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
+      area: 0
+      amount: 0
+      cooldown: 0
       magnet: 0
+      revival: 0
   growth:
   - name: Level 2
     description: Increase Max HP by 20.  Increases recovery 15%
-    type: 
     Icon: {fileID: 0}
+    type: 
     boots:
-      maxHeal: 1
-      recovery: 0.5
+      maxHeal: 15
+      recovery: 1
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
+      area: 0
+      amount: 0
+      cooldown: 0
       magnet: 0
+      revival: 0
   - name: Level 3
     description: Increase Max HP by 30.  Increases recovery 20%
-    type: 
     Icon: {fileID: 0}
+    type: 
     boots:
-      maxHeal: 1
+      maxHeal: 15
       recovery: 0.5
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
+      area: 0
+      amount: 0
+      cooldown: 0
       magnet: 0
+      revival: 0

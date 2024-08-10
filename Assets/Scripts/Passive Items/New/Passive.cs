@@ -7,7 +7,7 @@ public class Passive : Item
 {
     [HideInInspector]
     public ItemData data;
-    [SerializeField] CharacterData.Stats currentBoots;
+    [SerializeField] public CharacterData.Stats currentBoots;
     [System.Serializable]
     public class Modifier : LevelData{
         public string type;
@@ -32,4 +32,40 @@ public class Passive : Item
         currentBoots += ((Modifier)data.GetLevelData(++currentLevel)).boots;
         return true;
     }
+    public virtual void SetLevel(int level)
+{
+    // Ensure the level is within valid bounds
+    if (level < 1 || level > data.maxLevel)
+    {
+        Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
+        return;
+    }
+
+    // Set the current level
+    currentLevel = level;
+
+    // Reset boots to base stats
+    currentBoots = ((PassiveData)data).baseStats.boots;
+    // Apply cumulative stats for each level up to the current level
+    // for (int i = 1; i < currentLevel; i++)
+    // {
+    //     if(currentLevel == 1){
+    //         return;
+    //     }
+    //     else{
+    //         currentBoots += ((Modifier)data.GetLevelData(++i)).boots;
+    //     }
+    // }
+    if(level == 1){
+        return;
+    }
+    else{
+        currentBoots += ((Modifier)data.GetLevelData(++level)).boots;
+    }
+    // currentBoots += ((Modifier)data.GetLevelData(++currentLevel)).boots;
+    owner.RecalculatedStats();
+
+    Debug.Log($"Set level for {data.name} to {currentLevel}. Current boots: {currentBoots.maxHeal}"); 
+}
+
 }

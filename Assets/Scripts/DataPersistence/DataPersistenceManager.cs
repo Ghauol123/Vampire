@@ -81,7 +81,7 @@ public class DataPersistenceManager : MonoBehaviour
     }
     public void LoadGameData()
     {
-        gameData = fileDataHandle.Load();
+        gameData = fileDataHandle.Load(gameData);
         if(gameData == null){
             Debug.LogWarning("gameData is null");
             return;

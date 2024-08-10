@@ -44,7 +44,7 @@ public abstract class Weapon : Item
             return damage + Random.Range(0,damageVariance);
         }
     }
-    protected Stats currentStats;
+    [SerializeField]public Stats currentStats;
     [HideInInspector]
     public ItemData data;
     protected float currentCooldown;
@@ -97,7 +97,7 @@ public abstract class Weapon : Item
         // Might is a multiplier for the damage
         return currentStats.getDamage() *owner.Stats.might;
     }
-    public virtual Stats GetStats(){return currentStats;}
+        public virtual Stats GetStats(){return currentStats;}
 
     public virtual bool ActivateCooldown(bool strict = false){
         // If we are in strict mode, we can only activate cooldown if it is already 0
@@ -107,5 +107,50 @@ public abstract class Weapon : Item
         // Cooldown is reduced by the cooldown reduction stat
         currentCooldown = Mathf.Min(actualCooldown,currentCooldown*actualCooldown);
         return true;
-    }    
+    }
+public virtual void SetLevel(int level)
+{
+    // Ensure the level is within valid bounds
+    if (level < 1 || level > data.maxLevel)
+    {
+        Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
+        return;
+    }
+
+    // Set the current level
+    currentLevel = level;
+    Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: Damage: {currentStats.damage}, Number: {currentStats.number}");
+    // Check if the data is available
+    if (data == null)
+    {
+        Debug.LogWarning("Weapon data is not initialized.");
+        return;
+    }
+    // // Accumulate stats for each level up to the current level  
+    //     for (int i = 2; i <= currentLevel; i++)
+    // {
+    //     currentStats += (Stats)data.GetLevelData(i);
+    // }
+    Stats currentStat = ((WeaponData)data).baseStats;
+    for (int i = 2; i <= level; i++)
+    {
+        Weapon.Stats levelStats = (Stats)data.GetLevelData(i);
+        Debug.Log($"Level {i} stats: Damage: {levelStats.damage}, Number: {levelStats.number}");
+        // currentStat.damage += levelStats.damage;
+        // currentStat.number += levelStats.number;
+        // currentStat.damageVariance += levelStats.damageVariance;
+        // currentStat.area += levelStats.area;
+        // currentStat.speed += levelStats.speed;
+        // currentStat.lifespan += levelStats.lifespan;
+        // currentStat.number += levelStats.number;
+        // currentStat.piercing += levelStats.piercing;
+        // currentStat.projectileInterval += levelStats.projectileInterval;
+        // currentStat.knockback += levelStats.knockback;
+        // currentStat.cooldown += levelStats.cooldown;
+        currentStat += levelStats;
+    }
+    // Optionally reinitialize cooldown if necessary
+    currentCooldown = currentStats.cooldown;
+    Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: Damage: {currentStat.damage}, Number: {currentStat.number}");
+}
 }
