@@ -5,18 +5,29 @@ using UnityEngine;
 [System.Serializable]
 public class WaveDataSave
 {
-    public float remainingTime; // Thời gian còn lại của wave
-    public uint spawnedEnemiesCount; // Số lượng kẻ thù đã xuất hiện
-    public int startingEnemyCount; // Số lượng kẻ thù ban đầu
-    public uint maxEnemies; // Số lượng kẻ thù tối đa
-    public WaveData.ExitCondition exitCondition; // Điều kiện kết thúc wave
-    public bool mustKillAllEnemies; // Yêu cầu tiêu diệt hết kẻ thù để kết thúc wave
-    public WaveDataSave(){
-        remainingTime = 0;
-        spawnedEnemiesCount = 0;
+    public int startingEnemyCount;
+    public uint maxEnemies;
+    public WaveData.ExitCondition exitCondition;
+    public bool mustKillAllEnemies;
+    public uint spawnCount;
+    public string possibleSpawnPrefabNames;
+    public Vector2 spawnTime;
+    public Vector2Int spawnPerTic;
+    public float spawnDuration;
+    public int timeRemaining;
+    public int enemiesSpawned;
+    public WaveDataSave()
+    {
         startingEnemyCount = 0;
         maxEnemies = 0;
         exitCondition = 0;
         mustKillAllEnemies = false;
+        spawnCount = 0;
+        possibleSpawnPrefabNames = "";
+        spawnTime = Vector2.zero;
+        spawnPerTic = Vector2Int.zero;
+        spawnDuration = 0;
+        timeRemaining = 0;
+        enemiesSpawned = 0;
     }
 }

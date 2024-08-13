@@ -74,6 +74,7 @@ public class EnemyStats : MonoBehaviour
     private void OnDestroy() {
         count --;
     }
+
     public EnemiesData SaveEnemyData()
 {
     return new EnemiesData

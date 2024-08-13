@@ -185,6 +185,7 @@ public void LoadGameData(GameData gameData)
     SetExperienceCapForLevel(level);
     Debug.Log($"Experience Cap set to: {experienceCap} for Level: {level}");
     updateExpBar();
+    LoadEnemiesAndWave(gameData);
 }
 
 private void LoadSpriteAndAnimator(GameData gameData)
@@ -244,30 +245,21 @@ private void LoadSpriteAndAnimator(GameData gameData)
         }
     }
 
-    // public void LoadEnemiesAndWave(GameData gameData){
-    //     foreach (EnemiesData enemyData in gameData.enemiesData)
-    // {
-    //     GameObject enemyPrefab = Resources.Load<GameObject>(enemyData.enemyPrefabName);
-    //     if (enemyPrefab != null)
-    //     {
-    //         GameObject enemyObject = Instantiate(enemyPrefab, enemyData.position, Quaternion.identity);
-    //         EnemyStats enemyStats = enemyObject.GetComponent<EnemyStats>();
-    //         enemyStats.CurrentHealts = enemyData.currentHealth;
-    //         enemyStats.currentMoveSpeed = enemyData.currentMoveSpeed;
-    //         enemyStats.currentDamage = enemyData.currentDamage;
-    //     }
-    // }
-    
-    // // Load wave data
-    // if (gameData.waveDataSave != null)
-    // {
-    //     WaveData.instance.spawnCount = gameData.waveDataSave.spawnedEnemiesCount;
-    //     gameManager.remainingTime = gameData.waveDataSave.remainingTime;
-    // }
-
-    // }
-
-
+    public void LoadEnemiesAndWave(GameData gameData){
+        foreach (EnemiesData enemyData in gameData.enemiesData)
+    {
+        GameObject enemyPrefab = Resources.Load<GameObject>(enemyData.enemyPrefabName);
+        if (enemyPrefab != null)
+        {
+            GameObject enemyObject = Instantiate(enemyPrefab, enemyData.position, Quaternion.identity);
+            EnemyStats enemyStats = enemyObject.GetComponent<EnemyStats>();
+            enemyStats.CurrentHealts = enemyData.currentHealth;
+            enemyStats.currentMoveSpeed = enemyData.currentMoveSpeed;
+            enemyStats.currentDamage = enemyData.currentDamage;
+        }
+        Debug.Log(enemyData.enemyPrefabName);
+    }
+    }
    public void SaveGameData(ref GameData gameData)
 {
     spriteRenderer = GetComponent<SpriteRenderer>();
@@ -310,27 +302,11 @@ private void LoadSpriteAndAnimator(GameData gameData)
 
     gameData.availableWeapons = new List<WeaponData>(playerInventory.availableWeapons);
     gameData.availablePassiveItems = new List<PassiveData>(playerInventory.availablePassive);
-    // EnemyStats.SaveEnemies();
-    // gameData.enemiesData = new List<EnemiesData>(EnemyStats.enemiesData);
-    
-    // // Save wave data
-    // gameData.waveDataSaves.Clear();
-    // foreach (var wave in FindObjectsOfType<WaveData>())
-    // {
-    //     WaveDataSave save = new WaveDataSave
-    //     {
-    //         remainingTime = TimeLimit - stopWatchTime, // Assuming remainingTime is the time left for the wave
-    //         spawnedEnemiesCount = wave.spawnCount,
-    //         startingEnemyCount = wave.startingEnemyCount,
-    //         maxEnemies = wave.maxEnemies,
-    //         exitCondition = wave.exitCondition,
-    //         mustKillAllEnemies = wave.mustKillAllEnemies
-    //     };
-    //     gameData.waveDataSaves.Add(save);
-    // }
-
-
-}
+    EnemyStats enemyStats = new EnemyStats();
+    enemyStats.SaveEnemies();
+    gameData.enemiesData = new List<EnemiesData>(EnemyStats.enemiesData);
+    SpawnManager.instance.SaveWaveData(ref gameData);
+    }
 
 
     public void RecalculatedStats()

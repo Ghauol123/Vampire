@@ -25,7 +25,8 @@ public class GameData
     public List<int> weaponLevels; // Store the levels of weapons
     public List<int> passiveLevels; // Store the levels of passive items
     public List<EnemiesData> enemiesData;
-    public List<WaveDataSave> waveDataSaves = new List<WaveDataSave>();
+    public List<WaveDataSave> waveDataList;
+    public int currentWaveIndex;
 
 
 
@@ -49,7 +50,8 @@ public class GameData
         weaponLevels = new List<int>();
         passiveLevels = new List<int>();
         enemiesData = new List<EnemiesData>();
-        waveDataSaves = new List<WaveDataSave>();
+        waveDataList = new List<WaveDataSave>();
+        currentWaveIndex = 0;
     }
 }
 

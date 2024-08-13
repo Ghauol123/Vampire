@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824af239699cbb0448118ba8eb716cb1, type: 3}
-  m_Name: WaveData
+  m_Name: WaveData 1
   m_EditorClassIdentifier: 
   possibleSpawnPrefaps:
-  - {fileID: 8363618435026398200, guid: 8face1ed1f758344094924464121848e, type: 3}
-  - {fileID: 8363618435026398200, guid: dc1355ebd3928944b83e34ba1bb383dc, type: 3}
+  - {fileID: 8363618435026398200, guid: 38d239f86a6896741a2611c8fd6c5a55, type: 3}
   spawnTime: {x: 2, y: 3}
   spawnPerTic: {x: 1, y: 2}
-  spawnDuration: 10
-  startingEnemyCount: 0
-  maxEnemies: 2
+  spawnDuration: 20
+  startingEnemyCount: 10
+  maxEnemies: 12
   exitCondition: -1
   mustKillAllEnemies: 1
   spawnCount: 7

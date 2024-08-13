@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4376654599123577330}
   - component: {fileID: 2213081122911617617}
   m_Layer: 0
-  m_Name: Shrim
+  m_Name: Shrim0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

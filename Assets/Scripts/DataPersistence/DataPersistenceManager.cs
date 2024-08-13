@@ -29,28 +29,6 @@ public class DataPersistenceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         fileDataHandle = new FileDataHandle(Application.persistentDataPath, fileName);
     }
-    // private void OnEnable()
-    // {
-    //     SceneManager.sceneLoaded += OnSceneLoaded;
-    //     SceneManager.sceneUnloaded += OnSceneUnloaded;
-    // }
-    // private void OnDisable()
-    // {
-    //     SceneManager.sceneLoaded -= OnSceneLoaded;
-    //     SceneManager.sceneUnloaded -= OnSceneUnloaded;
-    // }
-
-    // public void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
-    // {
-    //     Debug.Log("Scene loaded");
-    //     this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-    //     // LoadGameData();
-    // }
-    // public void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene)
-    // {
-    //     Debug.Log("Scene unloaded");
-    //     SaveGameData();
-    // }
     public void NewGameData()
     {
         gameData = new GameData();

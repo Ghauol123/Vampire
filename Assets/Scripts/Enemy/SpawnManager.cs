@@ -7,11 +7,11 @@ public class SpawnManager : MonoBehaviour
     int currentWaveIndex;
     int currentWaveSpawnCount = 0;
     public WaveData[] waves;
-    public Camera referenceCamera;
+    // public Camera referenceCamera;
 
     [Tooltip("If there are more than this number of enemies, we will not spawn any more")]
-    public int maximumEnemies = 300;
-    float spawnTimer;
+    public uint maximumEnemies = 300;
+    public float spawnTimer;
     float currentWaveDuration = 0f;
     public static SpawnManager instance;
     private const float MaxX = 12f;
@@ -19,119 +19,190 @@ public class SpawnManager : MonoBehaviour
     private const float MinX = -12f; // Assuming a symmetric map, adjust if needed
     private const float MinY = -6f;  // Assuming a symmetric map, adjust if needed
 
+    // Integers to hold current state information
+    public int enemiesSpawned;
+    public uint enemiesAlive;
+    public int timeRemaining;
+    public static uint enemyCount = 0;
     private void Start() {
         if(instance) Debug.Log("There are multiple SpawnManagers in the scene");
         instance = this;
     }
+
     private void Update() {
         spawnTimer -= Time.deltaTime;
         currentWaveDuration += Time.deltaTime;
-        if(spawnTimer <=0){
-            if(HasWaveEnd()){
+        maximumEnemies = waves[currentWaveIndex].maxEnemies;
+        // Update integer values
+        UpdateEnemyCounts();
+        UpdateRemainingTime();
+
+        if(spawnTimer <= 0) {
+            if(HasWaveEnd()) {
                 currentWaveIndex++;
                 currentWaveDuration = currentWaveSpawnCount = 0;
                 // If we have gone through all the waves, disable this component
-                if(currentWaveIndex >= waves.Length){
+                if(currentWaveIndex >= waves.Length) {
                     Debug.Log("All waves have been completed");
                     enabled = false;
                 }
                 return;
             }
             // Do not spawn enemies if we do not meet the conditions to do so.
-            if(!CanSpawn()){
+            if(!CanSpawn()) {
                 spawnTimer += waves[currentWaveIndex].GetSpawnTime();
                 return;
             }
 
-            //Get the array of enemies that we are spawning for this tick.
+            // Get the array of enemies that we are spawning for this tick.
             GameObject[] enemies = waves[currentWaveIndex].GetSpawnPrefabs(EnemyStats.count);
-            foreach(GameObject enemy in enemies){
+            foreach(GameObject enemy in enemies) {
                 if(!CanSpawn()) continue;
                 Vector2 spawnPosition = GenerateRandomPosition();
                 Instantiate(enemy, spawnPosition, Quaternion.identity);
                 currentWaveSpawnCount++;
+                enemiesSpawned++; // Update spawned count
+                enemiesAlive++; // Update alive count
             }
             // Regenerate the spawn timer
             spawnTimer += waves[currentWaveIndex].GetSpawnTime();
         }
     }
-        private Vector2 GenerateRandomPosition()
+
+
+    private Vector2 GenerateRandomPosition()
     {
         float randomX = Random.Range(MinX, MaxX);
         float randomY = Random.Range(MinY, MaxY);
         return new Vector2(randomX, randomY);
     }
-    bool CanSpawn(){
-        //Don't spawn if we have reached the maximum number of enemies
+
+    bool CanSpawn() {
+        // Don't spawn if we have reached the maximum number of enemies
         if(HasExceededMaxEnemies()) return false;
-        //Don't spawn if we have reached the maximum number of enemies for this wave
+        // Don't spawn if we have reached the maximum number of enemies for this wave
         if(instance.currentWaveSpawnCount > instance.waves[currentWaveIndex].maxEnemies) return false;
         
-        //Don't spawn if we have exceeded the wave's duration
+        // Don't spawn if we have exceeded the wave's duration
         if(instance.currentWaveDuration > instance.waves[currentWaveIndex].spawnDuration) return false;
         return true;
     }
-    public static bool HasExceededMaxEnemies(){
+
+    public static bool HasExceededMaxEnemies() {
         if(!instance) return false;
         if(EnemyStats.count >= instance.maximumEnemies) return true;
         return false;
     }
-    public bool HasWaveEnd(){
-        WaveData currentWave = waves[currentWaveIndex];
-        //if waveDuration is one of the exit conditions, check how long the waves has been running
-        // if current wave duration is not greater than wave duration, do not exit yet
-        if((currentWave.exitCondition & WaveData.ExitCondition.waveDuration) > 0){
-            if(currentWaveDuration < currentWave.spawnDuration) return false;
-        }
-        //if reachedTotalSpawns is one of the exit conditions, check how many enemies have been spawned
-        // if current wave spawn count is not greater than maxEnemies, do not exit yet
-        if((currentWave.exitCondition & WaveData.ExitCondition.reachedTotalSpawns) > 0){
-            if(currentWaveSpawnCount < currentWave.maxEnemies) return false;
-        }
 
-        //otherwise, if kill all is checked, we have to make sure there are no more enimies first
-        if(currentWave.mustKillAllEnemies && EnemyStats.count > 0){
-            return false;
-        }
+bool HasWaveEnd() {
+    WaveData currentWave = waves[currentWaveIndex];
+    bool waveDurationCondition = (currentWave.exitCondition & WaveData.ExitCondition.waveDuration) > 0;
+    bool totalSpawnsCondition = (currentWave.exitCondition & WaveData.ExitCondition.reachedTotalSpawns) > 0;
+
+    if (waveDurationCondition && currentWaveDuration >= currentWave.spawnDuration) {
         return true;
     }
-    private void Reset() {
-        referenceCamera = Camera.main;
+
+    if (totalSpawnsCondition && currentWaveSpawnCount >= currentWave.maxEnemies) {
+        return true;
     }
-// public static Vector3 GeneratePosition(){
-//     // if we do not have a reference camera, create one
-//     if(!instance.referenceCamera) instance.referenceCamera = Camera.main;
 
-//     // if the reference camera is not orthographic, log a warning
-//     if(!instance.referenceCamera.orthographic){
-//         Debug.LogWarning("The reference camera is not orthographic, the spawn position may not be correct");
-//     }
+    if (currentWave.mustKillAllEnemies && EnemyStats.count > 0) {
+        return false;
+    }
 
-//     // generate a position outside of camera boundaries using 2 random numbers
-//     float x = Random.Range(0f,1f), y = Random.Range(0f,1f);
-
-//     // Set the Z value to the desired spawn distance from the camera
-//     float z = instance.referenceCamera.nearClipPlane + 1; // You can adjust this value as needed
-
-//     // then, randomly choose whether we want to round the x or the y value
-//     switch(Random.Range(0,2)){
-//         case 0 : default:
-//             return instance.referenceCamera.ViewportToWorldPoint(new Vector3(Mathf.Round(x), y, z));
-//         case 1:
-//             return instance.referenceCamera.ViewportToWorldPoint(new Vector3(x, Mathf.Round(y), z));
-//     }
-// }
+    return false;
+}
 
 
-//     //Checking if the enemy is within the camera boundaries
-//     public static bool IsWithinCameraBounds(Transform checkObject){
-//         //Get the camera to check if we are within boundaries
-//         Camera c = instance && instance.referenceCamera ? instance.referenceCamera : Camera.main;
 
-//         Vector2 viewport = c.WorldToViewportPoint(checkObject.position);
 
-//         if(viewport.x < 0f || viewport.x > 1f) return false;
-//         if(viewport.y < 0f || viewport.y > 1f) return false;
-//         return true;
-//     }
+    private void UpdateEnemyCounts() {
+        // Update the number of enemies alive
+        // Assuming EnemyStats.count provides the current number of enemies alive
+        enemiesAlive = (uint)EnemyStats.count;
+    }
+
+    private void UpdateRemainingTime() {
+        // Calculate the remaining time for the current wave
+        if (currentWaveIndex < waves.Length) {
+            timeRemaining = Mathf.CeilToInt(waves[currentWaveIndex].spawnDuration - currentWaveDuration);
+        }
+    }
+    public void SaveWaveData(ref GameData gameData)
+{
+    gameData.waveDataList = new List<WaveDataSave>();
+    gameData.currentWaveIndex = currentWaveIndex; 
+
+    foreach (var wave in waves)
+    {
+        var waveDataInfo = new WaveDataSave
+        {
+            startingEnemyCount = wave.startingEnemyCount,
+            maxEnemies = wave.maxEnemies,
+            exitCondition = wave.exitCondition,
+            mustKillAllEnemies = wave.mustKillAllEnemies,
+            enemiesSpawned = enemiesSpawned,
+            spawnCount = enemiesAlive,
+            possibleSpawnPrefabNames = wave.name,
+            spawnTime = wave.spawnTime,
+            spawnPerTic = wave.spawnPerTic,
+            spawnDuration = wave.spawnDuration,
+            timeRemaining = timeRemaining
+        };
+        gameData.waveDataList.Add(waveDataInfo);
+    }
+    //     for(int i = 0; i < waves.Length; i++) {
+    //         WaveData wave = waves[i];
+
+    //                 var waveDataInfo = new WaveDataSave
+    //     {
+    //         startingEnemyCount = wave.startingEnemyCount,
+    //         maxEnemies = wave.maxEnemies,
+    //         exitCondition = wave.exitCondition,
+    //         mustKillAllEnemies = wave.mustKillAllEnemies,
+    //         spawnCount = enemiesAlive,
+    //         possibleSpawnPrefabNames = wave.name,
+    //         spawnTime = wave.spawnTime,
+    //         spawnPerTic = wave.spawnPerTic,
+    //         spawnDuration = wave.spawnDuration,
+    //         timeRemaining = 
+    //     };
+    //     gameData.waveDataList.Add(waveDataInfo);
+    // }
+    }
+
+public void LoadWaveData(GameData gameData)
+{
+    if (gameData.waveDataList.Count != waves.Length)
+    {
+        Debug.LogError("Wave data mismatch: saved wave data count does not match the number of current waves.");
+        return;
+    }
+
+    // Load the current wave index
+    currentWaveIndex = gameData.currentWaveIndex;
+
+    for (int i = 0; i < waves.Length; i++)
+    {
+        try
+        {
+            var wave = waves[i];
+            var waveDataInfo = gameData.waveDataList[i];
+
+            wave.startingEnemyCount = waveDataInfo.startingEnemyCount;
+            wave.maxEnemies = waveDataInfo.maxEnemies;
+            wave.exitCondition = waveDataInfo.exitCondition;
+            wave.mustKillAllEnemies = waveDataInfo.mustKillAllEnemies;
+            wave.spawnCount = waveDataInfo.spawnCount;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error loading wave data at index {i}: {ex.Message}");
+        }
+    }
+}
+
+
+
 }
