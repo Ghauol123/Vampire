@@ -219,23 +219,26 @@ public class FirebaseController : MonoBehaviour
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
+{
+    FirebaseUser currentUser = auth.CurrentUser;
+    if (user != currentUser)
     {
-        FirebaseUser currentUser = auth.CurrentUser;
-        if (user != currentUser)
+        bool signedIn = user == null && currentUser != null;
+        if (user != null && !signedIn)
         {
-            bool signedIn = user == null && currentUser != null;
-            if (user != null && !signedIn)
-            {
-                Debug.Log("Signed out " + user.UserId);
-            }
-            user = currentUser;
-            if (signedIn)
-            {
-                Debug.Log("Signed in " + user.UserId);
-                isSignedIn = true;
-            }
+            Debug.Log("Signed out " + user.UserId);
+        }
+        user = currentUser;
+        if (signedIn)
+        {
+            Debug.Log("Signed in " + user.UserId);
+            isSignedIn = true;
+            DataPersistenceManager.instance.OnUserChanged(); // Gọi OnUserChanged khi có người dùng đăng nhập
         }
     }
+}
+
+
 
     private void OnDestroy()
     {
