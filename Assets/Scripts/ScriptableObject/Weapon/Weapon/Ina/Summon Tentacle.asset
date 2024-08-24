@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Summon Tentacle
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
-  maxLevel: 5
+  maxLevel: 6
   behaviour: MeleeWeapon
   baseStats:
-    name: Summon Tentaclev
+    name: Summon Tentacle
     description: A tentacle shoots out in front
-    type: 
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
+    stats: {fileID: 0}
+    type: Melee
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: -6030407993050678002, guid: 40ca763ee586c7444984eae3f743d1a2, type: 3}
@@ -29,21 +31,22 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 1
+    lifespan: 2
     damage: 10
-    damageVariance: 10
-    area: 1
+    damageVariance: 4
+    area: 1.5
     speed: 0
-    cooldown: 2
+    cooldown: 1.5
     projectileInterval: 0
     knockback: 0
-    number: 0
+    number: 1
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   linearGrowth:
   - name: Level 2
     description: Increase damage by 20%
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -57,7 +60,7 @@ MonoBehaviour:
       height: 0
     lifespan: 0
     damage: 2
-    damageVariance: 0
+    damageVariance: 2
     area: 0
     speed: 0
     cooldown: 0
@@ -66,9 +69,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   - name: Level 3
     description: Reduce the time between attacks by 20%.
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -91,9 +95,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   - name: Level 4
     description: Increase attack area by 25%
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -116,9 +121,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   - name: Level 5
     description: Increase damage by 50%
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -131,8 +137,8 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 6
-    damageVariance: 0
+    damage: 5
+    damageVariance: 5
     area: 0
     speed: 0
     cooldown: 0
@@ -141,5 +147,56 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
+  - name: Level 6
+    description: Adds small knockback on hit
     Icon: {fileID: 0}
+    stats: {fileID: 0}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0.08
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 6
+    description: Increase damage by 50%
+    Icon: {fileID: 21300000, guid: c5da3fb92908fe74f9e40d698d2c983b, type: 3}
+    stats: {fileID: 0}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 5
+    damageVariance: 5
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
   randomGrowth: []

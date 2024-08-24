@@ -21,6 +21,7 @@ public class Pickup : MonoBehaviour, IDataPersistence
     public int Exp;
     public int Heal;
     public bool Coolected = false;
+    EnemyStats enemyStats;
     // Tạo ID khi đối tượng được khởi tạo
     protected virtual void Awake()
     {

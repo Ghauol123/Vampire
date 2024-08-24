@@ -45,17 +45,7 @@ public class Passive : Item
     currentLevel = level;
 
     // Reset boots to base stats
-    currentBoots = ((PassiveData)data).baseStats.boots;
-    // Apply cumulative stats for each level up to the current level
-    // for (int i = 1; i < currentLevel; i++)
-    // {
-    //     if(currentLevel == 1){
-    //         return;
-    //     }
-    //     else{
-    //         currentBoots += ((Modifier)data.GetLevelData(++i)).boots;
-    //     }
-    // }
+    // currentBoots = ((PassiveData)data).baseStats.boots;
     if(level == 1){
         return;
     }

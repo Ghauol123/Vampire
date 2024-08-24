@@ -19,8 +19,11 @@ MonoBehaviour:
     name: Spider Cooking
     description: 'Create an area of Miasma around, dealing slow damage to enemies
       inside. '
+    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
+    stats: {fileID: 0}
     type: Melee
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 8342447852187910726, guid: d6a870b49c1db6649a01c5dbdab03900, type: 3}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -41,12 +44,14 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 50
-    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
   linearGrowth:
   - name: Level 2
     description: Increase area by 15%
+    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -67,11 +72,13 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
   - name: Level 3
     description: Increase damage by 30%
+    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -92,5 +99,4 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: 34c7fe02eebfa1a4d8f175f80a179315, type: 3}
   randomGrowth: []

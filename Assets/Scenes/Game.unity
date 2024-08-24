@@ -242,7 +242,6 @@ MonoBehaviour:
   waves:
   - {fileID: 11400000, guid: 321d8d7f1e8669c46b17028340dc02a0, type: 2}
   - {fileID: 11400000, guid: 20c0a7a21924dd445acf6e52fc271935, type: 2}
-  referenceCamera: {fileID: 519420031}
   maximumEnemies: 300
   spawnTimer: 0
   enemiesSpawned: 0
@@ -3267,6 +3266,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bb64824c5ab13f34cb3ce7806ebcfbf5, type: 2}
   - {fileID: 11400000, guid: ef4aee053451364429cb05bbd079cfb3, type: 2}
   - {fileID: 11400000, guid: 4de69d3d41054ee4fb6992719c926fa6, type: 2}
+  - {fileID: 11400000, guid: 2b52dd2329e727a409441f54be85e1de, type: 2}
+  - {fileID: 11400000, guid: 746adbd7a9106aa48834d65bf66871e0, type: 2}
+  - {fileID: 11400000, guid: 1c03d2a18a87f834ca8bcb0fcbec0d26, type: 2}
+  - {fileID: 11400000, guid: 341baad59c19abe488420bed9adc8ad3, type: 2}
+  - {fileID: 11400000, guid: f92935e9a6f74374aa1b683d4687abfc, type: 2}
   availablePassive:
   - {fileID: 11400000, guid: fa8b96b66d3b93a45aa8b2fb15d392e0, type: 2}
   - {fileID: 11400000, guid: b6977376b9095264d8cde5f208d94fc1, type: 2}
@@ -3442,7 +3446,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387407604}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

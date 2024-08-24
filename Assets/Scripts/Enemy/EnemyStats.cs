@@ -5,10 +5,35 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyStats : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Resitances
+    {
+        [Range(0f, 1f)] public float freeze;
+        [Range(0f, 1f)] public float kill;
+        [Range(0f, 1f)] public float debuff;
+    
+        public Resitances(float freeze, float kill, float debuff)
+        {
+            this.freeze = freeze;
+            this.kill = kill;
+            this.debuff = debuff;
+        }
+    }
+    [System.Serializable]
+    public struct Stats{
+        [Min(0)] public float maxHealth, moveSpeed, damage, knockbackMultiple;
+        public Resitances resitances;
+    }
+    public Stats baseStats = new Stats{maxHealth = 100, moveSpeed = 0.5f, damage = 10, knockbackMultiple = 1};
+    public Stats currentStats;
+    public Stats Actual{
+        get{return currentStats;}
+    }
+    public float currentHealth;
     public EnemyScriptableObject est;
-    public float currentMoveSpeed;
-    public float CurrentHealts;
-    public float currentDamage;
+    // public float currentMoveSpeed;
+    // public float CurrentHealts;
+    // public float currentDamage;
     Transform playerMoving;
     PlayerStats PlayerStats;
     [Header("Damage Feedback")]
@@ -18,29 +43,47 @@ public class EnemyStats : MonoBehaviour
     Color originalColor;
     SpriteRenderer sr;
     EnemyMovement movement;
+    Collider2D col;
     public static int count;
     private void Awake() {
         count ++;
-        currentDamage = est.Damage;
-        CurrentHealts = est.maxhealt;
-        currentMoveSpeed = est.MoveSpeed;
+        // currentDamage = est.Damage;
+        // CurrentHealts = est.maxhealt;
+        // currentMoveSpeed = est.MoveSpeed;
     }
     private void Start() {
+        RecalculateStats();
+        currentHealth = currentStats.maxHealth;
         playerMoving = FindObjectOfType<PlayerMoving>().transform;
         PlayerStats = FindObjectOfType<PlayerStats>();
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
         movement = GetComponent<EnemyMovement>();
+        col =  GetComponent<Collider2D>();
+    }
+    public void RecalculateStats(){
+        currentStats = baseStats;
     }
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f){
-        CurrentHealts -= dmg;
+        // currentHealth -= dmg;
+        // Debug.Log(dmg);
+        // StartCoroutine(DamageFlash());
+        // if(knockbackForce > 0){
+        //     Vector2 dir = (Vector2)transform.position - sourcePosition;
+        //     // movement.KnockBack(dir.normalized * knockbackForce, knockbackDuration);
+        // }
+        // if(currentHealth <= 0){
+        //     Kill();
+        // }
+        if(Mathf.Approximately(dmg, currentStats.damage)){
+            if(Random.value < currentStats.resitances.kill){
+                return;
+            }
+        }
+        currentHealth -= dmg;
         Debug.Log(dmg);
         StartCoroutine(DamageFlash());
-        if(knockbackForce > 0){
-            Vector2 dir = (Vector2)transform.position - sourcePosition;
-            // movement.KnockBack(dir.normalized * knockbackForce, knockbackDuration);
-        }
-        if(CurrentHealts <= 0){
+        if(currentHealth <= 0){
             Kill();
         }
     }
@@ -50,7 +93,9 @@ public class EnemyStats : MonoBehaviour
         sr.color = originalColor;
     }
     public void Kill(){
+        col.enabled = false; 
         StartCoroutine(KillFade());
+
         // GameManager.instance.ScoreEndGame.text = "Score: "+PlayerStats.score.ToString();
     }
     IEnumerator KillFade(){
@@ -67,7 +112,7 @@ public class EnemyStats : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")){
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
-            playerStats.TakeDamage(currentDamage);
+            playerStats.TakeDamage(Actual.damage);
             Debug.Log("Player Hit");
         }
     }
@@ -80,9 +125,9 @@ public class EnemyStats : MonoBehaviour
     return new EnemiesData
     {
         position = transform.position,
-        currentHealth = CurrentHealts,
-        currentMoveSpeed = currentMoveSpeed,
-        currentDamage = currentDamage,
+        currentHealth = currentHealth,
+        currentMoveSpeed = Actual.moveSpeed,
+        currentDamage = Actual.damage,
         enemyPrefabName = est.name // Assuming the scriptable object has the same name as the prefab
     };
 }

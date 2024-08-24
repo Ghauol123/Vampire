@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833029e5edf95b340ba9655f609d7d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outOffFrameAction: 1
 --- !u!114 &-1604600731095012083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,10 +157,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd90a945091a7134b9ec6d4362a1d978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats:
+    maxHealth: 100
+    moveSpeed: 0.5
+    damage: 10
+    knockbackMultiple: 1
+    resitances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+  currentStats:
+    maxHealth: 0
+    moveSpeed: 0
+    damage: 0
+    knockbackMultiple: 0
+    resitances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+  currentHealth: 0
   est: {fileID: 11400000, guid: 95e09640791cfcf40952138127d729a3, type: 2}
-  currentMoveSpeed: 0
-  CurrentHealts: 0
-  currentDamage: 0
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6

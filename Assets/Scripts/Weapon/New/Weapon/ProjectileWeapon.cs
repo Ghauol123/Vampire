@@ -7,9 +7,18 @@ public class ProjectileWeapon : Weapon
 {
     public float currentAttackInterval; // thời gian bắn giữa các viên đạn
     public int currentAttackCount; // giới hạn số viên đạn có thể bắn được trong 1 lần
-    Projectile currentProjectile;
+    protected Projectile currentProjectile;
+    protected override void Start()
+    {
+        base.Start();
+        currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
+        currentAttackCount = ((WeaponData)data).baseStats.number;
+        Debug.Log(currentAttackInterval);
+        Debug.Log(currentAttackCount);
+    }
     protected override void Update()
     {
+        // currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
         base.Update();
         if(currentAttackInterval > 0){
             // nếu > 0 thì trừ cho tới khi = 0 thì tấn công
@@ -17,7 +26,6 @@ public class ProjectileWeapon : Weapon
             if(currentAttackInterval <=0) Attack(currentAttackCount);
         }
         Debug.Log("Current projectile prefab: " + currentStats.projectilePrefabs);
-
     }
     // có thể tấn công hay không dựa trên số lần tấn công > 0
     public override bool canAttack(){

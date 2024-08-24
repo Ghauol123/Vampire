@@ -10,6 +10,7 @@ public class DropRateManager : MonoBehaviour
         public GameObject itemsPrefabs;
         public float dropRate;
         public int Amount; // Thêm thuộc tính để xác định số lượng EXP rơi
+        public int Exp;
     }
 
     public List<Drops> drops;
@@ -26,6 +27,7 @@ public class DropRateManager : MonoBehaviour
             if(randomNumber <= rate.dropRate){
                 possibleDrops.Add(rate);
             }
+            rate.itemsPrefabs.GetComponent<Pickup>().Exp = rate.Exp;
         }
 
         if(possibleDrops.Count > 0){

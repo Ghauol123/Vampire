@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: AmePistol
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-  maxLevel: 5
+  maxLevel: 6
   behaviour: ProjectileWeapon
   baseStats:
     name: Pistol Shot
     description: Shoots 3 Projectiles forward
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
+    stats: {fileID: 0}
     type: Multishot
     projectilePrefabs: {fileID: 1194904874994523079, guid: 6433bd4e4af3f8447b5402cf9e688272, type: 3}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -30,22 +33,24 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 2
-    damage: 7
-    damageVariance: 5
+    damage: 8
+    damageVariance: 4
     area: 2
     speed: 5
-    cooldown: 4
-    projectileInterval: 0.05
+    cooldown: 1.33
+    projectileInterval: 0.1
     knockback: 0
     number: 3
     piercing: 1
     maxInstance: 50
-    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   linearGrowth:
   - name: Level 2
     description: Shoot 2 additional shot, and each bullet can pierce +1 times
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -66,11 +71,13 @@ MonoBehaviour:
     number: 2
     piercing: 1
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 3
     description: Increase damage by 20%
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -81,7 +88,7 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 3
+    damage: 2
     damageVariance: 0
     area: 0
     speed: 0
@@ -91,12 +98,14 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 4
     description: Each bullet can pierce +1 times. Reduce the time between attacks
       by 25%
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -111,17 +120,19 @@ MonoBehaviour:
     damageVariance: 0
     area: 0
     speed: 0
-    cooldown: -1
+    cooldown: -0.25
     projectileInterval: 0
     knockback: 0
     number: 0
     piercing: 1
     maxInstance: 0
-    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
   - name: Level 5
     description: Increase damage by 20%
+    Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -132,7 +143,7 @@ MonoBehaviour:
       width: 0
       height: 0
     lifespan: 0
-    damage: 3
+    damage: 2
     damageVariance: 0
     area: 0
     speed: 0
@@ -142,5 +153,31 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
+  - name: Level 6
+    description: Increase damage by 20%
     Icon: {fileID: 21300000, guid: a468c0fd4f7e785458276a7ef37ff012, type: 3}
+    stats: {fileID: 0}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 2
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
   randomGrowth: []

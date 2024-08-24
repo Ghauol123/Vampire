@@ -19,9 +19,13 @@ MonoBehaviour:
   animatorController: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
   weaponScriptableObject: {fileID: 11400000, guid: b168018abb8ed114f8cd5324017ddf90, type: 2}
   stats:
-    maxHeal: 1000
-    recovery: 0
-    moveSpeed: 3
-    might: 3
-    speed: 3
-    magnet: 0.3
+    maxHeal: 90
+    recovery: 1
+    armor: 1
+    moveSpeed: 1.4
+    might: 1
+    area: 1
+    amount: 1
+    cooldown: 1
+    magnet: 3
+    revival: 0

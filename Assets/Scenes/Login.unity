@@ -4780,6 +4780,7 @@ MonoBehaviour:
   loginButton: {fileID: 1492501045}
   notificationText: {fileID: 0}
   rememberMeToggle: {fileID: 0}
+  isSignedIn: 0
 --- !u!4 &1107666033
 Transform:
   m_ObjectHideFlags: 0

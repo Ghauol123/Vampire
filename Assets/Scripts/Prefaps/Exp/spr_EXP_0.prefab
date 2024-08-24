@@ -179,6 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   lifeSpan: 0.5
-  Exp: 100
+  Exp: 6
   Heal: 0
   Coolected: 0

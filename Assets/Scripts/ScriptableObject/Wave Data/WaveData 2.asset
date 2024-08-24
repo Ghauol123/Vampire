@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824af239699cbb0448118ba8eb716cb1, type: 3}
+  m_Name: WaveData 2
+  m_EditorClassIdentifier: 
+  possibleSpawnPrefaps:
+  - {fileID: 8363618435026398200, guid: 9f2469d5996137c47bd7ceab0541acf8, type: 3}
+  spawnTime: {x: 2, y: 3}
+  spawnPerTic: {x: 1, y: 1}
+  spawnDuration: 120
+  startingEnemyCount: 0
+  maxEnemies: 1
+  exitCondition: 1
+  mustKillAllEnemies: 0
+  spawnCount: 0

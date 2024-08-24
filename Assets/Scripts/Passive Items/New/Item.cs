@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
         public string name;
         public string description;
         public Sprite Icon;
-
+        public WeaponData stats;
     }
     public virtual void Initialise(ItemData itemData){
         maxLevel = itemData.maxLevel;

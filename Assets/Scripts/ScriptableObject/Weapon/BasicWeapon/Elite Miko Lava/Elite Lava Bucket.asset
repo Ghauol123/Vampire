@@ -18,6 +18,8 @@ MonoBehaviour:
   baseStats:
     name: Elite Lava Bucket
     description: Drop lava on the ground, burning targets slowly.
+    Icon: {fileID: 21300000, guid: a013c7f17ede0994ba515279b192119c, type: 3}
+    stats: {fileID: 0}
     type: Multishot
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 640608132233685690, guid: a70cefb764e6c6941b572a74db4be57c, type: 3}
@@ -40,10 +42,11 @@ MonoBehaviour:
     number: 1
     piercing: 0
     maxInstance: 50
-    Icon: {fileID: 21300000, guid: a013c7f17ede0994ba515279b192119c, type: 3}
   linearGrowth:
   - name: Level 2
     description: Increase lava area by 20%.
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -66,9 +69,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   - name: Level 3
     description: Increase damage by 30% and increase duration of lava by 1 second
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -91,9 +95,10 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   - name: Level 4
     description: Increase damage by 30%
+    Icon: {fileID: 0}
+    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -116,5 +121,4 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-    Icon: {fileID: 0}
   randomGrowth: []

@@ -11,6 +11,7 @@ public abstract class Weapon : Item
         public string type;
         [Header("Visuals")]
         public Projectile projectilePrefabs;
+        public Bomb bombPrefabs;
         public Aura auraPrefabs;
         public Melee meleePrefabs;
         public ParticleSystem hitEffect;
@@ -19,45 +20,74 @@ public abstract class Weapon : Item
         public float lifespan;
         public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
         public int number, piercing, maxInstance;
-        public static Stats operator +(Stats s1, Stats s2){
-            Stats result = new Stats();
-            result.name = s2.name ?? s1.name;
-            result.description = s2.description ?? s1.description;
-            result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
-            result.projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs;
-            result.auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs;
-            result.meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs;
-            result.spawnVariance = s2.spawnVariance;
-            result.lifespan =  s1.lifespan + s2.lifespan;
-            result.damage =  s1.damage + s2.damage;
-            result.damageVariance =  s1.damageVariance + s2.damageVariance;
-            result.area =  s1.area + s2.area;
-            result.speed =  s1.speed + s2.speed;
-            result.cooldown =  s1.cooldown + s2.cooldown;
-            result.number =  s1.number + s2.number;
-            result.piercing =  s1.piercing + s2.piercing;
-            result.projectileInterval =  s1.projectileInterval + s2.projectileInterval;
-            result.knockback =  s1.knockback + s2.knockback;
-            return result;
-        }
+        // public static Stats operator +(Stats s1, Stats s2){
+        //     Stats result = new Stats();
+        //     result.name = s2.name ?? s1.name;
+        //     result.description = s2.description ?? s1.description;
+        //     result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
+        //     result.projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs;
+        //     result.auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs;
+        //     result.meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs;
+        //     result.spawnVariance = s2.spawnVariance;
+        //     result.lifespan =  s1.lifespan + s2.lifespan;
+        //     result.damage =  s1.damage + s2.damage;
+        //     result.damageVariance =  s1.damageVariance + s2.damageVariance;
+        //     result.area =  s1.area + s2.area;
+        //     result.speed =  s1.speed + s2.speed;
+        //     result.cooldown =  s1.cooldown + s2.cooldown;
+        //     result.number =  s1.number + s2.number;
+        //     result.piercing =  s1.piercing + s2.piercing;
+        //     result.projectileInterval =  s1.projectileInterval + s2.projectileInterval;
+        //     result.knockback =  s1.knockback + s2.knockback;
+        //     return result;
+        // }
+        public static Stats operator +(Stats s1, Stats s2)
+{
+    Stats result = new Stats
+    {
+        name = s2.name ?? s1.name,
+        Icon = s2.Icon ?? s1.Icon,
+        description = s2.description ?? s1.description,
+        hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect,
+        projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs,
+        auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs,
+        meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs,
+        spawnVariance = s2.spawnVariance,
+        lifespan = s1.lifespan + s2.lifespan,
+        damage = s1.damage + s2.damage,
+        damageVariance = s1.damageVariance + s2.damageVariance,
+        area = s1.area + s2.area,
+        speed = s1.speed + s2.speed,
+        cooldown = s1.cooldown + s2.cooldown,
+        number = s1.number + s2.number,
+        piercing = s1.piercing + s2.piercing,
+        projectileInterval = s1.projectileInterval + s2.projectileInterval,
+        knockback = s1.knockback + s2.knockback
+    };
+    return result;
+}
+
         public float getDamage(){
             return damage + Random.Range(0,damageVariance);
         }
+        public Weapon.Stats currentStat;
     }
-    [SerializeField]public Stats currentStats;
+    [SerializeField]public Weapon.Stats currentStats;
     [HideInInspector]
     public ItemData data;
     protected float currentCooldown;
     protected PlayerMoving movement;
     // For dynamically created weapons, call initialise to set everything up
-    public override void Initialise(ItemData data){
+    public virtual void Initialise(WeaponData data){
         base.Initialise(data);
         this.data = data;
-        currentStats = ((WeaponData)data).baseStats;
+        currentStats =data.baseStats;
         // Find the player stats
-        movement =  GetComponentInParent<PlayerMoving>();
+        movement =  FindAnyObjectByType<PlayerMoving>();
         // Set the cooldown to 0
         currentCooldown = currentStats.cooldown;
+        owner = FindAnyObjectByType<PlayerStats>();
+
     }
     protected virtual void Awake() {
         if(data) currentStats = ((WeaponData)data).baseStats;
@@ -93,10 +123,30 @@ public abstract class Weapon : Item
         }
         return false;
     }
-    public virtual float GetDamage(){
-        // Might is a multiplier for the damage
-        return currentStats.getDamage() *owner.Stats.might;
+    // public virtual float GetDamage(){
+    //     // Might is a multiplier for the damage
+    //     return currentStats.getDamage() *owner.Stats.might;
+    // }
+        public virtual float GetDamage()
+    {
+        float baseDamage = currentStats.getDamage();
+        
+        // Lấy thông số chí mạng từ nhân vật
+        float criticalChance = owner.Stats.criticalChance;
+        float criticalMultiplier = owner.Stats.criticalMultiplier;
+
+        // Kiểm tra xem có chí mạng hay không
+        bool isCriticalHit = Random.value < criticalChance;
+
+        if (isCriticalHit)
+        {
+            baseDamage *= criticalMultiplier; // Nhân sát thương với hệ số chí mạng
+            Debug.Log("Critical Hit!");
+        }
+
+        return baseDamage * owner.Stats.might; // Áp dụng sát thương với chỉ số might của nhân vật
     }
+
         public virtual Stats GetStats(){return currentStats;}
 
     public virtual bool ActivateCooldown(bool strict = false){
@@ -108,49 +158,26 @@ public abstract class Weapon : Item
         currentCooldown = Mathf.Min(actualCooldown,currentCooldown*actualCooldown);
         return true;
     }
-public virtual void SetLevel(int level)
-{
-    // Ensure the level is within valid bounds
-    if (level < 1 || level > data.maxLevel)
-    {
-        Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
-        return;
-    }
-
-    // Set the current level
-    currentLevel = level;
-    Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: Damage: {currentStats.damage}, Number: {currentStats.number}");
-    // Check if the data is available
-    if (data == null)
-    {
-        Debug.LogWarning("Weapon data is not initialized.");
-        return;
-    }
-    // // Accumulate stats for each level up to the current level  
-    //     for (int i = 2; i <= currentLevel; i++)
+    //     public void LoadWeaponStatsByLevel(int level)
     // {
-    //     currentStats += (Stats)data.GetLevelData(i);
+    //     if (currentWeaponData != null)
+    //     {
+    //         currentStats = (Stats)currentWeaponData.GetLevelData(level);
+    //     }
     // }
-    Stats currentStat = ((WeaponData)data).baseStats;
-    for (int i = 2; i <= level; i++)
+    public virtual void SetLevel(int level)
     {
-        Weapon.Stats levelStats = (Stats)data.GetLevelData(i);
-        Debug.Log($"Level {i} stats: Damage: {levelStats.damage}, Number: {levelStats.number}");
-        // currentStat.damage += levelStats.damage;
-        // currentStat.number += levelStats.number;
-        // currentStat.damageVariance += levelStats.damageVariance;
-        // currentStat.area += levelStats.area;
-        // currentStat.speed += levelStats.speed;
-        // currentStat.lifespan += levelStats.lifespan;
-        // currentStat.number += levelStats.number;
-        // currentStat.piercing += levelStats.piercing;
-        // currentStat.projectileInterval += levelStats.projectileInterval;
-        // currentStat.knockback += levelStats.knockback;
-        // currentStat.cooldown += levelStats.cooldown;
-        currentStat += levelStats;
+        if (level < 1 || level > data.maxLevel)
+        {
+            Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
+            return;
+        }
+        currentLevel = level;
+        currentStats = ((WeaponData)data).baseStats;
+        for (int i = 2; i <= level; i++)
+        {
+            currentStats += (Stats)data.GetLevelData(i);
+        }
+        Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: {currentStats.damage}");
     }
-    // Optionally reinitialize cooldown if necessary
-    currentCooldown = currentStats.cooldown;
-    Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: Damage: {currentStat.damage}, Number: {currentStat.number}");
-}
 }

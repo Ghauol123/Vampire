@@ -48,9 +48,9 @@ public class Projectile : WeaponEffect
     protected virtual void FixedUpdate() {
         if(rb.bodyType == RigidbodyType2D.Kinematic){
             Weapon.Stats stats = weapon.GetStats();// lấy thông tin của vũ khí hiện tại
-            transform.position += transform.right * stats.speed * Time.fixedDeltaTime; // vị trí của vũ khí 
+            transform.position += transform.right * stats.speed * Time.deltaTime; // vị trí của vũ khí 
             rb.MovePosition(transform.position); // di chuyển vũ khí 
-            transform.Rotate(rotationSpeed*Time.fixedDeltaTime); // xoay vũ khí
+            transform.Rotate(rotationSpeed*Time.deltaTime); // xoay vũ khí
         }
     }
 

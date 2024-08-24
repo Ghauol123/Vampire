@@ -153,6 +153,11 @@ public void LoadGameData(GameData gameData)
         Debug.LogError("Thành phần PlayerStats bị thiếu!");
         return;
     }
+            if (gameData == null)
+        {
+            Debug.LogWarning("gameData là null");
+            return;
+        }
 
     // Initialize other components
     playerPickUp = GetComponentInChildren<PlayerPickUp>();
@@ -211,39 +216,41 @@ private void LoadSpriteAndAnimator(GameData gameData)
     }
 }
 
-    private void AddInventoryItems(GameData gameData)
+private void AddInventoryItems(GameData gameData)
+{
+    foreach (WeaponData weapon in gameData.weaponsInSlots)
     {
-        foreach (WeaponData weapon in gameData.weaponsInSlots)
-        {
-            playerInventory.Add(weapon);
-        }
+        playerInventory.Add(weapon);
+    }
 
-        foreach (PassiveData passive in gameData.passiveItemsInSlots)
-        {
-            playerInventory.Add(passive);
-        }
+    foreach (PassiveData passive in gameData.passiveItemsInSlots)
+    {
+        playerInventory.Add(passive);
+    }
+
     for (int i = 0; i < gameData.weaponsInSlots.Count; i++)
+    {
+        WeaponData weaponData = gameData.weaponsInSlots[i];
+        int level = gameData.weaponLevels[i];
+        Weapon weapon = playerInventory.Get(weaponData) as Weapon;
+        if (weapon != null)
         {
-            WeaponData weaponData = gameData.weaponsInSlots[i];
-            int level = gameData.weaponLevels[i];
-            Weapon weapon = playerInventory.Get(weaponData) as Weapon;
-            if (weapon != null)
-            {
-                weapon.SetLevel(level);
-            }
-        }
-
-        for (int i = 0; i < gameData.passiveItemsInSlots.Count; i++)
-        {
-            PassiveData passiveData = gameData.passiveItemsInSlots[i];
-            int level = gameData.passiveLevels[i];
-            Passive passive = playerInventory.Get(passiveData) as Passive;
-            if (passive != null)
-            {
-                passive.SetLevel(level);
-            }
+            weapon.SetLevel(level);
         }
     }
+
+    for (int i = 0; i < gameData.passiveItemsInSlots.Count; i++)
+    {
+        PassiveData passiveData = gameData.passiveItemsInSlots[i];
+        int level = gameData.passiveLevels[i];
+        Passive passive = playerInventory.Get(passiveData) as Passive;
+        if (passive != null)
+        {
+            passive.SetLevel(level);
+        }
+    }
+}
+
 
     public void LoadEnemiesAndWave(GameData gameData){
         foreach (EnemiesData enemyData in gameData.enemiesData)
@@ -253,9 +260,9 @@ private void LoadSpriteAndAnimator(GameData gameData)
         {
             GameObject enemyObject = Instantiate(enemyPrefab, enemyData.position, Quaternion.identity);
             EnemyStats enemyStats = enemyObject.GetComponent<EnemyStats>();
-            enemyStats.CurrentHealts = enemyData.currentHealth;
-            enemyStats.currentMoveSpeed = enemyData.currentMoveSpeed;
-            enemyStats.currentDamage = enemyData.currentDamage;
+            enemyStats.currentHealth = enemyData.currentHealth;
+            enemyStats.currentStats.moveSpeed = enemyData.currentMoveSpeed;
+            enemyStats.currentStats.damage = enemyData.currentDamage;
         }
         Debug.Log(enemyData.enemyPrefabName);
     }

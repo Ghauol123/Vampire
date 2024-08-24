@@ -42,7 +42,7 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             Vector2 direction = (player.position - transform.position).normalized;
-            rb.velocity = direction * enemyStats.currentMoveSpeed;
+            rb.velocity = direction * enemyStats.Actual.moveSpeed;
             // HandleOutOfFrameAction();
         }
     }

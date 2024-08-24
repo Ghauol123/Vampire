@@ -49,8 +49,17 @@ public bool isGameLoaded;
 
 
     // public GameObject player;
-    PlayerStats playerStats;
+    PlayerStats[] playerStats;
     // Start is called before the first frame update
+    public static int GetCumulativeLevels(){
+        if(instance == null) return 1;
+        int totalLevel = 0;
+        foreach (var playerStat in instance.playerStats)
+        {
+            totalLevel += playerStat.level;
+        }
+        return Mathf.Max(1, totalLevel);
+    }
     void Start()
     {
         pauseScreen.SetActive(false);
@@ -65,7 +74,7 @@ public bool isGameLoaded;
             Destroy(gameObject);
         }
         LevelUpScreen.SetActive(false);
-        playerStats = FindObjectOfType<PlayerStats>();
+        playerStats = FindObjectsOfType<PlayerStats>();
     }
 
     // Update is called once per frame
@@ -220,7 +229,10 @@ public bool isGameLoaded;
         DisplayTime();
         if (stopWatchTime >= TimeLimit)
         {
-            playerStats.SendMessage("Kill");
+            foreach (var playerStat in playerStats)
+            {
+                playerStat.SendMessage("Kill");
+            }
         }
     }
     public void DisplayTime()
@@ -238,7 +250,10 @@ public bool isGameLoaded;
             LevelUpScreen.SetActive(true);
             Time.timeScale = 0f;
             stopWacthDisplay.enabled = false;
-            playerStats.SendMessage("RemoveAndApplyUpgradeOption");
+                        foreach (var playerStat in playerStats)
+            {
+                playerStat.SendMessage("RemoveAndApplyUpgradeOption");
+            }
         }
     }
     public void EndLevelUp()
@@ -252,7 +267,7 @@ public bool isGameLoaded;
             StartLevelUp();
         };
     }
-        // Save system methods
+    // Save system methods
 
 
 }

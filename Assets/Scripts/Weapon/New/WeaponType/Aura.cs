@@ -4,51 +4,70 @@ using UnityEngine;
 
 public class Aura : WeaponEffect
 {
-    Dictionary<EnemyStats, float> affectedTarges = new Dictionary<EnemyStats, float>();
-    List<EnemyStats> targeToUnAffect = new List<EnemyStats>();
-    // update is call one frames
-    void Update(){
-         Dictionary<EnemyStats, float> affectedTargesCopy = new Dictionary<EnemyStats, float>();
-        // Loop through every target affected by the aura, and reduce he cooldown;
-        // of the aura for it. If the cooldown reaches 0, deal dame to it
-        foreach(KeyValuePair<EnemyStats,float> pair in affectedTargesCopy){
-            affectedTarges[pair.Key] -= Time.deltaTime;
-            if(pair.Value <=0){
-                if(targeToUnAffect.Contains(pair.Key)){
-                    //If the target is marked for removal, remove it.
-                    affectedTarges.Remove(pair.Key);
-                    targeToUnAffect.Remove(pair.Key);
+    Dictionary<EnemyStats, float> affectedTargets = new Dictionary<EnemyStats, float>();
+    List<EnemyStats> targetsToUnAffect = new List<EnemyStats>();
+
+    void Update()
+    {
+        Dictionary<EnemyStats, float> affectedTargetsCopy = new Dictionary<EnemyStats, float>(affectedTargets);
+        
+        foreach (KeyValuePair<EnemyStats, float> pair in affectedTargetsCopy)
+        {
+            // Trừ thời gian cooldown cho mỗi kẻ địch bị ảnh hưởng bởi aura
+            affectedTargets[pair.Key] -= Time.deltaTime;
+            
+            if (pair.Value <= 0)
+            {
+                if (targetsToUnAffect.Contains(pair.Key))
+                {
+                    // Nếu mục tiêu được đánh dấu để loại bỏ, loại bỏ nó khỏi danh sách
+                    affectedTargets.Remove(pair.Key);
+                    targetsToUnAffect.Remove(pair.Key);
                 }
-                else{
-                    Weapon.Stats stats = weapon.GetStats();
-                    affectedTarges[pair.Key] = stats.cooldown;
-                    pair.Key.TakeDamage(GetDamage(), transform.position, stats.knockback);
+                else
+                {
+                    // Kiểm tra xem EnemyStats có còn hợp lệ hay không
+                    if (pair.Key != null)
+                    {
+                        Weapon.Stats stats = weapon.GetStats();
+                        affectedTargets[pair.Key] = stats.cooldown;
+                        pair.Key.TakeDamage(GetDamage(), transform.position, stats.knockback);
+                    }
+                    else
+                    {
+                        // Nếu không hợp lệ, loại bỏ khỏi danh sách
+                        affectedTargets.Remove(pair.Key);
+                    }
                 }
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.TryGetComponent(out EnemyStats enemyStats)){
-            //If the target is not yet affected by this aura, add it
-            // to our list of affacted targets
-            if(!affectedTarges.ContainsKey(enemyStats)){
-                //Always starts with an internal of 0, so that it will get
-                //damaged in the next Update() tick
-                affectedTarges.Add(enemyStats,0);
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out EnemyStats enemyStats))
+        {
+            if (!affectedTargets.ContainsKey(enemyStats))
+            {
+                affectedTargets.Add(enemyStats, 0);
             }
-            else{
-                if(targeToUnAffect.Contains(enemyStats)){
-                    targeToUnAffect.Remove(enemyStats);
+            else
+            {
+                if (targetsToUnAffect.Contains(enemyStats))
+                {
+                    targetsToUnAffect.Remove(enemyStats);
                 }
             }
         }
     }
-    private void OnTriggerExit2D(Collider2D other) {
-        if(other.TryGetComponent(out EnemyStats enemyStats)){
-            //Do not directly remove the target upon leaving,
-            //because we still have to track their cooldowns.
-            if(affectedTarges.ContainsKey(enemyStats)){
-                targeToUnAffect.Add(enemyStats);
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out EnemyStats enemyStats))
+        {
+            if (affectedTargets.ContainsKey(enemyStats))
+            {
+                targetsToUnAffect.Add(enemyStats);
             }
         }
     }

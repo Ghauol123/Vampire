@@ -29,8 +29,10 @@ public class CameraMoving : MonoBehaviour
     public Transform target;
     public Vector3 offset;
 
-    void Update()
-    {
-        transform.position = target.position + offset;
-    }
+void Update() {
+    if (target == null) return;
+
+    Vector3 newPosition = target.position + offset;
+    transform.position = newPosition;
+}
 }
