@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad17c3ba2dac64478d3ea786428e256, type: 3}
+  m_Name: Health
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  maxLevel: 0
+  baseStats:
+    name: 
+    description: 
+    Icon: {fileID: 0}
+    type: 
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
+  growth: []

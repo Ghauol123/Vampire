@@ -19,9 +19,9 @@ MonoBehaviour:
     name: Scythe Swing
     description: Swings in a half circle arc in front
     Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
-    stats: {fileID: 0}
     type: Melee
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 68950838842264648, guid: 7ab10341a38cb6940aa8b1998094b473, type: 3}
     hitEffect: {fileID: 0}
@@ -45,10 +45,10 @@ MonoBehaviour:
   linearGrowth:
   - name: Level 2
     description: Increase damage by 20%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -71,10 +71,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 3
     description: Increase attack area by 15%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -97,10 +97,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 4
     description: Increase damage by 30%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -123,10 +123,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 5
     description: Reduce the time between attacks by 10%.
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -149,10 +149,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 6
     description: Increase attack area by 10%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -176,9 +176,9 @@ MonoBehaviour:
   - name: Level 7
     description: Increase damage by 40%. Has a 10% chance to instant KO
     Icon: {fileID: 21300000, guid: 5baa704107173824b856484d88e43583, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}

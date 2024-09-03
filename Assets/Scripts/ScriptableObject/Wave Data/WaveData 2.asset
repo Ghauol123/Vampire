@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaveData 2
   m_EditorClassIdentifier: 
   possibleSpawnPrefaps:
-  - {fileID: 8363618435026398200, guid: 9f2469d5996137c47bd7ceab0541acf8, type: 3}
+  - {fileID: 8363618435026398200, guid: c39cb5da4768653448f4763cc53f820e, type: 3}
   spawnTime: {x: 2, y: 3}
   spawnPerTic: {x: 1, y: 1}
   spawnDuration: 120

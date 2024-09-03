@@ -19,9 +19,9 @@ MonoBehaviour:
     name: Phoenix Sword
     description: Short ranged slash in front.
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 5578476039787461470, guid: 4274fac8583fda74086f3e7d74c3e58f, type: 3}
     hitEffect: {fileID: 0}
@@ -46,9 +46,9 @@ MonoBehaviour:
   - name: Level 2
     description: Increase damage by 20%
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -72,9 +72,9 @@ MonoBehaviour:
   - name: Level 3
     description: Increase attack area by 25%
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -98,9 +98,9 @@ MonoBehaviour:
   - name: Level 4
     description: Reduce the time between attacks by 15%.
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -124,9 +124,9 @@ MonoBehaviour:
   - name: Level 5
     description: Can hit twice per slash
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -150,9 +150,9 @@ MonoBehaviour:
   - name: Level 6
     description: Increase damage by 20%.
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -176,9 +176,9 @@ MonoBehaviour:
   - name: Level 6
     description: Increase damage by 20%.
     Icon: {fileID: 21300000, guid: 6802d6f3928ab2c42a124930d7346f3b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -203,9 +203,9 @@ MonoBehaviour:
     description: Sword is engulfed in flames, and can hit many times. Also leave
       a burning fire under hit targets
     Icon: {fileID: 21300000, guid: 2e8fc3e5b09aa7d49ac48cc3ab793db0, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}

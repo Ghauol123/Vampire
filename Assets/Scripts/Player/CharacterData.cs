@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "CharacterData", order = 0)]
 [System.Serializable]
@@ -19,8 +20,15 @@ public class CharacterData : ScriptableObject
     public Sprite sprite;
     [SerializeField]
     public RuntimeAnimatorController animatorController;
+
     [SerializeField]
-    public WeaponScriptableObject weaponScriptableObject;
+    public Sprite title_Character;
+    [SerializeField]
+    public List<CostumeData> costumes;
+
+    [SerializeField]
+    public CostumeData defaultCostume;
+
 
     [System.Serializable]
     //struct dùng để lưu trữ các giá trị của stats, thường để biểu diễn các giá trị cố định và nhẹ nhàng
@@ -34,9 +42,10 @@ public class CharacterData : ScriptableObject
         // [Min(-1)] public float luck,growth,greed,curse;
         public float magnet;
         public int revival;
-        [Range(0, 1)] public float criticalChance;     // Xác suất chí mạng, giá trị từ 0 đến 1
+        [Range(-1, 1)] public float criticalChance;     // Xác suất chí mạng, giá trị từ 0 đến 1
         [Min(1)] public float criticalMultiplier;      // Hệ số nhân chí mạng, giá trị >= 1
-
+        [Min(0)] public float expMultiplier;
+        public float healMultiplier;                   // Hệ số nhân hồi máu, giá trị >= 0
         // đây là phương thức cộng 2 stats với nhau
         public static Stats operator +(Stats s1, Stats s2){
             s1.maxHeal += s2.maxHeal;
@@ -56,13 +65,14 @@ public class CharacterData : ScriptableObject
             s1.magnet += s2.magnet;
             s1.revival += s2.revival;
             // các thuộc tính của chí mạng
-            s1.criticalChance += s2.criticalChance;
+            s1.criticalChance = Mathf.Max(0, s1.criticalChance + s2.criticalChance);
             s1.criticalMultiplier += s2.criticalMultiplier;
-
+            s1.expMultiplier += s2.expMultiplier;
+            s1.healMultiplier += s2.healMultiplier; 
             return s1;
         }
     }
     public  Stats stats = new Stats{
-        maxHeal = 100, moveSpeed = 1, might = 1, amount = 1, area = 1, cooldown =1,
+        maxHeal = 100, moveSpeed = 1, might = 1, amount = 1, area = 1, cooldown =1, healMultiplier = 1
     };
 }

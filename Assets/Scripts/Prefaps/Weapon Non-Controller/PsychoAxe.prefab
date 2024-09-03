@@ -140,4 +140,4 @@ MonoBehaviour:
   weapon: {fileID: 0}
   damageSource: 0
   hasAutoAim: 0
-  rotationSpeed: {x: 0, y: 0, z: -180}
+  rotationSpeed: {x: 0, y: 0, z: 180}

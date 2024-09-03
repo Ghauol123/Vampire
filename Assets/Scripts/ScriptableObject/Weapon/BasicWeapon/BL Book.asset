@@ -19,7 +19,6 @@ MonoBehaviour:
     name: BL Book
     description: Repels targets with orbiting BL Books
     Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
-    stats: {fileID: 0}
     type: Multishot
     projectilePrefabs: {fileID: 1194904874994523079, guid: 7a0240d0d0984b44da1b9678ce6178f6, type: 3}
     bombPrefabs: {fileID: 0}
@@ -46,8 +45,7 @@ MonoBehaviour:
   linearGrowth:
   - name: Level 2
     description: Add 1 additional book
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -73,8 +71,7 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 3
     description: Increase damage by 30% and increase duration by 1 second
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -100,8 +97,7 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 4
     description: Add 1 additional book
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -127,8 +123,7 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 4
     description: Increase Damage by 40%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -154,8 +149,7 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 6
     description: Add 1 additional book
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -181,8 +175,7 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 7
     description: Increase damage by 40%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}

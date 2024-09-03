@@ -19,7 +19,6 @@ MonoBehaviour:
     name: Pistol Shot
     description: Shoots 3 Projectiles forward
     Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-    stats: {fileID: 0}
     type: Multishot
     projectilePrefabs: {fileID: 1194904874994523079, guid: 6433bd4e4af3f8447b5402cf9e688272, type: 3}
     bombPrefabs: {fileID: 0}
@@ -47,7 +46,6 @@ MonoBehaviour:
   - name: Level 2
     description: Shoot 2 additional shot, and each bullet can pierce +1 times
     Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -74,7 +72,6 @@ MonoBehaviour:
   - name: Level 3
     description: Increase damage by 20%
     Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -102,7 +99,6 @@ MonoBehaviour:
     description: Each bullet can pierce +1 times. Reduce the time between attacks
       by 25%
     Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -129,7 +125,6 @@ MonoBehaviour:
   - name: Level 5
     description: Increase damage by 20%
     Icon: {fileID: 21300000, guid: bdbc14ab903e0e64b8c535a3657efbc0, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -156,7 +151,6 @@ MonoBehaviour:
   - name: Level 6
     description: Increase damage by 20%
     Icon: {fileID: 21300000, guid: a468c0fd4f7e785458276a7ef37ff012, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}

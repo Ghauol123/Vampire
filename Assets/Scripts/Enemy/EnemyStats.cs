@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyStats : MonoBehaviour
 {
+
     [System.Serializable]
     public struct Resitances
     {
@@ -44,6 +45,10 @@ public class EnemyStats : MonoBehaviour
     SpriteRenderer sr;
     EnemyMovement movement;
     Collider2D col;
+        
+    public AudioClip hitSound; // Clip âm thanh va chạm
+    private AudioSource audioSource; // Component AudioSource
+
     public static int count;
     private void Awake() {
         count ++;
@@ -113,9 +118,20 @@ public class EnemyStats : MonoBehaviour
         if(other.CompareTag("Player")){
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
             playerStats.TakeDamage(Actual.damage);
+            PlayCollisionSound();
             Debug.Log("Player Hit");
         }
     }
+    private void PlayCollisionSound()
+{
+    audioSource = GetComponent<AudioSource>();
+    hitSound = Resources.Load<AudioClip>("Audio/hurt");
+    // Play your collision sound here
+    if (audioSource != null)
+    {
+        audioSource.PlayOneShot(hitSound); // Replace 'yourCollisionClip' with your audio clip
+    }
+}
     private void OnDestroy() {
         count --;
     }

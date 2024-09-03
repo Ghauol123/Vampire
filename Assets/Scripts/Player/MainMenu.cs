@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
     public void OnNewGame()
     {
         Debug.Log("New Game");
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("CharSelect");
         DataPersistenceManager.instance.isNewgame = true;
         DataPersistenceManager.instance.NewGameData();
     }

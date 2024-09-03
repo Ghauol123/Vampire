@@ -19,7 +19,6 @@ MonoBehaviour:
     name: PsychoAxe
     description: Throw an axe
     Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 1194904874994523079, guid: 23dabdf25f614204db3630ab675064de, type: 3}
     bombPrefabs: {fileID: 0}

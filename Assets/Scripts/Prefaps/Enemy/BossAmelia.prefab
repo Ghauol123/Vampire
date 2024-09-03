@@ -144,13 +144,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd90a945091a7134b9ec6d4362a1d978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats:
+    maxHealth: 100
+    moveSpeed: 0.5
+    damage: 10
+    knockbackMultiple: 1
+    resitances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+  currentStats:
+    maxHealth: 0
+    moveSpeed: 0
+    damage: 0
+    knockbackMultiple: 0
+    resitances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+  currentHealth: 0
   est: {fileID: 11400000, guid: 708f3bd63ab00d44890909073517de99, type: 2}
-  currentMoveSpeed: 0
-  CurrentHealts: 0
-  currentDamage: 0
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+  hitSound: {fileID: 0}
 --- !u!114 &4376654599123577330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,10 +185,12 @@ MonoBehaviour:
     itemsPrefabs: {fileID: 5984390164189770510, guid: 5d682cbc6dc4a2c4e8eeaf0b97244a1b, type: 3}
     dropRate: 100
     Amount: 1
+    Exp: 0
   - name: Burger
     itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
     dropRate: 10
     Amount: 1
+    Exp: 0
 --- !u!61 &4505296608700930561
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -185,7 +204,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.014549077, y: -0.15276432}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -196,7 +215,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3}
+  m_Size: {x: 0.6362752, y: 0.8635303}
   m_EdgeRadius: 0
 --- !u!114 &-669295695851559676
 MonoBehaviour:

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad17c3ba2dac64478d3ea786428e256, type: 3}
   m_Name: Just Bandage
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b1dffff0959da1944b7edd2a0cdcb56d, type: 3}
   maxLevel: 3
   baseStats:
     name: Just Bandage
     description: Increases maximum HP by 10. Increases recovery by 10%
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b1dffff0959da1944b7edd2a0cdcb56d, type: 3}
     type: Healing
     boots:
       maxHeal: 10
@@ -30,10 +30,13 @@ MonoBehaviour:
       cooldown: 0
       magnet: 0
       revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
   growth:
   - name: Level 2
     description: Increase Max HP by 20.  Increases recovery 15%
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b1dffff0959da1944b7edd2a0cdcb56d, type: 3}
     type: 
     boots:
       maxHeal: 15
@@ -46,9 +49,12 @@ MonoBehaviour:
       cooldown: 0
       magnet: 0
       revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
   - name: Level 3
     description: Increase Max HP by 30.  Increases recovery 20%
-    Icon: {fileID: 0}
+    Icon: {fileID: 21300000, guid: b1dffff0959da1944b7edd2a0cdcb56d, type: 3}
     type: 
     boots:
       maxHeal: 15
@@ -61,3 +67,6 @@ MonoBehaviour:
       cooldown: 0
       magnet: 0
       revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0

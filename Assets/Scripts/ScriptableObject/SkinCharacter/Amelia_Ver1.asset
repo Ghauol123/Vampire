@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9547c9dd4c8b011438a89d35e0566bf1, type: 3}
+  m_Name: Amelia_Ver1
+  m_EditorClassIdentifier: 
+  costumeName: Amelia's second outfit
+  costumeSprite: {fileID: 21300000, guid: b736701fffbfc0c4fbd75aaacd377987, type: 3}
+  costumeAnimator: {fileID: 9100000, guid: 8b2ceafa50b8a58419e4510f22851791, type: 2}
+  m_SpriteArray:
+  - {fileID: 21300000, guid: b736701fffbfc0c4fbd75aaacd377987, type: 3}
+  - {fileID: 21300000, guid: 8abfc0a08a7e1464993052f33225c148, type: 3}
+  - {fileID: 21300000, guid: 3c069cc84486a5a48a374bfeacc7661c, type: 3}

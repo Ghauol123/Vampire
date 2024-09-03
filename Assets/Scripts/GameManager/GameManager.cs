@@ -21,12 +21,12 @@ public bool isGameLoaded;
     public GameObject LevelUpScreen;
     public int stackLevelups = 0;
     [Header("Current Stas Displays")]
-    public TMP_Text CurrentSpeedDisplay;
-    public TMP_Text CurrentHealDisplay;
-    public TMP_Text CurrentMightDisplay;
-    public TMP_Text CurrentProjectTileSpeedDisplay;
-    public TMP_Text CurrentrecoveryDisplay;
-    public TMP_Text CurrentMagnetDisplay;
+    // public TMP_Text CurrentSpeedDisplay;
+    // public TMP_Text CurrentHealDisplay;
+    // public TMP_Text CurrentMightDisplay;
+    // public TMP_Text CurrentProjectTileSpeedDisplay;
+    // public TMP_Text CurrentrecoveryDisplay;
+    // public TMP_Text CurrentMagnetDisplay;
     public TMP_Text levelReach;
     public TMP_Text ScoreEndGame;
     public TMP_Text timeSurvival;

@@ -142,8 +142,9 @@ public abstract class Weapon : Item
         {
             baseDamage *= criticalMultiplier; // Nhân sát thương với hệ số chí mạng
             Debug.Log("Critical Hit!");
+            Debug.Log("Critical Damage: " + baseDamage);
         }
-
+        Debug.Log("Damage: " + baseDamage * owner.Stats.might + "Weapon Name: " + name);
         return baseDamage * owner.Stats.might; // Áp dụng sát thương với chỉ số might của nhân vật
     }
 

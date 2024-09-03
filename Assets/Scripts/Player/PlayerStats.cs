@@ -23,6 +23,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
             actualStats = value;
         }
     }
+
     PlayerPickUp playerPickUp;
     float currentHeal;
 
@@ -34,10 +35,10 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
         {
             if(currentHeal != value){
             currentHeal = value;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.CurrentHealDisplay.text = string.Format("Health: {0} / {1}",currentHeal, actualStats.maxHeal);
-            }
+            // if (GameManager.instance != null)
+            // {
+            //     GameManager.instance.CurrentHealDisplay.text = string.Format("Health: {0} / {1}",currentHeal, actualStats.maxHeal);
+            // }
             }
         }
     }
@@ -52,11 +53,11 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     public int level = 1;
     public int experienceCap;
 
+    
+
     public SpriteRenderer spriteRenderer;
-    public Animator animator;
-    public GameObject weaponTest;
-    public GameObject passiveItemsText;
-    public GameObject passiveItemsText2;
+    public Animator animator; 
+    
     public int score = 0;
 
     [System.Serializable]
@@ -74,8 +75,6 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     public List<levelRange> levelRanges;
     [HideInInspector]
     public PlayerInventory playerInventory;
-    public int weaponIndex;
-    public int passiveItemsIndex;
 
     [Header("UI")]
     public UnityEngine.UI.Image healBar;
@@ -85,6 +84,7 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     PlayerData playerData;
     GameManager gameManager;
     DataPersistenceManager dataPersistenceManager;
+    CostumeData costumeData;
 
     private void Awake()
     {
@@ -102,35 +102,52 @@ public class PlayerStats : MonoBehaviour, IDataPersistence
     }
 
 
-    public  void InitializeNewGame()
+public void InitializeNewGame()
+{
+    // Khởi tạo cho trò chơi mới
+    // cst = CharacterSelected.GetData();
+    cst = CharacterSelected.instance.characterData;
+    costumeData = CharacterSelected.GetSelectedCostume();
+    spriteRenderer = GetComponent<SpriteRenderer>();
+    animator = GetComponent<Animator>();
+
+    // Ensure CharacterSelected instance exists and has a valid costumeData
+    if (CharacterSelected.instance != null && CharacterSelected.instance.costumeData != null)
     {
-        // Khởi tạo cho trò chơi mới
-        cst = CharacterSelected.GetData();
-        if (CharacterSelected.instance != null && CharacterSelected.instance.gameObject.activeInHierarchy)
-        {
-            CharacterSelected.instance.DestroyInstance();
-        }
-
-        playerInventory = GetComponent<PlayerInventory>();
-        playerPickUp = GetComponentInChildren<PlayerPickUp>();
-        baseStat = actualStats = cst.stats;
-        playerPickUp.SetMagnet(actualStats.magnet);
-        currentHeal = actualStats.maxHeal;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-
-        // Thiết lập sprite và animator cho người chơi
+        // Use selectedCostume to set sprite and animator
+        spriteRenderer.sprite = costumeData.CostumeSprite;
+        animator.runtimeAnimatorController = costumeData.CostumeAnimator;
+    }
+    else
+    {
+        // Fallback to default character data if no costume is selected
         spriteRenderer.sprite = cst.sprite;
         animator.runtimeAnimatorController = cst.animatorController;
-        playerInventory.availableWeapons.Insert(0, cst.StartingWeapon);
-        // Thêm vũ khí khởi đầu vào kho người chơi
-        playerInventory.Add(cst.StartingWeapon);
-
-        experienceCap = levelRanges[0].experienceCapIncrese;
-
-        gameManager.AssignCharacter(cst);
-        gameManager.Icon(cst);
+        Debug.LogWarning("No costume selected, using default character appearance.");
     }
+
+    
+    if (CharacterSelected.instance != null && CharacterSelected.instance.gameObject.activeInHierarchy)
+    {
+        CharacterSelected.instance.DestroyInstance();
+    }
+
+    playerInventory = GetComponent<PlayerInventory>();
+    playerPickUp = GetComponentInChildren<PlayerPickUp>();
+    baseStat = actualStats = cst.stats;
+    playerPickUp.SetMagnet(actualStats.magnet);
+    currentHeal = actualStats.maxHeal;
+
+    // Thêm vũ khí khởi đầu vào kho người chơi
+    playerInventory.availableWeapons.Insert(0, cst.StartingWeapon);
+    playerInventory.Add(cst.StartingWeapon);
+
+    experienceCap = levelRanges[0].experienceCapIncrese;
+
+    gameManager.AssignCharacter(cst);
+    gameManager.Icon(cst);
+}
+
 
     private void Update()
     {
@@ -333,7 +350,10 @@ private void AddInventoryItems(GameData gameData)
 
     public void IncreaseExperience(int amount)
     {
-        experience += amount;
+        int adjustedAmount = Mathf.CeilToInt(amount * actualStats.expMultiplier);
+        Debug.Log("Exp: " + adjustedAmount);
+        Debug.Log("ExpMultiple: " + cst.stats.expMultiplier);
+        experience += adjustedAmount;
         levelCheckerUp();
         updateExpBar();
     }
@@ -342,7 +362,7 @@ private void AddInventoryItems(GameData gameData)
     {
         if (CurrentHeal < cst.stats.maxHeal)
         {
-            CurrentHeal += heal;
+            CurrentHeal += heal*actualStats.healMultiplier;
             if (CurrentHeal > cst.stats.maxHeal)
             {
                 CurrentHeal = cst.stats.maxHeal;
@@ -423,6 +443,25 @@ private void AddInventoryItems(GameData gameData)
             updateHealBar();
         }
     }
+//     private void OnTriggerEnter2D(Collider2D other)
+// {
+//     if (other.CompareTag("Enemy"))
+//     {
+//         PlayCollisionSound();
+//     }
+// }
+
+
+// private void PlayCollisionSound()
+// {
+//     audioSource = GetComponent<AudioSource>();
+//     hitSound = Resources.Load<AudioClip>("Audio/hurt");
+//     // Play your collision sound here
+//     if (audioSource != null)
+//     {
+//         audioSource.PlayOneShot(hitSound); // Replace 'yourCollisionClip' with your audio clip
+//     }
+// }
 
     public void updateHealBar()
     {
@@ -453,19 +492,20 @@ public void updateExpBar()
     {
         if(CurrentHeal < actualStats.maxHeal)
         {
-            CurrentHeal += amount;
+            CurrentHeal += amount*actualStats.healMultiplier;
             if(CurrentHeal > actualStats.maxHeal)
             {
                 CurrentHeal = actualStats.maxHeal;
             }
         }
+        updateHealBar();
     }
 
     public void Recover()
     {
         if(CurrentHeal < actualStats.maxHeal)
         {
-            CurrentHeal += Stats.recovery*Time.deltaTime;
+            CurrentHeal += Stats.recovery*Time.deltaTime * actualStats.healMultiplier;
             if(CurrentHeal > actualStats.maxHeal)
             {
                 CurrentHeal = actualStats.maxHeal;

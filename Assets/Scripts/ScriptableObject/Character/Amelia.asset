@@ -17,7 +17,10 @@ MonoBehaviour:
   startingWeapon: {fileID: 11400000, guid: ebb65440a5260734494c56747498caff, type: 2}
   sprite: {fileID: 21300000, guid: 9c7fa6d8e95d6a24bac8c486631b083c, type: 3}
   animatorController: {fileID: 9100000, guid: d42369e5f500c734dba095e3aa202abe, type: 2}
-  weaponScriptableObject: {fileID: 11400000, guid: 02b496d1b15c6dd42a5b3e191c57a87c, type: 2}
+  title_Character: {fileID: 21300000, guid: f85340a9c1638ad4cbe2815f90f6da12, type: 3}
+  costumes:
+  - {fileID: 11400000, guid: 54f7662fa9794eb41a7f78e41f0773c0, type: 2}
+  - {fileID: 11400000, guid: c713c77dabba58b44bae73721b0eb5b2, type: 2}
   stats:
     maxHeal: 75
     recovery: 1
@@ -29,3 +32,7 @@ MonoBehaviour:
     cooldown: 1
     magnet: 3
     revival: 0
+    criticalChance: 0.1
+    criticalMultiplier: 2
+    expMultiplier: 1
+    healMultiplier: 1

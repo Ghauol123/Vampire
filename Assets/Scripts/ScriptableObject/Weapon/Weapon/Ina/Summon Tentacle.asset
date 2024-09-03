@@ -19,9 +19,9 @@ MonoBehaviour:
     name: Summon Tentacle
     description: A tentacle shoots out in front
     Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
-    stats: {fileID: 0}
     type: Melee
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: -6030407993050678002, guid: 40ca763ee586c7444984eae3f743d1a2, type: 3}
     hitEffect: {fileID: 0}
@@ -45,10 +45,10 @@ MonoBehaviour:
   linearGrowth:
   - name: Level 2
     description: Increase damage by 20%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -71,10 +71,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 3
     description: Reduce the time between attacks by 20%.
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -97,10 +97,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 4
     description: Increase attack area by 25%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -123,10 +123,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 5
     description: Increase damage by 50%
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -149,10 +149,10 @@ MonoBehaviour:
     maxInstance: 0
   - name: Level 6
     description: Adds small knockback on hit
-    Icon: {fileID: 0}
-    stats: {fileID: 0}
+    Icon: {fileID: 21300000, guid: 2b8346343a926a64e8f02cf34124b53e, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}
@@ -176,9 +176,9 @@ MonoBehaviour:
   - name: Level 6
     description: Increase damage by 50%
     Icon: {fileID: 21300000, guid: c5da3fb92908fe74f9e40d698d2c983b, type: 3}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
     meleePrefabs: {fileID: 0}
     hitEffect: {fileID: 0}

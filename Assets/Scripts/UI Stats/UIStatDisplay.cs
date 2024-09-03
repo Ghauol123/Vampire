@@ -3,18 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI; // Đảm bảo bạn đã thêm namespace này để sử dụng Image component
+
 
 public class UIStatDisplay : MonoBehaviour
 {
     public PlayerStats playerStats;
     TextMeshProUGUI statName, statValue;
+    UnityEngine.UI.Image icon;
     public bool updateInEditor = false;
     void Start(){
         playerStats = FindAnyObjectByType<PlayerStats>();
+
     }
     private void OnEnable() {
         UpdateStatField();
@@ -27,6 +32,9 @@ public class UIStatDisplay : MonoBehaviour
         //Get a reference to both Text objects to render stats names and stat values
         if(!statName) statName = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         if(!statValue) statValue = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        // if(!icon) spriteRenderer = transform.GetChild(2).GetComponent<SpriteRenderer>();
+        icon = transform.GetChild(2).GetComponent<UnityEngine.UI.Image>();
+        icon.sprite = playerStats.cst.title_Character;
         //Render all stats names and values
         // Use StringBuilder so that the strig manipulation runs faster
         StringBuilder names = new StringBuilder();

@@ -54,11 +54,11 @@ public class InventoryManager : MonoBehaviour
         // playerStats.cst = cst1;
         // Gán các giá trị cho đối tượng mới
 
-        newUpgrade.weaponUpgradeIndex = 0; // ví dụ
-        // newUpgrade.initialWeapon = playerStats.cst.StartingWeapon;
-        newUpgrade.weaponScriptableObject = playerStats.cst.weaponScriptableObject; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
-// Thêm đối tượng mới vào vị trí đầu tiên trong danh sách
-        weaponUpgradeOptions.Insert(0, newUpgrade);
+//         newUpgrade.weaponUpgradeIndex = 0; // ví dụ
+//         // newUpgrade.initialWeapon = playerStats.cst.StartingWeapon;
+//         newUpgrade.weaponScriptableObject = playerStats.cst.weaponScriptableObject; // Thay yourWeaponScriptableObject bằng đối tượng WeaponScriptableObject của bạn
+// // Thêm đối tượng mới vào vị trí đầu tiên trong danh sách
+//         weaponUpgradeOptions.Insert(0, newUpgrade);
 
     }
 

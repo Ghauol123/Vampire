@@ -12,40 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad17c3ba2dac64478d3ea786428e256, type: 3}
   m_Name: Limiter
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 30b316860fad6d64fb3615f934337980, type: 3}
   maxLevel: 3
   baseStats:
     name: Limiter
     description: Gain 100% Pick Up Range
+    Icon: {fileID: 21300000, guid: 30b316860fad6d64fb3615f934337980, type: 3}
     type: Stats
-    Icon: {fileID: 0}
     boots:
       maxHeal: 0
       recovery: 0
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
-      magnet: 0.3
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0.1
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
   growth:
   - name: Level 2
     description: Gain 200% Pick Up Range
+    Icon: {fileID: 21300000, guid: 30b316860fad6d64fb3615f934337980, type: 3}
     type: 
-    Icon: {fileID: 0}
     boots:
       maxHeal: 0
       recovery: 0
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
-      magnet: 0.3
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0.2
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
   - name: Level 3
     description: Gain 300% Pick Up Range
+    Icon: {fileID: 21300000, guid: 30b316860fad6d64fb3615f934337980, type: 3}
     type: 
-    Icon: {fileID: 0}
     boots:
       maxHeal: 0
       recovery: 0
+      armor: 0
       moveSpeed: 0
       might: 0
-      speed: 0
+      area: 0
+      amount: 0
+      cooldown: 0
       magnet: 0.3
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0

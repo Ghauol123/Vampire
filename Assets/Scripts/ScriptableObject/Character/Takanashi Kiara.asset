@@ -17,7 +17,6 @@ MonoBehaviour:
   startingWeapon: {fileID: 11400000, guid: de601b50e46993b43b46418b72d8e6e4, type: 2}
   sprite: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
   animatorController: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
-  weaponScriptableObject: {fileID: 11400000, guid: b168018abb8ed114f8cd5324017ddf90, type: 2}
   stats:
     maxHeal: 90
     recovery: 1
@@ -29,3 +28,7 @@ MonoBehaviour:
     cooldown: 1
     magnet: 3
     revival: 0
+    criticalChance: 0.05
+    criticalMultiplier: 2
+    expMultiplier: 1
+    healMultiplier: 1

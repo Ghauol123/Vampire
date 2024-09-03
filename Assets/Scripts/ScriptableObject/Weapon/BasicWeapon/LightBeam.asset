@@ -19,7 +19,6 @@ MonoBehaviour:
     name: Fan Beam
     description: 'Shoot a powerful laser beam from the microphone. Horizontal Only. '
     Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
-    stats: {fileID: 0}
     type: Multishot
     projectilePrefabs: {fileID: 6808618598914899295, guid: 4416fdb1e0e198744a9afe5a161eeba8, type: 3}
     bombPrefabs: {fileID: 0}
@@ -47,7 +46,6 @@ MonoBehaviour:
   - name: Level 2
     description: Add 1 additional book
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -74,7 +72,6 @@ MonoBehaviour:
   - name: Level 3
     description: Increase damage by 30% and increase duration by 1 second
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -101,7 +98,6 @@ MonoBehaviour:
   - name: Level 4
     description: Add 1 additional book
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -128,7 +124,6 @@ MonoBehaviour:
   - name: Level 4
     description: Increase Damage by 40%
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -155,7 +150,6 @@ MonoBehaviour:
   - name: Level 6
     description: Add 1 additional book
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -182,7 +176,6 @@ MonoBehaviour:
   - name: Level 7
     description: Increase damage by 40%
     Icon: {fileID: 0}
-    stats: {fileID: 0}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
