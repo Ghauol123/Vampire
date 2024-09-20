@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Firebase.Auth;
 
 public class GameManager : MonoBehaviour
 {
@@ -49,17 +50,19 @@ public bool isGameLoaded;
 
 
     // public GameObject player;
-    PlayerStats[] playerStats;
+    // PlayerStats[] playerStats;
     // Start is called before the first frame update
-    public static int GetCumulativeLevels(){
-        if(instance == null) return 1;
-        int totalLevel = 0;
-        foreach (var playerStat in instance.playerStats)
-        {
-            totalLevel += playerStat.level;
-        }
-        return Mathf.Max(1, totalLevel);
-    }
+    // public static int GetCumulativeLevels(){
+    //     if(instance == null) return 1;
+    //     int totalLevel = 0;
+    //     foreach (var playerStat in instance.playerStats)
+    //     {
+    //         totalLevel += playerStat.level;
+    //     }
+    //     return Mathf.Max(1, totalLevel);
+    // }
+    PlayerStats playerStats;
+    FirebaseSaveGame firebaseSaveGame;
     void Start()
     {
         pauseScreen.SetActive(false);
@@ -74,7 +77,8 @@ public bool isGameLoaded;
             Destroy(gameObject);
         }
         LevelUpScreen.SetActive(false);
-        playerStats = FindObjectsOfType<PlayerStats>();
+        playerStats = FindObjectOfType<PlayerStats>();
+        firebaseSaveGame = FindObjectOfType<FirebaseSaveGame>();
     }
 
     // Update is called once per frame
@@ -147,15 +151,55 @@ public bool isGameLoaded;
         gameOverScreen.SetActive(false);
         LevelUpScreen.SetActive(false);
     }
-    public void GameOver()
+public async void GameOver()
+{
     // Display the game over screen
+    stopWacthDisplay.enabled = false;
+    timeSurvival.text = stopWacthDisplay.text;
+    ChangeState(GameState.GameOver);
+    Time.timeScale = 0f;
+    gameOverScreen.SetActive(true);
+    DisplayResultScreen();
+    
+    int finalScore = CalculateFinalScore(); // Replace with your actual score calculation logic
+
+    // Save score to Firebase
+    TimeSpan timeSpan = TimeSpan.FromSeconds(stopWatchTime);
+    
+    // Assuming you have a way to get the player's name, for example from Firebase auth or player data
+    string playerName = FirebaseAuth.DefaultInstance.CurrentUser.DisplayName; // If using Firebase Authentication
+
+    int firebaseCoin = await FirebaseLoadCoin.instance.GetCurrentCoinFromFirebase();
+
+    // Lấy số coin từ game (giả sử bạn có biến chứa số coin từ game)
+    int gameCoin = playerStats.coin; // playerStats.coin là số coin người chơi kiếm được trong game
+
+    // Tổng số coin
+    int totalCoin = firebaseCoin + gameCoin;
+
+    // Cập nhật số coin mới lên Firebase
+    await FirebaseLoadCoin.instance.UpdateCoinInFirebase(totalCoin);
+
+
+    // If you're storing the player's name elsewhere, retrieve it accordingly
+    firebaseSaveGame.SaveScoreToFirebase(playerStats.score, playerStats.cst.name, timeSpan, playerStats.level, playerName);
+}
+
+    private int CalculateFinalScore()
     {
-        stopWacthDisplay.enabled = false;
-        timeSurvival.text = stopWacthDisplay.text;
-        ChangeState(GameState.GameOver);
-        Time.timeScale = 0f;
-        gameOverScreen.SetActive(true);
-        DisplayResultScreen();
+        if (PlayerStats.instance == null)
+        {
+            Debug.LogError("PlayerStats instance is null!");
+            return 0; // Trả về giá trị mặc định nếu instance bị null
+        }
+
+        // Lấy điểm từ PlayerStats
+        int score = PlayerStats.instance.score;
+
+        // Kiểm tra điểm
+        Debug.Log("Final Score from PlayerStats: " + score);
+
+        return score;
     }
     public void DisplayResultScreen()
     // Display the result screen
@@ -213,26 +257,27 @@ public bool isGameLoaded;
             }
         }
     }
-    public void SaveGameData(ref GameData data)
-    {
-        data.timeSurvival = stopWatchTime;
-    }
+    // public void SaveGameData(ref GameData data)
+    // {
+    //     data.timeSurvival = stopWatchTime;
+    // }
 
-    public void LoadGameData(GameData data)
-    {
-        stopWatchTime = data.timeSurvival;
-        DisplayTime();
-    }
+    // public void LoadGameData(GameData data)
+    // {
+    //     stopWatchTime = data.timeSurvival;
+    //     DisplayTime();
+    // }
     public void UpdateStopWatch()
     {
         stopWatchTime += Time.deltaTime;
         DisplayTime();
         if (stopWatchTime >= TimeLimit)
         {
-            foreach (var playerStat in playerStats)
-            {
-                playerStat.SendMessage("Kill");
-            }
+            // foreach (var playerStat in playerStats)
+            // {
+            //     playerStat.SendMessage("Kill");
+            // }
+            playerStats.SendMessage("Kill");
         }
     }
     public void DisplayTime()
@@ -250,10 +295,11 @@ public bool isGameLoaded;
             LevelUpScreen.SetActive(true);
             Time.timeScale = 0f;
             stopWacthDisplay.enabled = false;
-                        foreach (var playerStat in playerStats)
-            {
-                playerStat.SendMessage("RemoveAndApplyUpgradeOption");
-            }
+            //             foreach (var playerStat in playerStats)
+            // {
+            //     playerStat.SendMessage("RemoveAndApplyUpgradeOption");
+            // }
+            playerStats.SendMessage("RemoveAndApplyUpgradeOption");
         }
     }
     public void EndLevelUp()

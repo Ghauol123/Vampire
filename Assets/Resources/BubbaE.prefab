@@ -176,10 +176,10 @@ MonoBehaviour:
       kill: 0
       debuff: 0
   currentHealth: 0
-  est: {fileID: 11400000, guid: 95e09640791cfcf40952138127d729a3, type: 2}
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+  hitSound: {fileID: 0}
 --- !u!114 &4376654599123577330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,11 +196,18 @@ MonoBehaviour:
   - name: Exp1
     itemsPrefabs: {fileID: 5984390164189770510, guid: 5d682cbc6dc4a2c4e8eeaf0b97244a1b, type: 3}
     dropRate: 100
-    Amount: 1
+    Amount: 2
+    Exp: 50
   - name: Burger
     itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
     dropRate: 10
     Amount: 1
+    Exp: 0
+  - name: Coin
+    itemsPrefabs: {fileID: 2003951173529533127, guid: 21464815cfabb964199f67a7af307e0b, type: 3}
+    dropRate: 100
+    Amount: 1
+    Exp: 0
 --- !u!60 &3199547017399036704
 PolygonCollider2D:
   m_ObjectHideFlags: 0

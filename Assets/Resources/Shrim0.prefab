@@ -161,7 +161,7 @@ MonoBehaviour:
   baseStats:
     maxHealth: 8
     moveSpeed: 0.35
-    damage: 2
+    damage: 1000
     knockbackMultiple: 1
     resitances:
       freeze: 0
@@ -177,7 +177,6 @@ MonoBehaviour:
       kill: 0
       debuff: 0
   currentHealth: 0
-  est: {fileID: 11400000, guid: f770eda6f801986428e403daf6d463a1, type: 2}
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
@@ -200,8 +199,13 @@ MonoBehaviour:
     dropRate: 100
     Amount: 2
     Exp: 50
-  - name: Exp1
+  - name: Burger
     itemsPrefabs: {fileID: 381480298846400129, guid: 4daec489187595043ad0f6b09dc1c78e, type: 3}
+    dropRate: 10
+    Amount: 1
+    Exp: 0
+  - name: Coin
+    itemsPrefabs: {fileID: 2003951173529533127, guid: 21464815cfabb964199f67a7af307e0b, type: 3}
     dropRate: 100
     Amount: 1
     Exp: 0

@@ -31,7 +31,6 @@ public class EnemyStats : MonoBehaviour
         get{return currentStats;}
     }
     public float currentHealth;
-    public EnemyScriptableObject est;
     // public float currentMoveSpeed;
     // public float CurrentHealts;
     // public float currentDamage;
@@ -102,6 +101,7 @@ public class EnemyStats : MonoBehaviour
         StartCoroutine(KillFade());
 
         // GameManager.instance.ScoreEndGame.text = "Score: "+PlayerStats.score.ToString();
+        PlayerStats.IncreaseKillnumber(1);
     }
     IEnumerator KillFade(){
         WaitForEndOfFrame w = new WaitForEndOfFrame();
@@ -135,27 +135,4 @@ public class EnemyStats : MonoBehaviour
     private void OnDestroy() {
         count --;
     }
-
-    public EnemiesData SaveEnemyData()
-{
-    return new EnemiesData
-    {
-        position = transform.position,
-        currentHealth = currentHealth,
-        currentMoveSpeed = Actual.moveSpeed,
-        currentDamage = Actual.damage,
-        enemyPrefabName = est.name // Assuming the scriptable object has the same name as the prefab
-    };
-}
-public static List<EnemiesData> enemiesData = new List<EnemiesData>();
-
-public void SaveEnemies()
-{
-    enemiesData.Clear();
-    foreach (EnemyStats enemy in FindObjectsOfType<EnemyStats>())
-    {
-        enemiesData.Add(enemy.SaveEnemyData());
-    }
-}
-
 }

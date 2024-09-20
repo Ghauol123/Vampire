@@ -8,27 +8,38 @@ using System.Threading.Tasks;
 using Firebase.Extensions;
 using System;
 using UnityEngine.SceneManagement;
+using Firebase.Database;
 
 public class FirebaseController : MonoBehaviour
 {
+    public static FirebaseController instance; // Singleton pattern
+    private DatabaseReference dbReference; // Database reference
+
     public GameObject loginPanel, signupPanel, forgotPasswordPanel, notificationPanel;
     // public GameObject gamePanel, profilePanel, UILogin;
     public TMP_InputField emailInput, passwordInput, signupEmailInput, signupPasswordInput, signupNameInput, signupConfirmPasswordInput, forgotEmailInput;
-    public Button loginButton;
     public TextMeshProUGUI notificationText;
     // public TextMeshProUGUI profileUserName, profileEmail;
     public Toggle rememberMeToggle;
     private FirebaseAuth auth;
     private FirebaseUser user;
     public bool isSignedIn = false;
+    public GameObject scoreScrollViewContent;
+    public GameObject scoreEntryPrefab;
+        private string userId;
 
     void Start()
     {
-        emailInput.onValueChanged.AddListener(delegate { UpdateLoginButtonState(); });
-        passwordInput.onValueChanged.AddListener(delegate { UpdateLoginButtonState(); });
-
+        // if (instance == null)
+        // {
+        //     instance = this;
+        //     DontDestroyOnLoad(gameObject);  // Đảm bảo không bị phá hủy khi chuyển cảnh
+        // }
+        // else
+        // {
+        //     Destroy(gameObject);  // Nếu đã có instance, hủy đối tượng mới
+        // }
         // Initialize the login button state
-        UpdateLoginButtonState();
         OpenLoginPanel();
         Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
             var dependencyStatus = task.Result;
@@ -44,21 +55,21 @@ public class FirebaseController : MonoBehaviour
         });
     }
 
-    void UpdateLoginButtonState()
-    {
-        if (string.IsNullOrEmpty(emailInput.text) || string.IsNullOrEmpty(passwordInput.text))
-        {
-            // Gray color if input is invalid
-            loginButton.interactable = false;
-            loginButton.GetComponent<Image>().color = Color.gray;
-        }
-        else
-        {
-            // Red color if input is valid
-            loginButton.interactable = true;
-            loginButton.GetComponent<Image>().color = Color.red;
-        }
-    }
+    // void UpdateLoginButtonState()
+    // {
+    //     if (string.IsNullOrEmpty(emailInput.text) || string.IsNullOrEmpty(passwordInput.text))
+    //     {
+    //         // Gray color if input is invalid
+    //         loginButton.interactable = false;
+    //         loginButton.GetComponent<Image>().color = Color.gray;
+    //     }
+    //     else
+    //     {
+    //         // Red color if input is valid
+    //         loginButton.interactable = true;
+    //         loginButton.GetComponent<Image>().color = Color.red;
+    //     }
+    // }
 
     public void OpenLoginPanel()
     {
@@ -214,13 +225,26 @@ public class FirebaseController : MonoBehaviour
     void InitializeFirebase()
     {
         auth = FirebaseAuth.DefaultInstance;
+        userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        Debug.Log(userId);
+        dbReference = FirebaseDatabase.DefaultInstance.RootReference; 
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
-
-    void AuthStateChanged(object sender, System.EventArgs eventArgs)
+void AuthStateChanged(object sender, System.EventArgs eventArgs)
 {
+    if (auth == null)
+    {
+        Debug.LogError("FirebaseAuth instance is null. Cannot check authentication state.");
+        return;
+    }
+
     FirebaseUser currentUser = auth.CurrentUser;
+    // if (currentUser == null)
+    // {
+    //     Debug.LogError("CurrentUser is null. No user is signed in.");
+    // }
+
     if (user != currentUser)
     {
         bool signedIn = user == null && currentUser != null;
@@ -231,14 +255,12 @@ public class FirebaseController : MonoBehaviour
         user = currentUser;
         if (signedIn)
         {
-            Debug.Log("Signed in " + user.UserId);
+            Debug.Log("Signed in " + user.UserId + " " + user.DisplayName);
             isSignedIn = true;
             DataPersistenceManager.instance.OnUserChanged(); // Gọi OnUserChanged khi có người dùng đăng nhập
         }
     }
 }
-
-
 
     private void OnDestroy()
     {
@@ -346,14 +368,4 @@ public class FirebaseController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         notificationPanel.SetActive(false);
     }
-
-    // void UpdateUserInformation(FirebaseUser user)
-    // {
-    //     // Update the UI elements with the user's information
-    //     if (user != null)
-    //     {
-    //         profileUserName.text = "Username: " + (user.DisplayName ?? "N/A");
-    //         profileEmail.text = "Email: " + user.Email;
-    //     }
-    // }
 }

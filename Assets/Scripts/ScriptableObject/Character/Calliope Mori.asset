@@ -17,6 +17,10 @@ MonoBehaviour:
   startingWeapon: {fileID: 11400000, guid: 128bf80e3980f1148afb6bdc3502494d, type: 2}
   sprite: {fileID: 21300000, guid: 8b63a6cdb0dfcf64585154236fb1bf9e, type: 3}
   animatorController: {fileID: 9100000, guid: 484ab909bbbabd042afe77d144284e3b, type: 2}
+  title_Character: {fileID: 0}
+  costumes:
+  - {fileID: 11400000, guid: 94abd7cac75c72d438120a358acd736f, type: 2}
+  defaultCostume: {fileID: 0}
   stats:
     maxHeal: 70
     recovery: 1

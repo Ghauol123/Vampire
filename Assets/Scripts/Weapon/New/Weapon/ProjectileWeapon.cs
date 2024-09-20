@@ -51,7 +51,7 @@ public class ProjectileWeapon : Weapon
         Debug.Log(currentStats.projectilePrefabs);
         currentProjectile.weapon = this;
         currentProjectile.owner = owner;
-
+        // currentProjectile.transform.parent = owner.transform;
         if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
         attackCount--;
         if(attackCount >0){

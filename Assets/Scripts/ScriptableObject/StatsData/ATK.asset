@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd4a90b54bd36d4388005805f486125, type: 3}
+  m_Name: ATK
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+  maxLevel: 5
+  baseStats:
+    name: Attack
+    description: Increase power by 5%
+    Icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+    type: Stat
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0.05
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
+  growth:
+  - name: Level 2
+    description: 
+    Icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+    type: Stat
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0.05
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
+  - name: Level 3
+    description: 
+    Icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+    type: Stat
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0.05
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
+  - name: Level 4
+    description: 
+    Icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+    type: Stat
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0.05
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0
+  - name: Level 5
+    description: 
+    Icon: {fileID: 21300000, guid: ba01f302fff8d3a489c30bf8fa676cd3, type: 3}
+    type: Stat
+    boots:
+      maxHeal: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0.05
+      area: 0
+      amount: 0
+      cooldown: 0
+      magnet: 0
+      revival: 0
+      criticalChance: 0
+      criticalMultiplier: 0
+      expMultiplier: 0
+      healMultiplier: 0

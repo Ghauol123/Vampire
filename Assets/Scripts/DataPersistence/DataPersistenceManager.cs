@@ -4,7 +4,6 @@ using System.Linq;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,45 +44,6 @@ public class DataPersistenceManager : MonoBehaviour
     {
         gameData = new GameData();
     }
-    // public void SaveGameData()
-    // {
-    //     if(gameData == null){
-    //         Debug.LogWarning("gameData is null");
-    //         return;
-    //     }
-    //       // Find the PlayerStats instance
-    //     playerStats = FindObjectOfType<PlayerStats>();
-
-    //     // Check if PlayerStats is active and not null
-    //     if (playerStats == null || !playerStats.gameObject.activeInHierarchy)
-    //     {
-    //         Debug.LogWarning("PlayerStats is not active, skipping SaveGameData");
-    //         return;
-    //     }
-    //     this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-    //     foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects)
-    //     {
-    //         dataPersistenceObject.SaveGameData(ref gameData);
-    //     }
-    //     Debug.Log("Saving game data");
-    //     Debug.Log("Player position: " + gameData.playerPosition);
-
-    //     fileDataHandle.Save(gameData);
-    // }
-    // public void LoadGameData()
-    // {
-    //     gameData = fileDataHandle.Load(gameData);
-    //     if(gameData == null){
-    //         Debug.LogWarning("gameData is null");
-    //         return;
-    //     }
-    //     this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-    //     foreach (IDataPersistence dataPersistenceObject in dataPersistenceObjects)
-    //     {
-    //         dataPersistenceObject.LoadGameData(gameData);
-    //     }
-    //     Debug.Log("Loading game data");
-    // }
     public void SaveGameData()
     {
         if (gameData == null)

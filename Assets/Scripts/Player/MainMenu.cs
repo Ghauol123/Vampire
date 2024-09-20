@@ -8,19 +8,11 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("New Game");
         SceneManager.LoadScene("CharSelect");
-        DataPersistenceManager.instance.isNewgame = true;
-        DataPersistenceManager.instance.NewGameData();
-    }
-
-    public void OnContinue()
-    {
-        Debug.Log("Continue");
-        DataPersistenceManager.instance.LoadGameData();
-        DataPersistenceManager.instance.isNewgame = false;
-        SceneManager.LoadScene("Game");
+        // DataPersistenceManager.instance.isNewgame = true;
+        // DataPersistenceManager.instance.NewGameData();
     }
     public void ReturnMenu(){
         SceneManager.LoadScene("Main Screen");
-        DataPersistenceManager.instance.SaveGameData();
+        // DataPersistenceManager.instance.SaveGameData();
     }
 }

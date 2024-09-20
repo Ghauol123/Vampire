@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI; // Đảm bảo bạn đã thêm namespace này để sử dụng Image component
 
@@ -49,7 +47,7 @@ public class UIStatDisplay : MonoBehaviour
             float fval = val is int ? (int)val : (float)val;
             // values.Append(fval).Append("\n");
 
-            PropertyAttribute attribute = (PropertyAttribute)ProductAttribute.GetCustomAttribute(field,typeof(PropertyAttribute));
+            PropertyAttribute attribute = (PropertyAttribute)PropertyAttribute.GetCustomAttribute(field,typeof(PropertyAttribute));
             if(attribute != null && field.FieldType == typeof(float)){
                 float percentage = Mathf.Round(fval*100-100);
                 if(Mathf.Approximately(percentage,0)){

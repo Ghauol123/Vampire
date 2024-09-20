@@ -20,7 +20,7 @@ MonoBehaviour:
   title_Character: {fileID: 21300000, guid: f85340a9c1638ad4cbe2815f90f6da12, type: 3}
   costumes:
   - {fileID: 11400000, guid: 54f7662fa9794eb41a7f78e41f0773c0, type: 2}
-  - {fileID: 11400000, guid: c713c77dabba58b44bae73721b0eb5b2, type: 2}
+  defaultCostume: {fileID: 0}
   stats:
     maxHeal: 75
     recovery: 1

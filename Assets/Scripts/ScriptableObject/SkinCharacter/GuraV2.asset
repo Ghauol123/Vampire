@@ -15,3 +15,8 @@ MonoBehaviour:
   costumeName: GuraV2
   costumeSprite: {fileID: 21300000, guid: 74142734e24608d4f815ed7122ce58d5, type: 3}
   costumeAnimator: {fileID: 9100000, guid: aa936038868c5af4cab10e589ecd5261, type: 2}
+  m_SpriteArray:
+  - {fileID: 21300000, guid: 74142734e24608d4f815ed7122ce58d5, type: 3}
+  - {fileID: 21300000, guid: a4830d4f310be454cb3f974d3a251532, type: 3}
+  - {fileID: 21300000, guid: 6950ddf7a42644f44816150a8040b332, type: 3}
+  characterData: {fileID: 11400000, guid: a4387eef8179898418c7929960bd21b5, type: 2}

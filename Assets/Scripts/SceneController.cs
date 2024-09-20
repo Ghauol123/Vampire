@@ -1,3 +1,43 @@
+// using System.Collections;
+// using System.Collections.Generic;
+// using Firebase.Auth;
+// using UnityEngine;
+// using UnityEngine.SceneManagement;
+
+// public class SceneController : MonoBehaviour
+// {
+//     private FirebaseAuth auth;
+
+//     void Start()
+//     {
+//         // Initialize FirebaseAuth instance
+//         auth = FirebaseAuth.DefaultInstance;
+//     }
+
+//     public static SceneController instance;
+
+//     public void SceneChange(string name)
+//     {
+//         SceneManager.LoadScene(name);
+//         Time.timeScale = 1f;
+//     }
+
+//     public void LogoutUser()
+//     {
+//         if (auth.CurrentUser != null)
+//         {
+//             auth.SignOut();
+//             Debug.Log("User logged out successfully.");
+//             // Set the isSignedIn variable to false
+//             FirebaseController firebaseController = FindObjectOfType<FirebaseController>();
+//             if (firebaseController != null)
+//             {
+//                 firebaseController.isSignedIn = false;
+//             }
+//             SceneChange("Login");
+//         }
+//     }
+// }
 using System.Collections;
 using System.Collections.Generic;
 using Firebase.Auth;
@@ -7,35 +47,41 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
     private FirebaseAuth auth;
+    public static SceneController instance;
 
     void Start()
     {
-        // Initialize FirebaseAuth instance
+        // Khởi tạo FirebaseAuth
         auth = FirebaseAuth.DefaultInstance;
     }
 
-public static SceneController instance;
-
-    public void SceneChange(string name)
+    public void SceneChange(string sceneName)
     {
-        SceneManager.LoadScene(name);
+        // Ghi lại cảnh hiện tại trước khi chuyển đổi
+        string previousScene = SceneManager.GetActiveScene().name;
+
+        // Tạo một hành động để theo dõi việc thay đổi cảnh
+        ChangeSceneAction sceneAction = new ChangeSceneAction(previousScene, sceneName);
+        ActionManager.Instance.PerformAction(sceneAction);
+
+        // Tải cảnh mới
+        SceneManager.LoadScene(sceneName);
         Time.timeScale = 1f;
-        DataPersistenceManager.instance.isNewgame = true;
     }
-    public void LogoutUser()
-{
-    if (auth.CurrentUser != null)
-    {
-        auth.SignOut();
-        Debug.Log("User logged out successfully.");
-        // Set the isSignedIn variable to false
-        FirebaseController firebaseController = FindObjectOfType<FirebaseController>();
-        if (firebaseController != null)
-        {
-            firebaseController.isSignedIn = false;
-        }
-        SceneChange("Login");
-    }
-}
 
+    public void LogoutUser()
+    {
+        if (auth.CurrentUser != null)
+        {
+            auth.SignOut();
+            Debug.Log("Đăng xuất thành công.");
+            // Đặt biến isSignedIn thành false
+            FirebaseController firebaseController = FindObjectOfType<FirebaseController>();
+            if (firebaseController != null)
+            {
+                firebaseController.isSignedIn = false;
+            }
+            SceneChange("Login");
+        }
+    }
 }

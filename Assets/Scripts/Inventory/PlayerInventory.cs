@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -42,8 +41,25 @@ public class PlayerInventory : MonoBehaviour
         return item as Passive;
     }
     }
+     [System.Serializable]
+    public class StatSlot{
+        public Item item;
+        public void Assign(Item assignItem){
+            item = assignItem;
+            Debug.Log("Assign " + item.name + " to player");
+        }
+        public void Clear(){
+            item = null;
+        }
+        public bool IstEmpty() { return item == null;}
+        public Stats GetStats()
+        {
+            return item as Stats;
+        }
+    }
     public List<Slot> weaponSlot = new List<Slot>(6);
     public List<Slot> passiveSlot = new List<Slot>(6);
+    public List<StatSlot> statSlot = new List<StatSlot>(4);
     [System.Serializable]
     public class UpgradeUI{
         public TMP_Text upgradeNameDisplay;
@@ -56,6 +72,7 @@ public class PlayerInventory : MonoBehaviour
     [Header("UI Element")]
     public List<WeaponData> availableWeapons = new List<WeaponData>();
     public List<PassiveData> availablePassive = new List<PassiveData>();
+    public List<StatsData> availableStats = new List<StatsData>();
     public List<UpgradeUI> upgradeUIOpitons = new List<UpgradeUI>();
     PlayerStats playerStats;
     private void Awake() {
@@ -70,6 +87,7 @@ public class PlayerInventory : MonoBehaviour
         //Determine what type of item we are looking for
         if(type is WeaponData) return Get(type as WeaponData);
         else if(type is PassiveData) return Get(type as PassiveData);
+        else if(type is StatsData) return Get(type as StatsData);
         return null;
     }
     //Find a passive of a certain type in the inventory
@@ -94,6 +112,16 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
+    public Stats Get(StatsData type){
+        //Iterate through all the weapon slots
+        foreach(StatSlot s in statSlot){
+            Stats w = s.item as Stats;
+            if(w && w.data == type){
+                return w;
+            }
+        }
+        return null;
+    }
     //Remove a weapon of a particular type, as specifield by <data>
     public bool Remove(WeaponData data, bool removeUpgradeAvailable = false){
         if(removeUpgradeAvailable) availableWeapons.Remove(data);
@@ -108,6 +136,7 @@ public class PlayerInventory : MonoBehaviour
         }
         return false;
     }
+    //Remove a passive of a particular type, as specifield by <data>
     public bool Remove(PassiveData data, bool removeUpgradeAvailable = false){
         if(removeUpgradeAvailable) availablePassive.Remove(data);
         for(int i=0; i< passiveSlot.Count; i++){
@@ -116,6 +145,19 @@ public class PlayerInventory : MonoBehaviour
                 passiveSlot[i].Clear();
                 p.OnUnEquip();
                 Destroy(p.gameObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool Remove(StatsData data, bool removeUpgradeAvailable = false){
+        if(removeUpgradeAvailable) availableStats.Remove(data);
+        for(int i=0; i< statSlot.Count; i++){
+            Stats s = statSlot[i].item as Stats;
+            if(s.data == data){
+                statSlot[i].Clear();
+                s.OnUnEquip();
+                Destroy(s.gameObject);
                 return true;
             }
         }
@@ -157,21 +199,30 @@ public class PlayerInventory : MonoBehaviour
         return -1;
     }
     public Weapon GetWeaponBySlot(int slotNum)
-{
-    if (slotNum >= 0 && slotNum < weaponSlot.Capacity && !weaponSlot[slotNum].IstEmpty())
     {
-        return weaponSlot[slotNum].GetWeapon(); // Assuming GetWeapon retrieves the weapon from the slot
+        if (slotNum >= 0 && slotNum < weaponSlot.Capacity && !weaponSlot[slotNum].IstEmpty())
+        {
+            return weaponSlot[slotNum].GetWeapon(); // Assuming GetWeapon retrieves the weapon from the slot
+        }
+        return null;
     }
-    return null;
-}
-        public Passive GetPassiveBySlot(int slotNum)
-{
-    if (slotNum >= 0 && slotNum < passiveSlot.Capacity && !passiveSlot[slotNum].IstEmpty())
+    public Passive GetPassiveBySlot(int slotNum)
     {
-        return passiveSlot[slotNum].GetPassiveItem(); // Assuming GetWeapon retrieves the weapon from the slot
+        if (slotNum >= 0 && slotNum < passiveSlot.Capacity && !passiveSlot[slotNum].IstEmpty())
+        {
+            return passiveSlot[slotNum].GetPassiveItem(); // Assuming GetWeapon retrieves the weapon from the slot
+        }
+        return null;
     }
-    return null;
-}
+    public Stats GetStatsBySlot(int slotNum)
+    {
+        if (slotNum >= 0 && slotNum < statSlot.Capacity && !statSlot[slotNum].IstEmpty())
+        {
+            return statSlot[slotNum].GetStats(); // Assuming GetWeapon retrieves the weapon from the slot
+        }
+        return null;
+    }
+    
     // if an ItemData is passed, determined what type it is and call the respective overload.
     // We aso have an optional boolean to remove this item from the upgrade list.
     public int Add(PassiveData data){
@@ -200,11 +251,39 @@ public class PlayerInventory : MonoBehaviour
         playerStats.RecalculatedStats();
         return slotNum;
     }
+    public int Add(StatsData data){
+        int slotNum = 1;
+        //try to find an empty slot
+        for(int i = 0; i< statSlot.Capacity; i++){
+            if(statSlot[i].IstEmpty()){
+                slotNum = i;
+                break;
+            }
+        }
+        //If there is no empty slot, exit;
+        if(slotNum <0) return slotNum;
+        //Otherwise create the weapon in the slot
+        // Get the type of the weapon we want to spawn
+        GameObject go = new GameObject(data.baseStats.name+"Stats");
+        Stats s = go.AddComponent<Stats>();
+        s.Initialise(data);
+        s.transform.SetParent(transform); //Set the weapon to be a child of the player
+        s.transform.localPosition = Vector2.zero;
+        //Assign the passive to the slot
+        statSlot[slotNum].Assign(s);
+        if(GameManager.instance != null && GameManager.instance.chosingUpgrade){
+            GameManager.instance.EndLevelUp();
+        }
+        playerStats.ApplyStatsUpgrade();
+        return slotNum;
+    }
+
     
     //if we don't know what item is beig added, this function will determine that.
     public int Add(ItemData data){
         if(data is WeaponData) return Add(data as WeaponData);
         else if(data is PassiveData) return Add(data as PassiveData);
+        else if(data is StatsData) return Add(data as StatsData);
         return -1;
     }
     public bool LevelUp(ItemData data){
@@ -223,11 +302,21 @@ public class PlayerInventory : MonoBehaviour
         if(item is Passive){
             playerStats.RecalculatedStats();
         }
+        else if(item is Stats){
+            playerStats.ApplyStatsUpgrade();
+        }
         return true;
     }
     int GetSlotLeft(List<Slot> slots){
         int count = 0;
         foreach(Slot s in slots){
+            if(s.IstEmpty()) count++;
+        }
+        return count;
+    }
+    int GetSlotLeft(List<StatSlot> slots){
+        int count = 0;
+        foreach(StatSlot s in slots){
             if(s.IstEmpty()) count++;
         }
         return count;
@@ -239,6 +328,10 @@ public class PlayerInventory : MonoBehaviour
         slot.Clear();
     }
     foreach (var slot in passiveSlot)
+    {
+        slot.Clear();
+    }
+    foreach (var slot in statSlot)
     {
         slot.Clear();
     }
@@ -255,10 +348,12 @@ public class PlayerInventory : MonoBehaviour
     List<ItemData> availableUpgrades = new List<ItemData>();
     List<ItemData> allUpgrades = new List<ItemData>(availableWeapons);
     allUpgrades.AddRange(availablePassive);
+    allUpgrades.AddRange(availableStats);
 
     // Iterate through each slot in the upgrade UI
     int weaponSlotList = GetSlotLeft(weaponSlot);
     int passiveSlotList = GetSlotLeft(passiveSlot);
+    int statSlotList = GetSlotLeft(statSlot);
 
     foreach (ItemData data in allUpgrades)
     {
@@ -281,8 +376,11 @@ public class PlayerInventory : MonoBehaviour
             {
                 availableUpgrades.Add(data);
             }
-        }
-    }
+            else if (data is StatsData && statSlotList > 0)
+            {
+                availableUpgrades.Add(data);
+            }
+    }}
 
     foreach (UpgradeUI upgradeOption in upgradeUIOpitons)
     {
@@ -319,6 +417,14 @@ public class PlayerInventory : MonoBehaviour
                     upgradeOption.upgradeIcon.sprite = nextLevel.Icon;
                     upgradeOption.upgradeNameDisplay.text = nextLevel.name;
                 }
+                else if (item is Stats)
+                {
+                    Stats s = item as Stats;
+                    Item.LevelData nextLevel = ((StatsData)choosingUpgrade).GetLevelData(item.currentLevel + 1);
+                    upgradeOption.upgradeDescripionDisplay.text = nextLevel.description;
+                    upgradeOption.upgradeIcon.sprite = nextLevel.Icon;
+                    upgradeOption.upgradeNameDisplay.text = nextLevel.name;
+                }
             }
             else
             {
@@ -340,10 +446,18 @@ public class PlayerInventory : MonoBehaviour
                     upgradeOption.upgradeNameDisplay.text = p.baseStats.name;
                     upgradeOption.upgradeTypeDisplay.text = p.baseStats.type;
                 }
-            }
+                else if (choosingUpgrade is StatsData)
+                {
+                    upgradeOption.upgradeButton.onClick.AddListener(() => Add((StatsData)choosingUpgrade));
+                    StatsData s = choosingUpgrade as StatsData;
+                    upgradeOption.upgradeDescripionDisplay.text = s.baseStats.description;
+                    upgradeOption.upgradeIcon.sprite = s.baseStats.Icon;
+                    upgradeOption.upgradeNameDisplay.text = s.baseStats.name;
+                    upgradeOption.upgradeTypeDisplay.text = s.baseStats.type;
+                }
         }
     }
-}
+}}
 
   public void RemoveUpgradeOption()
     {

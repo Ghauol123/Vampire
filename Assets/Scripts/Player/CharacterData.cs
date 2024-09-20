@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "CharacterData", order = 0)]
 [System.Serializable]

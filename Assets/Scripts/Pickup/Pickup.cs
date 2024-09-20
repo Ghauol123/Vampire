@@ -14,6 +14,7 @@ public class Pickup : MonoBehaviour
     [Header("Exp and Heal")]
     public int Exp;
     public int Heal;
+    public int Coin;
     public bool Coolected = false;
     EnemyStats enemyStats;
         public AudioClip hitSound; // Clip âm thanh va chạm
@@ -54,6 +55,7 @@ else
     audioSource = GetComponent<AudioSource>();
     if(Exp != 0) hitSound = Resources.Load<AudioClip>("Audio/getExp 1");
     if(Heal != 0) hitSound = Resources.Load<AudioClip>("Audio/heal 1");
+    if(Coin != 0) hitSound = Resources.Load<AudioClip>("Audio/getmoney");
     // Play your collision sound here
     if (audioSource != null)
     {
@@ -72,5 +74,6 @@ else
         if(!target) return;
         if(Exp != 0 ) target.IncreaseExperience(Exp);
         if(Heal != 0 ) target.RestoreHeal(Exp);
+        if(Coin != 0 ) target.IncreaseCoin(Coin);
     }
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9547c9dd4c8b011438a89d35e0566bf1, type: 3}
+  m_Name: Kiara_Ver0
+  m_EditorClassIdentifier: 
+  costumeName: Kiara
+  costumeSprite: {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
+  costumeAnimator: {fileID: 9100000, guid: a6d993facf2899d48b8708b28524e7a0, type: 2}
+  m_SpriteArray:
+  - {fileID: 21300000, guid: 5d60731cd8dd44a4395ce6259afea05f, type: 3}
+  - {fileID: 21300000, guid: 89f7624153729d74aa580f2524cbcf7f, type: 3}
+  - {fileID: 21300000, guid: 5a5b97291821781409a3511f6d4add91, type: 3}
+  - {fileID: 21300000, guid: 34212e56fa860224da2e4dfbd69f3f6b, type: 3}
+  characterData: {fileID: 0}
