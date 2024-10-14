@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Exp
   - Burger
+  - AmeGun
+  - KeyBind
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Terrian
   - AmeGun
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -44,6 +46,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Boss
+  - name: Melee
+    uniqueID: 287118625
+    locked: 0
+  - name: Multi
+    uniqueID: 1246728261
+    locked: 0
+  - name: Enemy
     uniqueID: 2420573305
+    locked: 0
+  - name: Player
+    uniqueID: 1812109057
+    locked: 0
+  - name: Canvas
+    uniqueID: 1015969883
     locked: 0

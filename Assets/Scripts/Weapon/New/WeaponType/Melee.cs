@@ -31,7 +31,7 @@ public class Melee : WeaponEffect
             Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
             es.TakeDamage(GetDamage(), source);
             Weapon.Stats stats = weapon.GetStats();
-            Debug.Log(stats.damage + stats.number);
+            // Debug.Log(stats.damage + stats.number);
             if(stats.hitEffect){
                 Destroy(Instantiate(stats.hitEffect,transform.position,Quaternion.identity), 5f);
             }

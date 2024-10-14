@@ -37,11 +37,11 @@ MonoBehaviour:
     area: 2
     speed: 0
     cooldown: 2
-    projectileInterval: 0
-    knockback: 0
+    projectileInterval: 1
+    knockback: 1
     number: 1
     piercing: 1
-    maxInstance: 0
+    maxInstance: 100
   linearGrowth:
   - name: Level 2
     description: Increase explosion size by 15%.

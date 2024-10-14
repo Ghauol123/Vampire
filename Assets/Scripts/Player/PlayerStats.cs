@@ -203,8 +203,8 @@ public void InitializeNewGame()
     public void IncreaseExperience(int amount)
     {
         int adjustedAmount = Mathf.CeilToInt(amount * actualStats.expMultiplier);
-        Debug.Log("Exp: " + adjustedAmount);
-        Debug.Log("ExpMultiple: " + cst.stats.expMultiplier);
+        // Debug.Log("Exp: " + adjustedAmount);
+        // Debug.Log("ExpMultiple: " + cst.stats.expMultiplier);
         experience += adjustedAmount;
         levelCheckerUp();
         updateExpBar();

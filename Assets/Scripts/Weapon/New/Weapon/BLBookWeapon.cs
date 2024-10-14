@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BLBookWeapon : Weapon
 {
-    public int numberOfProjectiles = 5; // Number of projectiles to spawn around the player
+    public int numberOfProjectiles; // Number of projectiles to spawn around the player
     public float rotationSpeed = 50f; // Speed of rotation around the player
     public float radius = 1.5f; // Radius of the circle around the player
     public float currentCooldowns;
@@ -47,12 +47,19 @@ public class BLBookWeapon : Weapon
             float angle = (360f / numberOfProjectiles) * i;
             Vector3 spawnPosition = owner.transform.position + (Vector3)GetSpawnOffset(angle);
 
-            newProjectile = Instantiate(
-                currentStats.projectilePrefabs,
-                spawnPosition,
-                Quaternion.identity
-            );
+            // newProjectile = Instantiate(
+            //     currentStats.projectilePrefabs,
+            //     spawnPosition,
+            //     Quaternion.identity
+            // );
+                GameObject projectileObj = ObjectPool.Instance.GetObject(currentStats.projectilePrefabs.gameObject);
+    projectileObj.transform.position = spawnPosition;
+    projectileObj.transform.rotation = Quaternion.identity;
 
+    newProjectile = projectileObj.GetComponent<Projectile>();
+    newProjectile.weapon = this;
+    newProjectile.owner = owner;
+    newProjectile.Initialize();
             newProjectile.weapon = this;
             newProjectile.owner = owner;
             activeProjectiles.Add(newProjectile);

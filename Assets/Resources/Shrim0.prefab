@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4376654599123577330}
   - component: {fileID: 2213081122911617617}
   - component: {fileID: 6384675198546648595}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shrim0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1874393991
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1bc24cf2932d16f42ad7ee8a3f6cc8d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -167,6 +167,8 @@ MonoBehaviour:
       freeze: 0
       kill: 0
       debuff: 0
+    curseBoost: 3
+    levelBoost: 0
   currentStats:
     maxHealth: 0
     moveSpeed: 0
@@ -176,6 +178,8 @@ MonoBehaviour:
       freeze: 0
       kill: 0
       debuff: 0
+    curseBoost: 3
+    levelBoost: 0
   currentHealth: 0
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2

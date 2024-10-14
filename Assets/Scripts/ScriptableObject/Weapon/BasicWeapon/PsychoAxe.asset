@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
   maxLevel: 1
-  behaviour: ProjectileWeapon
+  behaviour: AxeWeapon
   baseStats:
     name: PsychoAxe
     description: Throw an axe
@@ -35,7 +35,7 @@ MonoBehaviour:
     damage: 20
     damageVariance: 3
     area: 2
-    speed: 8
+    speed: 10
     cooldown: 2
     projectileInterval: 0.2
     knockback: 1

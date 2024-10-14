@@ -47,5 +47,7 @@ public class ActionManager : MonoBehaviour
         {
             UndoLastAction();
         }
+        Debug.Log($"Tổng số hành động đã lưu: {actionStack.Count}");
+
     }
 }

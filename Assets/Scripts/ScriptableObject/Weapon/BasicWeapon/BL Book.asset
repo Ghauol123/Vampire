@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BL Book
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 52786386e58f0aa4f887ea94c4b2d442, type: 3}
-  maxLevel: 2
+  maxLevel: 7
   behaviour: BLBookWeapon
   baseStats:
     name: BL Book

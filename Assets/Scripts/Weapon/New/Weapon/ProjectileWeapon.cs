@@ -13,8 +13,8 @@ public class ProjectileWeapon : Weapon
         base.Start();
         currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
         currentAttackCount = ((WeaponData)data).baseStats.number;
-        Debug.Log(currentAttackInterval);
-        Debug.Log(currentAttackCount);
+        // Debug.Log(currentAttackInterval);
+        // Debug.Log(currentAttackCount);
     }
     protected override void Update()
     {
@@ -33,33 +33,59 @@ public class ProjectileWeapon : Weapon
         return base.canAttack();
     }
     // tấn công
+    // protected override bool Attack(int attackCount = 1)
+    // {
+    //     // nếu không có prefabs thì không thể tấn công
+    //     if(!currentStats.projectilePrefabs){
+    //         Debug.LogWarning(string.Format("Projectile prefabs has not been set for {0}", name));
+    //         return false;
+    //     }
+    //     if(!canAttack()) return false;
+    //     // 
+    //     float spawnAngle = GetSpawnAngle();
+    //     currentProjectile =Instantiate(
+    //         currentStats.projectilePrefabs,
+    //         owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
+    //         Quaternion.Euler(0,0,spawnAngle)
+    //     );
+    //     Debug.Log(currentStats.projectilePrefabs);
+    //     currentProjectile.weapon = this;
+    //     currentProjectile.owner = owner;
+    //     // currentProjectile.transform.parent = owner.transform;
+    //     if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
+    //     attackCount--;
+    //     if(attackCount >0){
+    //         currentAttackCount = attackCount;
+    //         currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
+    //     }
+    //     return true;
+    // }
     protected override bool Attack(int attackCount = 1)
-    {
-        // nếu không có prefabs thì không thể tấn công
-        if(!currentStats.projectilePrefabs){
-            Debug.LogWarning(string.Format("Projectile prefabs has not been set for {0}", name));
-            return false;
-        }
-        if(!canAttack()) return false;
-        // 
-        float spawnAngle = GetSpawnAngle();
-        currentProjectile =Instantiate(
-            currentStats.projectilePrefabs,
-            owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
-            Quaternion.Euler(0,0,spawnAngle)
-        );
-        Debug.Log(currentStats.projectilePrefabs);
-        currentProjectile.weapon = this;
-        currentProjectile.owner = owner;
-        // currentProjectile.transform.parent = owner.transform;
-        if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
-        attackCount--;
-        if(attackCount >0){
-            currentAttackCount = attackCount;
-            currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
-        }
-        return true;
+{
+    if(!currentStats.projectilePrefabs){
+        Debug.LogWarning(string.Format("Projectile prefabs has not been set for {0}", name));
+        return false;
     }
+    if(!canAttack()) return false;
+
+    float spawnAngle = GetSpawnAngle();
+    GameObject projectileObj = ObjectPool.Instance.GetObject(currentStats.projectilePrefabs.gameObject);
+    projectileObj.transform.position = owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle);
+    projectileObj.transform.rotation = Quaternion.Euler(0, 0, spawnAngle);
+
+    currentProjectile = projectileObj.GetComponent<Projectile>();
+    currentProjectile.weapon = this;
+    currentProjectile.owner = owner;
+    currentProjectile.Initialize();
+
+    if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
+    attackCount--;
+    if(attackCount >0){
+        currentAttackCount = attackCount;
+        currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
+    }
+    return true;
+}
     protected virtual float GetSpawnAngle(){
         // trả về góc quay(hướng quay) của nhân vật ở đơn vị radian sau đó chuyển về đơn vị độ
         return Mathf.Atan2(movement.lastMovedVector.y, movement.lastMovedVector.x) * Mathf.Rad2Deg;

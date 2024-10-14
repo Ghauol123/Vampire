@@ -4,38 +4,49 @@ using UnityEngine;
 
 public class BombWeapon : ProjectileWeapon
 {
-    protected override void Update(){
-        base.Update();
-        Debug.Log("Current bomb prefab: " + currentStats.bombPrefabs);
-    }
-    public override bool canAttack(){
-        return base.canAttack();
-    }
-     protected override bool Attack(int attackCount = 1)
+    Bomb currentBomb;
+    // Override the Attack method to spawn bombs
+    protected override bool Attack(int attackCount = 1)
     {
-        // nếu không có prefabs thì không thể tấn công
-        if(!currentStats.bombPrefabs){
+        if (!currentStats.bombPrefabs)
+        {
             Debug.LogWarning(string.Format("bombPrefabs has not been set for {0}", name));
             return false;
         }
-        if(!canAttack()) return false;
-        // 
-        Bomb currentProjectile =Instantiate(
-            currentStats.bombPrefabs,
-            transform.position,
-            Quaternion.identity
-        );
-        Debug.Log(currentStats.bombPrefabs);
-        currentProjectile.weapon = this;
-        currentProjectile.owner = owner;
+        if (!canAttack()) return false;
 
-        if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
+        // Spawn bomb from the object pool
+        GameObject bombObj = ObjectPool.Instance.GetObject(currentStats.bombPrefabs.gameObject);
+        bombObj.transform.position = owner.transform.position + (Vector3)GetSpawnOffset(GetSpawnAngle());
+        bombObj.transform.rotation = Quaternion.identity;
+
+        Bomb bomb = bombObj.GetComponent<Bomb>();
+        if (bomb != null)
+        {
+            bomb.weapon = this;
+            bomb.owner = owner;
+            bomb.Initialize(); // Initialize the bomb
+            
+            // Ensure the bomb is active and visible
+            bombObj.SetActive(true);
+            
+            // Log for debugging
+            Debug.Log("Bomb spawned at: " + bombObj.transform.position);
+        }
+        else
+        {
+            Debug.LogError("Bomb component not found on the spawned object!");
+        }
+
+        if (currentCooldown <= 0) currentCooldown += currentStats.cooldown;
         attackCount--;
-        if(attackCount >0){
+        if (attackCount > 0)
+        {
             currentAttackCount = attackCount;
             currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
         }
+
         return true;
     }
-
 }
+

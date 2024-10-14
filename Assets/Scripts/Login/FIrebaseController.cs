@@ -9,6 +9,7 @@ using Firebase.Extensions;
 using System;
 using UnityEngine.SceneManagement;
 using Firebase.Database;
+using System.Text.RegularExpressions;
 
 public class FirebaseController : MonoBehaviour
 {
@@ -26,8 +27,11 @@ public class FirebaseController : MonoBehaviour
     public bool isSignedIn = false;
     public GameObject scoreScrollViewContent;
     public GameObject scoreEntryPrefab;
-        private string userId;
-
+    private string userId;
+    TabBetweenFields tabBetweenFields;
+    private void Awake() {
+        tabBetweenFields = FindAnyObjectByType<TabBetweenFields>();
+    }
     void Start()
     {
         // if (instance == null)
@@ -55,26 +59,11 @@ public class FirebaseController : MonoBehaviour
         });
     }
 
-    // void UpdateLoginButtonState()
-    // {
-    //     if (string.IsNullOrEmpty(emailInput.text) || string.IsNullOrEmpty(passwordInput.text))
-    //     {
-    //         // Gray color if input is invalid
-    //         loginButton.interactable = false;
-    //         loginButton.GetComponent<Image>().color = Color.gray;
-    //     }
-    //     else
-    //     {
-    //         // Red color if input is valid
-    //         loginButton.interactable = true;
-    //         loginButton.GetComponent<Image>().color = Color.red;
-    //     }
-    // }
-
     public void OpenLoginPanel()
     {
         loginPanel.SetActive(true);
         signupPanel.SetActive(false);
+        tabBetweenFields.isLoginActive = true;
         forgotPasswordPanel.SetActive(false);
         // gamePanel.SetActive(false);
         // profilePanel.SetActive(false);
@@ -84,6 +73,7 @@ public class FirebaseController : MonoBehaviour
     {
         loginPanel.SetActive(false);
         signupPanel.SetActive(true);
+        tabBetweenFields.isLoginActive = false;
         forgotPasswordPanel.SetActive(false);
         // gamePanel.SetActive(false);
         // profilePanel.SetActive(false);
@@ -116,41 +106,56 @@ public class FirebaseController : MonoBehaviour
 
     public void LoginUser()
     {
-        if (string.IsNullOrEmpty(emailInput.text) || string.IsNullOrEmpty(passwordInput.text))
+        List<string> errors = new List<string>();
+
+        if (!IsValidEmail(emailInput.text))
+            errors.Add("Invalid email format");
+
+        if (!IsValidPassword(passwordInput.text))
+            errors.Add("Invalid password format");
+
+        if (errors.Count > 0)
         {
-            Debug.LogError("Email or Password is empty");
+            ShowNotification(errors);
             return;
         }
+
         SignInUser(emailInput.text, passwordInput.text);
     }
 
     public void SignUpUser()
     {
-        if (string.IsNullOrEmpty(signupEmailInput.text) || string.IsNullOrEmpty(signupPasswordInput.text) || string.IsNullOrEmpty(signupNameInput.text) || string.IsNullOrEmpty(signupConfirmPasswordInput.text))
-        {
-            string missingFields = "";
-            if (string.IsNullOrEmpty(signupEmailInput.text))
-                missingFields += "Email, ";
-            if (string.IsNullOrEmpty(signupPasswordInput.text))
-                missingFields += "Password, ";
-            if (string.IsNullOrEmpty(signupNameInput.text))
-                missingFields += "Name, ";
-            if (string.IsNullOrEmpty(signupConfirmPasswordInput.text))
-                missingFields += "Confirm Password, ";
+        List<string> errors = new List<string>();
 
-            // Remove the last comma and space
-            if (missingFields.Length > 0)
-                missingFields = missingFields.Substring(0, missingFields.Length - 2);
+        // Kiểm tra các trường cần thiết
+        if (string.IsNullOrEmpty(signupEmailInput.text))
+            errors.Add("Email is required");
+        else if (!IsValidEmail(signupEmailInput.text))
+            errors.Add("Invalid email format");
 
-            ShowNotification("Missing: " + missingFields);
-            return;
-        }
+        if (string.IsNullOrEmpty(signupPasswordInput.text))
+            errors.Add("Password is required");
+        else if (!IsValidPassword(signupPasswordInput.text))
+            errors.Add("Password must be at least 6 characters long, start with an uppercase letter, and contain at least one special character");
 
+        if (string.IsNullOrEmpty(signupNameInput.text))
+            errors.Add("Name is required");
+
+        if (string.IsNullOrEmpty(signupConfirmPasswordInput.text))
+            errors.Add("Confirm Password is required");
+
+        // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp không
         if (signupPasswordInput.text != signupConfirmPasswordInput.text)
+            errors.Add("Password and Confirm Password do not match");
+
+        // Nếu có lỗi, hiển thị danh sách lỗi và dừng việc xử lý
+        if (errors.Count > 0)
         {
-            Debug.LogError("Password and Confirm Password does not match");
+            ShowNotification(errors); // Hiển thị tất cả các lỗi
             return;
         }
+
+        // Nếu không có lỗi, tiếp tục tạo người dùng
         CreateUser(signupEmailInput.text, signupPasswordInput.text, signupNameInput.text);
     }
 
@@ -158,9 +163,15 @@ public class FirebaseController : MonoBehaviour
     {
         if (string.IsNullOrEmpty(forgotEmailInput.text))
         {
-            Debug.LogError("Email is empty");
+            ShowNotification(new List<string> { "Email is required" });
             return;
         }
+        if (!IsValidEmail(forgotEmailInput.text))
+        {
+            ShowNotification(new List<string> { "Invalid email format" });
+            return;
+        }
+        // Implement forgot password functionality here
     }
 
     public void CreateUser(string email, string password, string username)
@@ -169,27 +180,52 @@ public class FirebaseController : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                ShowNotification(new List<string> { "* User creation was canceled." });
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                List<string> errors = new List<string> { "* User creation encountered an error:" };
                 foreach (Exception exception in task.Exception.Flatten().InnerExceptions)
                 {
                     Firebase.FirebaseException firebaseEx = exception as Firebase.FirebaseException;
                     if (firebaseEx != null)
                     {
                         AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                        ShowNotification(GetErrorMessageFromException(errorCode));
+                        errors.Add(GetErrorMessageFromException(errorCode));
                     }
                 }
+                ShowNotification(errors);
                 return;
             }
             FirebaseUser newUser = task.Result.User;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
-            UpdateUserProfile(username);
+            
+            // Send email verification
+            SendVerificationEmail(newUser);
         });
+    }
+
+    private void SendVerificationEmail(FirebaseUser user)
+    {
+        if (user != null)
+        {
+            user.SendEmailVerificationAsync().ContinueWithOnMainThread(task => {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("SendEmailVerificationAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("SendEmailVerificationAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                // Show notification to user
+                ShowNotification(new List<string> { "Verification email sent. Please check your email to verify your account." });
+            });
+        }
     }
 
     public void SignInUser(string email, string password)
@@ -198,27 +234,37 @@ public class FirebaseController : MonoBehaviour
         {
             if (task.IsCanceled)
             {
-                Debug.Log("SignInWithEmailAndPasswordAsync was canceled.");
+                ShowNotification(new List<string> { "* Sign-in was canceled." });
                 return;
             }
             if (task.IsFaulted)
             {
+                List<string> errors = new List<string> { "Sign-in encountered an error:" };
                 foreach (Exception exception in task.Exception.Flatten().InnerExceptions)
                 {
                     Firebase.FirebaseException firebaseEx = exception as Firebase.FirebaseException;
                     if (firebaseEx != null)
                     {
                         AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                        ShowNotification(GetErrorMessageFromException(errorCode));
+                        errors.Add(GetErrorMessageFromException(errorCode));
                     }
                 }
+                ShowNotification(errors);
                 return;
             }
-            // On successful sign-in, update UI and switch to the game screen
+            
             FirebaseUser user = task.Result.User;
+            if (!user.IsEmailVerified)
+            {
+                ShowNotification(new List<string> { "Please verify your email before signing in." });
+                auth.SignOut();
+                return;
+            }
+            
             Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
-            // UpdateUserInformation(user);
-            OpenGamePanel(); // Switch to the game panel
+            isSignedIn = true;
+            DataPersistenceManager.instance.OnUserChanged();
+            OpenGamePanel();
         });
     }
 
@@ -231,36 +277,36 @@ public class FirebaseController : MonoBehaviour
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
-void AuthStateChanged(object sender, System.EventArgs eventArgs)
-{
-    if (auth == null)
+    void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
-        Debug.LogError("FirebaseAuth instance is null. Cannot check authentication state.");
-        return;
-    }
-
-    FirebaseUser currentUser = auth.CurrentUser;
-    // if (currentUser == null)
-    // {
-    //     Debug.LogError("CurrentUser is null. No user is signed in.");
-    // }
-
-    if (user != currentUser)
-    {
-        bool signedIn = user == null && currentUser != null;
-        if (user != null && !signedIn)
+        if (auth == null)
         {
-            Debug.Log("Signed out " + user.UserId);
+            Debug.LogError("FirebaseAuth instance is null. Cannot check authentication state.");
+            return;
         }
-        user = currentUser;
-        if (signedIn)
+
+        FirebaseUser currentUser = auth.CurrentUser;
+        // if (currentUser == null)
+        // {
+        //     Debug.LogError("CurrentUser is null. No user is signed in.");
+        // }
+
+        if (user != currentUser)
         {
-            Debug.Log("Signed in " + user.UserId + " " + user.DisplayName);
-            isSignedIn = true;
-            DataPersistenceManager.instance.OnUserChanged(); // Gọi OnUserChanged khi có người dùng đăng nhập
+            bool signedIn = user == null && currentUser != null;
+            if (user != null && !signedIn)
+            {
+                Debug.Log("Signed out " + user.UserId);
+            }
+            user = currentUser;
+            if (signedIn)
+            {
+                Debug.Log("Signed in " + user.UserId + " " + user.DisplayName);
+                isSignedIn = true;
+                DataPersistenceManager.instance.OnUserChanged(); // Gọi OnUserChanged khi có người dùng đăng nhập
+            }
         }
     }
-}
 
     private void OnDestroy()
     {
@@ -268,42 +314,42 @@ void AuthStateChanged(object sender, System.EventArgs eventArgs)
         auth = null;
     }
 
-    void UpdateUserProfile(string username)
-    {
-        FirebaseUser currentUser = auth.CurrentUser;
-        if (currentUser != null)
-        {
-            UserProfile profile = new UserProfile
-            {
-                DisplayName = username,
-                PhotoUrl = new System.Uri("https://placehold.co/150x150")
-            };
-            currentUser.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCanceled)
-                {
-                    Debug.LogError("UpdateUserProfileAsync was canceled.");
-                    return;
-                }
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-                    foreach (Exception exception in task.Exception.Flatten().InnerExceptions)
-                    {
-                        Firebase.FirebaseException firebaseEx = exception as Firebase.FirebaseException;
-                        if (firebaseEx != null)
-                        {
-                            AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-                            ShowNotification(GetErrorMessageFromException(errorCode));
-                        }
-                    }
-                    return;
-                }
-                Debug.Log("User profile updated successfully.");
-                OpenLoginPanel();
-            });
-        }
-    }
+    // void UpdateUserProfile(string username)
+    // {
+    //     FirebaseUser currentUser = auth.CurrentUser;
+    //     if (currentUser != null)
+    //     {
+    //         UserProfile profile = new UserProfile
+    //         {
+    //             DisplayName = username,
+    //             PhotoUrl = new System.Uri("https://placehold.co/150x150")
+    //         };
+    //         currentUser.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task =>
+    //         {
+    //             if (task.IsCanceled)
+    //             {
+    //                 Debug.LogError("UpdateUserProfileAsync was canceled.");
+    //                 return;
+    //             }
+    //             if (task.IsFaulted)
+    //             {
+    //                 Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+    //                 foreach (Exception exception in task.Exception.Flatten().InnerExceptions)
+    //                 {
+    //                     Firebase.FirebaseException firebaseEx = exception as Firebase.FirebaseException;
+    //                     if (firebaseEx != null)
+    //                     {
+    //                         AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
+    //                         ShowNotification(GetErrorMessageFromException(errorCode));
+    //                     }
+    //                 }
+    //                 return;
+    //             }
+    //             Debug.Log("User profile updated successfully.");
+    //             OpenLoginPanel();
+    //         });
+    //     }
+    // }
 
     bool isSigned = false;
     private void Update()
@@ -345,7 +391,7 @@ void AuthStateChanged(object sender, System.EventArgs eventArgs)
                 message = "Email Already In Use";
                 break;
             case AuthError.WeakPassword:
-                message = "Weak Password";
+                message = "Weak Password. Password must be at least 6 characters long, start with an uppercase letter, and contain at least one special character.";
                 break;
             default:
                 message = "Unknown Error";
@@ -354,12 +400,23 @@ void AuthStateChanged(object sender, System.EventArgs eventArgs)
         return message;
     }
 
-    void ShowNotification(string message)
+    void ShowNotification(List<string> errors)
     {
-        // Show a notification with the provided message
-        notificationText.text = message;
-        notificationPanel.SetActive(true);
-        // Optionally, hide the notification after some time
+        // Xóa nội dung cũ của thông báo
+        notificationText.text = "";
+
+        // Tạo thông báo lỗi với dấu sao và xuống dòng
+        string formattedMessage = "";
+
+        foreach (string error in errors)
+        {
+            formattedMessage += "* " + error + "\n"; // Dấu sao và xuống dòng cho mỗi lỗi
+        }
+
+        notificationText.text = formattedMessage; // Gán nội dung mới cho thông báo
+        notificationPanel.SetActive(true); // Hiển thị panel thông báo
+
+        // Ẩn thông báo sau một khoảng thời gian (nếu cần)
         StartCoroutine(HideNotificationAfterDelay(3f));
     }
 
@@ -367,5 +424,28 @@ void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
         yield return new WaitForSeconds(delay);
         notificationPanel.SetActive(false);
+    }
+
+    // Add this method to validate email format
+    private bool IsValidEmail(string email)
+    {
+        string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+        return Regex.IsMatch(email, emailPattern);
+    }
+
+    // Add this method near the top of the class, after the existing IsValidEmail method
+    private bool IsValidPassword(string password)
+    {
+        // Check if password is at least 6 characters long
+        if (password.Length < 6)
+            return false;
+
+        // Check if password starts with an uppercase letter
+        if (!char.IsUpper(password[0]))
+            return false;
+
+        // Check if password contains at least one special character
+        string specialCharacters = @"!@#$%^&*()_+=-{}[]|\:;""'<>,.?/";
+        return password.IndexOfAny(specialCharacters.ToCharArray()) != -1;
     }
 }

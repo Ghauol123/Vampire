@@ -23,4 +23,7 @@ public class CostumeData : ScriptableObject
     [SerializeField]
     private CharacterData characterData;
     public CharacterData CharacterData {get => characterData; private set => characterData = value;}
+    [SerializeField]
+    private int price;
+    public int Price {get => price; private set => price = value;}
 }

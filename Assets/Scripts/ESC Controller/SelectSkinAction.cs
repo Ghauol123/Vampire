@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SelectSkinAction : IAction
 {
-    private CostumeData previousCostume;
-    private CostumeData newCostume;
+    private int previousCostume;
+    private int newCostume;
 
-    public SelectSkinAction(CostumeData previousCostume, CostumeData newCostume)
+    public SelectSkinAction(int previousCostume,int newCostume)
     {
         this.previousCostume = previousCostume;
         this.newCostume = newCostume;
@@ -16,13 +16,13 @@ public class SelectSkinAction : IAction
     public void Execute()
     {
         // Thực hiện chọn trang phục mới
-        // CharacterSelected.instance.SelectSkin(newCostume);
+        CharacterSelected.instance.SelectSkin(newCostume);
     }
 
     public void Undo()
     {
         // Hoàn tác quay lại trang phục trước đó
-        // CharacterSelected.instance.SelectSkin(previousCostume);
+        CharacterSelected.instance.SelectSkin(previousCostume);
     }
 }
 

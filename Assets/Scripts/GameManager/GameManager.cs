@@ -50,18 +50,27 @@ public bool isGameLoaded;
 
 
     // public GameObject player;
+    PlayerStats[] playerStats;
+    public static int GetCumulativeLevels(){
+        if(instance == null) return 1;
+        int totalLevel = 0;
+        foreach (var playerStat in instance.playerStats)
+        {
+            totalLevel += playerStat.level;
+        }
+        return Mathf.Max(1, totalLevel);
+    }
+    public static float GetCumulativeCurse(){
+        if(!instance) return 1;
+        float totalCurse = 0;
+        foreach (var playerStat in instance.playerStats){
+            totalCurse += playerStat.Stats.curse;
+            Debug.Log(totalCurse);
+        }
+        return Mathf.Max(1, 1 + totalCurse);
+    }
+
     // PlayerStats[] playerStats;
-    // Start is called before the first frame update
-    // public static int GetCumulativeLevels(){
-    //     if(instance == null) return 1;
-    //     int totalLevel = 0;
-    //     foreach (var playerStat in instance.playerStats)
-    //     {
-    //         totalLevel += playerStat.level;
-    //     }
-    //     return Mathf.Max(1, totalLevel);
-    // }
-    PlayerStats playerStats;
     FirebaseSaveGame firebaseSaveGame;
     void Start()
     {
@@ -77,7 +86,7 @@ public bool isGameLoaded;
             Destroy(gameObject);
         }
         LevelUpScreen.SetActive(false);
-        playerStats = FindObjectOfType<PlayerStats>();
+        playerStats = FindObjectsOfType<PlayerStats>();
         firebaseSaveGame = FindObjectOfType<FirebaseSaveGame>();
     }
 
@@ -172,7 +181,11 @@ public async void GameOver()
     int firebaseCoin = await FirebaseLoadCoin.instance.GetCurrentCoinFromFirebase();
 
     // Lấy số coin từ game (giả sử bạn có biến chứa số coin từ game)
-    int gameCoin = playerStats.coin; // playerStats.coin là số coin người chơi kiếm được trong game
+    int gameCoin = 0;
+    foreach (var playerStat in playerStats)
+    {
+        gameCoin += playerStat.coin; // playerStats.coin là số coin người chơi kiếm được trong game
+    }
 
     // Tổng số coin
     int totalCoin = firebaseCoin + gameCoin;
@@ -182,7 +195,18 @@ public async void GameOver()
 
 
     // If you're storing the player's name elsewhere, retrieve it accordingly
-    firebaseSaveGame.SaveScoreToFirebase(playerStats.score, playerStats.cst.name, timeSpan, playerStats.level, playerName);
+    int totalScore = 0;
+    string characterName = "";
+    int totalLevel = 0;
+    
+    foreach (var playerStat in playerStats)
+    {
+        totalScore += playerStat.score;
+        characterName = playerStat.cst.name; // Assuming all playerStats have the same character name
+        totalLevel += playerStat.level;
+    }
+    
+    firebaseSaveGame.SaveScoreToFirebase(totalScore, characterName, timeSpan, totalLevel, playerName);
 }
 
     private int CalculateFinalScore()
@@ -273,11 +297,11 @@ public async void GameOver()
         DisplayTime();
         if (stopWatchTime >= TimeLimit)
         {
-            // foreach (var playerStat in playerStats)
-            // {
-            //     playerStat.SendMessage("Kill");
-            // }
-            playerStats.SendMessage("Kill");
+            foreach (var playerStat in playerStats)
+            {
+                playerStat.SendMessage("Kill");
+            }
+            // playerStats.SendMessage("Kill");
         }
     }
     public void DisplayTime()
@@ -295,11 +319,11 @@ public async void GameOver()
             LevelUpScreen.SetActive(true);
             Time.timeScale = 0f;
             stopWacthDisplay.enabled = false;
-            //             foreach (var playerStat in playerStats)
-            // {
-            //     playerStat.SendMessage("RemoveAndApplyUpgradeOption");
-            // }
-            playerStats.SendMessage("RemoveAndApplyUpgradeOption");
+                        foreach (var playerStat in playerStats)
+            {
+                playerStat.SendMessage("RemoveAndApplyUpgradeOption");
+            }
+            // playerStats.SendMessage("RemoveAndApplyUpgradeOption");
         }
     }
     public void EndLevelUp()

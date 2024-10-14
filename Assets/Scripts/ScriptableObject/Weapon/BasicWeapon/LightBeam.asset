@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LightBeam
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
-  maxLevel: 2
+  maxLevel: 7
   behaviour: ProjectileWeapon
   baseStats:
     name: Fan Beam

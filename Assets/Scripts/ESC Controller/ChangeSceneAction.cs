@@ -17,7 +17,7 @@ public class ChangeSceneAction : IAction
     public void Execute()
     {
         // Tải cảnh mới (do SceneController.SceneChange xử lý)
-        SceneManager.LoadScene(newScene);
+        // SceneManager.LoadScene(newScene);
     }
 
     public void Undo()

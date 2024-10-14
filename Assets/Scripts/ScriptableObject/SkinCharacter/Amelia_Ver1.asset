@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8abfc0a08a7e1464993052f33225c148, type: 3}
   - {fileID: 21300000, guid: 3c069cc84486a5a48a374bfeacc7661c, type: 3}
   characterData: {fileID: 11400000, guid: cf15880ff46ad834eaf3a83c38ac8b42, type: 2}
+  price: 100

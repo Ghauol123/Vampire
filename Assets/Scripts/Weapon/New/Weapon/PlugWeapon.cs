@@ -23,16 +23,23 @@ protected override bool Attack(int attackCount = 1)
     // Tính toán góc để nhắm vào mục tiêu
     Vector2 directionToTarget = (target.position - owner.transform.position).normalized;
     float spawnAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
-
     // Tạo đạn với hướng nhắm vào mục tiêu
-    currentProjectile = Instantiate(
-        currentStats.projectilePrefabs,
-        owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
-        Quaternion.Euler(0, 0, spawnAngle)
-    );
+    // currentProjectile = Instantiate(
+    //     currentStats.projectilePrefabs,
+    //     owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle),
+    //     Quaternion.Euler(0, 0, spawnAngle)
+    // );
 
+    // currentProjectile.weapon = this;
+    // currentProjectile.owner = owner;
+    GameObject projectileObj = ObjectPool.Instance.GetObject(currentStats.projectilePrefabs.gameObject);
+    projectileObj.transform.position = owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle);
+    projectileObj.transform.rotation = Quaternion.Euler(0, 0, spawnAngle);
+
+    currentProjectile = projectileObj.GetComponent<Projectile>();
     currentProjectile.weapon = this;
     currentProjectile.owner = owner;
+    currentProjectile.Initialize();
 
     if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
     attackCount--;

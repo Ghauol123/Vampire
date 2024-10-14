@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BLBookProjectile : Projectile
 {
-protected override void Start()
+public override void Initialize()
     {
         // Ensure the weapon and owner are assigned before proceeding
         if (weapon == null)
@@ -13,7 +13,7 @@ protected override void Start()
             return;
         }
 
-        base.Start();
+        base.Initialize();
     }
 
     protected override void OnTriggerEnter2D(Collider2D other)

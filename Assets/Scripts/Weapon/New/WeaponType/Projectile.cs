@@ -12,26 +12,33 @@ public class Projectile : WeaponEffect
     protected Rigidbody2D rb;
     protected int pierce; // số lần vũ khí chạm vào kẻ địch trước khi biến mất
     // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        Weapon.Stats stats = weapon.GetStats();
-        if(rb.bodyType == RigidbodyType2D.Dynamic){
-             // bodytype ở đây là kiểm tra cơ thể của đối tượng, như Dynamic ở đây thì vũ khí có thể di chuyển và xoay theo vật lý. Còn có kinematic là điều khiển thông qua code và static là tĩnh
-             // dòng này để quản lý được chuyển động của vũ khí như đạn hoặc là rìu
-            rb.angularVelocity = rotationSpeed.z; //tốc độ quay của vũ khí
-            rb.velocity = transform.right * stats.speed; //tốc độ di chuyển của vũ khí 
-        }
-        float area = stats.area == 0 ? 1 : stats.area; // toán tử ba ngôi nếu area == 0 thì set = 1, ngược lại thì set = stats.area
-        transform.localScale = new Vector3( // cập nhật kích thước trong cục bộ của vũ khí
-            area * Math.Sign(transform.localScale.x), // cập nhập kích thước theo chiều x không thay đổi hướng
-            area * Math.Sign(transform.localScale.y), // giống với x 
-            1 // giá trị giữ nguyên trong không gian 3D
-        );
-        pierce = stats.piercing;
-        if(stats.lifespan >0) Destroy(gameObject,stats.lifespan);
-        if(hasAutoAim) AcquireAutoAimFacing();
+    private void Start() {
+        Initialize();
     }
+    public virtual void Initialize()
+{
+    rb = GetComponent<Rigidbody2D>();
+    Weapon.Stats stats = weapon.GetStats();
+    if(rb.bodyType == RigidbodyType2D.Dynamic){
+        rb.angularVelocity = rotationSpeed.z;
+        rb.velocity = transform.right * stats.speed;
+    }
+    float area = stats.area == 0 ? 1 : stats.area;
+    transform.localScale = new Vector3(
+        area * Math.Sign(transform.localScale.x),
+        area * Math.Sign(transform.localScale.y),
+        1
+    );
+    pierce = stats.piercing;
+    if(stats.lifespan >0) Invoke("ReturnToPool", stats.lifespan);
+    if(hasAutoAim) AcquireAutoAimFacing();
+}
+
+protected virtual void ReturnToPool()
+{
+    CancelInvoke("ReturnToPool");
+    ObjectPool.Instance.ReturnObject(gameObject);
+}
     public virtual void AcquireAutoAimFacing(){
         float aimAngle;
         EnemyStats[] targets = FindObjectsOfType<EnemyStats>();
@@ -46,12 +53,30 @@ public class Projectile : WeaponEffect
         transform.rotation = Quaternion.Euler(0,0,aimAngle);
     }
     protected virtual void FixedUpdate() {
+        rb = GetComponent<Rigidbody2D>();
+                if (weapon == null) 
+        {
+            Debug.LogWarning("Weapon is null in Projectile FixedUpdate");
+            return;
+        }
+        if(rb == null)
+        {
+            Debug.LogWarning("Rigidbody2D is null in Projectile FixedUpdate");
+            return;
+        }
+
         if(rb.bodyType == RigidbodyType2D.Kinematic){
             Weapon.Stats stats = weapon.GetStats();// lấy thông tin của vũ khí hiện tại
+            if (stats == null)
+            {
+                Debug.LogWarning("Weapon stats are null in Projectile FixedUpdate");
+                return;
+            }
             transform.position += transform.right * stats.speed * Time.deltaTime; // vị trí của vũ khí 
             rb.MovePosition(transform.position); // di chuyển vũ khí 
             transform.Rotate(rotationSpeed*Time.deltaTime); // xoay vũ khí
         }
+        
     }
 
     // Update is called once per frame
@@ -70,6 +95,6 @@ public class Projectile : WeaponEffect
                 Destroy(Instantiate(stats.hitEffect,transform.position,Quaternion.identity), 5f);
             }
         }
-        if(pierce <= 0) Destroy(gameObject);
+        if(pierce <= 0) ReturnToPool();
     }
 }

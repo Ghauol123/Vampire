@@ -24,6 +24,7 @@ public class SpawnManager : MonoBehaviour
     public uint enemiesAlive;
     public int timeRemaining;
     public static uint enemyCount = 0;
+    public bool boostedByCurse = true;
     private void Start() {
         if(instance) Debug.Log("There are multiple SpawnManagers in the scene");
         instance = this;
@@ -50,7 +51,8 @@ public class SpawnManager : MonoBehaviour
             }
             // Do not spawn enemies if we do not meet the conditions to do so.
             if(!CanSpawn()) {
-                spawnTimer += waves[currentWaveIndex].GetSpawnTime();
+                // spawnTimer += waves[currentWaveIndex].GetSpawnTime();
+                ActiveCooldown();
                 return;
             }
 
@@ -65,10 +67,15 @@ public class SpawnManager : MonoBehaviour
                 enemiesAlive++; // Update alive count
             }
             // Regenerate the spawn timer
-            spawnTimer += waves[currentWaveIndex].GetSpawnTime();
+            // spawnTimer += waves[currentWaveIndex].GetSpawnTime();
+            ActiveCooldown();
         }
     }
 
+    public void ActiveCooldown() {
+        float CurseBoost  = boostedByCurse ? GameManager.GetCumulativeCurse() : 1;
+        spawnTimer = waves[currentWaveIndex].GetSpawnTime() / CurseBoost;
+    }
 
     private Vector2 GenerateRandomPosition()
     {

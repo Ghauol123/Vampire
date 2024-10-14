@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     private PlayerMoving playermoving;
-    private Transform player;
-    private EnemyStats enemyStats;
+    protected Transform player;
+    protected EnemyStats enemyStats;
     Vector2 knockbackVelocity;
     float knockbackDuration;
     SpriteRenderer _spr;

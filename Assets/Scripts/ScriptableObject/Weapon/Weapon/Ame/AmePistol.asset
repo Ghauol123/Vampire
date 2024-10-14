@@ -38,7 +38,7 @@ MonoBehaviour:
     speed: 5
     cooldown: 1.33
     projectileInterval: 0.1
-    knockback: 0
+    knockback: 1
     number: 3
     piercing: 1
     maxInstance: 50

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4376654599123577330}
   - component: {fileID: 4505296608700930561}
   - component: {fileID: -669295695851559676}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BossAmelia
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -163,7 +163,6 @@ MonoBehaviour:
       kill: 0
       debuff: 0
   currentHealth: 0
-  est: {fileID: 11400000, guid: 708f3bd63ab00d44890909073517de99, type: 2}
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6

@@ -10,7 +10,7 @@ public class FirebaseLoadCoin : MonoBehaviour
     public static FirebaseLoadCoin instance;
     private DatabaseReference dbReference; // Database reference
     private FirebaseAuth auth; // Firebase authentication reference
-    private string userId; // User ID
+    public string userId; // User ID
 
     // Start is called before the first frame update
     async void Start() // Đánh dấu phương thức là async để có thể gọi các hàm bất đồng bộ

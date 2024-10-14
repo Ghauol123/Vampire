@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,19 +14,40 @@ public class EnemyStats : MonoBehaviour
         [Range(0f, 1f)] public float kill;
         [Range(0f, 1f)] public float debuff;
     
-        public Resitances(float freeze, float kill, float debuff)
-        {
-            this.freeze = freeze;
-            this.kill = kill;
-            this.debuff = debuff;
+        // public Resitances(float freeze, float kill, float debuff)
+        // {
+        //     this.freeze = freeze;
+        //     this.kill = kill;
+        //     this.debuff = debuff;
+        // }
+        public static Resitances operator *(Resitances a, float factor){
+            a.freeze = Mathf.Min(1, a.freeze * factor);
+            a.kill = Mathf.Min(1, a.kill * factor);
+            a.debuff = Mathf.Min(1, a.debuff * factor);
+            return a;
         }
     }
     [System.Serializable]
     public struct Stats{
         [Min(0)] public float maxHealth, moveSpeed, damage, knockbackMultiple;
         public Resitances resitances;
+        [System.Flags]
+        public enum Boostable {heal = 1, moveSpeed = 2, damage = 4, knockbackMultiple = 8, resitances = 16};
+        public Boostable curseBoost, levelBoost;
+        private static Stats Boots(Stats s1, float factor, Boostable boostable){
+            if((boostable & Boostable.heal) != 0) s1.maxHealth *= factor;
+            if((boostable & Boostable.moveSpeed) != 0) s1.moveSpeed *= factor;
+            if((boostable & Boostable.damage) != 0) s1.damage *= factor;
+            if((boostable & Boostable.knockbackMultiple) != 0) s1.knockbackMultiple /= factor;
+            if((boostable & Boostable.resitances) != 0) s1.resitances *= factor;
+            return s1;
+        }
+        //use the multiply operator to apply curse boosts
+        public static Stats operator *(Stats s1, float factor){ return Boots(s1, factor, s1.curseBoost);}
+        //use the power operator to apply level boosts
+        public static Stats operator ^(Stats s1, float factor){ return Boots(s1, factor, s1.levelBoost);}
     }
-    public Stats baseStats = new Stats{maxHealth = 100, moveSpeed = 0.5f, damage = 10, knockbackMultiple = 1};
+    public Stats baseStats = new Stats{maxHealth = 100, moveSpeed = 0.5f, damage = 10, knockbackMultiple = 1, curseBoost =(Stats.Boostable)(1|2), levelBoost = 0};
     public Stats currentStats;
     public Stats Actual{
         get{return currentStats;}
@@ -66,7 +88,12 @@ public class EnemyStats : MonoBehaviour
         col =  GetComponent<Collider2D>();
     }
     public void RecalculateStats(){
-        currentStats = baseStats;
+
+        float curse = GameManager.GetCumulativeCurse(),
+        level = GameManager.GetCumulativeLevels();
+        currentStats = (baseStats *curse) ^ level;
+        // currentStats = baseStats;
+
     }
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f){
         // currentHealth -= dmg;
@@ -80,12 +107,12 @@ public class EnemyStats : MonoBehaviour
         //     Kill();
         // }
         if(Mathf.Approximately(dmg, currentStats.damage)){
-            if(Random.value < currentStats.resitances.kill){
+            if(UnityEngine.Random.value < currentStats.resitances.kill){
                 return;
             }
         }
         currentHealth -= dmg;
-        Debug.Log(dmg);
+        // Debug.Log(dmg);
         StartCoroutine(DamageFlash());
         if(currentHealth <= 0){
             Kill();
@@ -119,7 +146,7 @@ public class EnemyStats : MonoBehaviour
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
             playerStats.TakeDamage(Actual.damage);
             PlayCollisionSound();
-            Debug.Log("Player Hit");
+            // Debug.Log("Player Hit");
         }
     }
     private void PlayCollisionSound()
