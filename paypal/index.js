@@ -90,6 +90,21 @@ app.get('/characters/ina', (req, res) => {
 app.get('/weapon', (req, res) => {
     res.render('weapon');
 });
+app.get('/weapons/pistol-shot', (req, res) => {
+    res.render('weapons/pistol-shot');
+});
+app.get('/weapons/phoenix-sword', (req, res) => {
+    res.render('weapons/phoenix-sword');
+});
+app.get('/weapons/trident-thrust', (req, res) => {
+    res.render('weapons/trident-thrust');
+});
+app.get('/weapons/summon-tentacle', (req, res) => {
+    res.render('weapons/summon-tentacle');
+});
+app.get('/weapons/scythe-swing', (req, res) => {
+    res.render('weapons/scythe-swing');
+});
 // Route kiểm tra đăng nhập
 app.get('/check-auth', (req, res) => {
     const sessionCookie = req.cookies.session || '';
@@ -268,3 +283,4 @@ async function updateUserDiamonds(userId, diamondsToAdd) {
         throw error;
     }
 }
+

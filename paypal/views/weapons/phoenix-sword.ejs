@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Sword - Weapon Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .weapon-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .weapon-images {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .weapon-image {
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .weapon-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .upgrade-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .upgrade-table th, .upgrade-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .upgrade-table th {
+            background-color: #f2f2f2;
+        }
+        h2 {
+            color: #063f5c;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #333;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem; color: #063f5c;">Phoenix Sword</h1>
+
+        <div class="weapon-profile">
+            <div class="weapon-images">
+                <img src="/images/weapons/phoenix-sword.png" alt="Phoenix Sword" class="weapon-image">
+                <img src="/images/weapons/phoenix-sword-upgrade.png" alt="Phoenix Sword Upgraded" class="weapon-image">
+            </div>
+            <div class="weapon-info">
+                <h2>Weapon of Takanashi Kiara</h2>
+                <p>The Phoenix Sword is Kiara's primary weapon, known for its fiery power and ability to transform into a shield.</p>
+            </div>
+            <h2>Upgrade Path</h2>
+            <table class="upgrade-table">
+                <tr>
+                    <th>Level</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Level 1</td>
+                    <td>Short ranged slash in front.</td>
+                </tr>
+                <tr>
+                    <td>Level 2</td>
+                    <td>Increase damage by 20%.</td>
+                </tr>
+                <tr>
+                    <td>Level 3</td>
+                    <td>Increase attack area by 25%.</td>
+                </tr>
+                <tr>
+                    <td>Level 4</td>
+                    <td>Reduce the time between attacks by 15%.</td>
+                </tr>
+                <tr>
+                    <td>Level 5</td>
+                    <td>Can hit twice per slash.</td>
+                </tr>
+                <tr>
+                    <td>Level 6</td>
+                    <td>Increase damage by 20%.</td>
+                </tr>
+                <tr>
+                    <td>Level 7</td>
+                    <td>Sword is engulfed in flames, and can hit many times. Also leave a burning fire under hit targets.</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

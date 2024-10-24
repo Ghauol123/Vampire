@@ -9,10 +9,13 @@
         .character-profile {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: start;
+            justify-content: center;
+            align-items: flex-start;
             padding: 2rem;
             gap: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .character-image {
             max-width: 300px;
@@ -21,6 +24,10 @@
         }
         .character-info {
             max-width: 600px;
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .stats-table {
             width: 100%;
@@ -42,18 +49,35 @@
             max-width: 100px;
             margin-right: 1rem;
         }
+        .icon {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .character-info h2 {
+            color: #063f5c;
+            margin-bottom: 0.5rem;
+        }
+        .character-info p, .character-info ul {
+            color: #333;
+            line-height: 1.6;
+        }
+        .character-info ul {
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
     <main>
-        <h1 style="text-align: center; margin-top: 2rem;">Amelia Watson</h1>
+        <h1 style="text-align: center; margin-top: 2rem; color: #063f5c;">Amelia Watson</h1>
 
         <div class="character-profile">
-            <img src="/images/amelia.jpg" alt="Amelia Watson" class="character-image">
+            <img src="/images/title-talent/Amelia_upscayl_5x_ultramix_balanced.png" alt="Amelia Watson" class="character-image">
             <div class="character-info">
-                <h2>Background</h2>
+                <h2>Background <img src="/images/icon-talent/spr_Ame_portrait.png" alt="Background Icon" class="icon"></h2>
                 <p>Amelia Watson is a detective who claims to have traveled from the future to investigate the past. With her time-traveling pocket watch and a syringe of questionable contents, she's ready to solve any mystery that comes her way.</p>
 
                 <h2>Stats</h2>

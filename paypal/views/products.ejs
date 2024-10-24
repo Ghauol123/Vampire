@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sản phẩm</title>
+    <title>Products</title>
     <link rel="stylesheet" href="/css/styles.css">
     <style>
         .product-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
+            background-color: #f4f4f4;
+            padding: 20px;
         }
         .product {
             border: 1px solid #ddd;
@@ -17,9 +19,21 @@
             margin: 10px;
             width: 200px;
             text-align: center;
+            background-color: #fff; /* Màu trắng cho các hình vuông */
+            color: #000;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .product-price, .product-diamonds {
+            font-size: 1rem;
+            margin-bottom: 5px;
         }
         .buy-button {
-            background-color: #4CAF50;
+            background-color: #27C7FF; /* Màu cho nút button */
             border: none;
             color: white;
             padding: 10px 20px;
@@ -29,6 +43,18 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .buy-button:hover {
+            background-color: #1a9fd6; /* Màu khi hover */
+        }
+        a {
+            text-decoration: none; /* Loại bỏ dấu gạch dưới */
+            color: inherit; /* Giữ nguyên màu chữ */
+        }
+        a:visited {
+            color: inherit; /* Giữ nguyên màu sau khi nhấp vào */
         }
     </style>
 </head>
@@ -36,14 +62,14 @@
     <%- include('partials/navbar') %>
 
     <div class="container">
-        <h1>Sản phẩm của chúng tôi</h1>
+        <h1 style="color: #000; text-align: center;">Our Products</h1>
         <div class="product-container">
             <% products.forEach(function(product) { %>
                 <div class="product">
                     <h2 class="product-title"><%= product.title %></h2>
-                    <p class="product-price">Giá: $<%= product.price.toFixed(2) %></p>
-                    <p class="product-diamonds">Kim cương: <%= product.diamonds %> 💎</p>
-                    <button onclick="buyProduct('<%= product.id %>')" class="buy-button">Mua với PayPal</button>
+                    <p class="product-price">Price: $<%= product.price.toFixed(2) %></p>
+                    <p class="product-diamonds">Diamonds: <%= product.diamonds %> 💎</p>
+                    <button onclick="buyProduct('<%= product.id %>')" class="buy-button">Buy with PayPal</button>
                 </div>
             <% }); %>
         </div>
@@ -58,7 +84,7 @@
 
         window.buyProduct = function(productId) {
             if (!currentUser) {
-                alert('Vui lòng đăng nhập để mua sản phẩm.');
+                alert('Please log in to purchase products.');
                 window.location.href = '/login';
                 return;
             }
@@ -74,7 +100,7 @@
             .then(data => {
                 if (data.approvalUrl) {
                     window.location.href = data.approvalUrl;
-                    console.log("mở order");
+                    console.log("Order opened");
                 } else {
                     console.error('Failed to create PayPal order');
                 }

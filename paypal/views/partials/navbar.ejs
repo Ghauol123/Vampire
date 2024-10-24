@@ -1,14 +1,14 @@
 <nav class="navbar">
     <div class="navbar-logo">
-        <a href="/">Logo</a>
+        <a href="/">HoloCure</a>
     </div>
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <div class="navbar-content">
         <ul class="navbar-links">
-            <li><a href="/">Trang chủ</a></li>
-            <li><a href="/products">Sản phẩm</a></li>
-            <li><a href="/character">Character</a></li>
-            <li><a href="/weapon">Weapon</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/products">Products</a></li>
+            <li><a href="/character">Characters</a></li>
+            <li><a href="/weapon">Weapons</a></li>
         </ul>
         <div class="navbar-auth">
             <!-- This will be populated by JavaScript -->
@@ -22,15 +22,22 @@
         justify-content: space-between;
         align-items: center;
         padding: 1rem;
-        background-color: #10FAFF;
-        color: black;
+        background-color: #1a1a1a;
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .navbar-logo a {
-        color: black;
+        color: #10FAFF;
         text-decoration: none;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-logo a:hover {
+        color: #ff4081;
     }
 
     .navbar-content {
@@ -46,22 +53,33 @@
     }
 
     .navbar-links li {
-        margin-left: 1rem;
+        margin-left: 1.5rem;
     }
 
     .navbar-links a {
-        color: black;
+        color: #fff;
         text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-links a:hover {
+        color: #ff4081;
     }
 
     .navbar-auth {
-        margin-left: 1rem;
+        margin-left: 1.5rem;
     }
 
     .navbar-auth a, .navbar-auth span {
-        color: black;
+        color: #fff;
         text-decoration: none;
         margin-left: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-auth a:hover {
+        color: #ff4081;
     }
 
     .menu-toggle {
@@ -69,7 +87,7 @@
         background: none;
         border: none;
         font-size: 1.5rem;
-        color: black;
+        color: #fff;
         cursor: pointer;
     }
 

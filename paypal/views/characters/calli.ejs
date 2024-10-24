@@ -9,10 +9,13 @@
         .character-profile {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: start;
+            justify-content: center;
+            align-items: flex-start;
             padding: 2rem;
             gap: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .character-image {
             max-width: 300px;
@@ -21,6 +24,10 @@
         }
         .character-info {
             max-width: 600px;
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .stats-table {
             width: 100%;
@@ -42,18 +49,35 @@
             max-width: 100px;
             margin-right: 1rem;
         }
+        .icon {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        .character-info h2 {
+            color: #063f5c;
+            margin-bottom: 0.5rem;
+        }
+        .character-info p, .character-info ul {
+            color: #333;
+            line-height: 1.6;
+        }
+        .character-info ul {
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
     <%- include('../partials/navbar') %>
 
     <main>
-        <h1 style="text-align: center; margin-top: 2rem;">Mori Calliope</h1>
+        <h1 style="text-align: center; margin-top: 2rem; color: #063f5c;">Mori Calliope</h1>
 
         <div class="character-profile">
-            <img src="/images/calli.jpg" alt="Mori Calliope" class="character-image">
+            <img src="/images/title-talent/upscayl_png_ultramix_balanced_5x/Calli.png" alt="Mori Calliope" class="character-image">
             <div class="character-info">
-                <h2>Background</h2>
+                <h2>Background <img src="/images/icon-talent/spr_Calli_portrait.png" alt="Background Icon" class="icon"></h2>
                 <p>Mori Calliope is the Grim Reaper's first apprentice. She's a hardworking and serious individual who also happens to be an aspiring rapper. Despite her intimidating appearance, Calli has a kind heart and a dry sense of humor.</p>
 
                 <h2>Stats</h2>
