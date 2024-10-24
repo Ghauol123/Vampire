@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weapons</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .weapons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex: 1;
+        }
+        .weapon-card {
+            border: 2px solid #10FAFF;
+            border-radius: 10px;
+            padding: 10px;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .weapon-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .weapon-card h3 {
+            margin: 5px 0 0;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <h1 style="text-align: center;">Weapons</h1>
+
+    <div class="weapons-container">
+        <div class="weapon-card">
+            <img src="/images/phoenix-sword.jpg" alt="Phoenix Sword">
+            <h3>Phoenix Sword</h3>
+        </div>
+        <div class="weapon-card">
+            <img src="/images/pistol-shot.jpg" alt="Pistol Shot">
+            <h3>Pistol Shot</h3>
+        </div>
+        <div class="weapon-card">
+            <img src="/images/trident-thrust.jpg" alt="Trident Thrust">
+            <h3>Trident Thrust</h3>
+        </div>
+        <div class="weapon-card">
+            <img src="/images/summon-tentacle.jpg" alt="Summon Tentacle">
+            <h3>Summon Tentacle</h3>
+        </div>
+        <div class="weapon-card">
+            <img src="/images/scythe-swing.jpg" alt="Scythe Swing">
+            <h3>Scythe Swing</h3>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

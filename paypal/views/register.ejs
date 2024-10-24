@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký</title>
     <link rel="stylesheet" href="/css/auth.css">
-    <!-- Thêm Firebase SDK nếu cần -->
+    <!-- Thêm Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
 </head>
 <body class="auth-page">
     <div class="auth-container">
         <h1>Đăng ký</h1>
         <form id="registerForm">
+            <input type="text" id="name" name="name" placeholder="Họ và tên" required>
             <input type="email" id="email" name="email" placeholder="Email" required>
             <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
@@ -21,7 +24,50 @@
     </div>
 
     <script>
-        // Firebase configuration and register logic here
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAq5iYAalbx8mrj7PAUvhlDGeJiEEreP0",
+            authDomain: "holocure-27638.firebaseapp.com",
+            databaseURL: "https://holocure-27638-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "holocure-27638",
+            storageBucket: "holocure-27638.appspot.com",
+            messagingSenderId: "397627522507",
+            appId: "1:397627522507:web:92cc3302a67f346eba0a4e",
+            measurementId: "G-6T306ZY51M"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('errorMessage').textContent = 'Mật khẩu không khớp';
+                return;
+            }
+
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    return user.updateProfile({
+                        displayName: name
+                    });
+                })
+                .then(() => {
+                    // Registration successful, redirect to home page or show success message
+                    window.location.href = '/login';
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    document.getElementById('errorMessage').textContent = errorMessage;
+                });
+        });
     </script>
 </body>
 </html>

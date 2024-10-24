@@ -4,7 +4,7 @@ const paypal = require('./services/paypal');
 const path = require('path');
 const admin = require('firebase-admin');
 const cookieParser = require('cookie-parser');
-const serviceAccount = require('"D:\UnityProject\serviceAccountKey.json"'); // Thay đổi đường dẫn
+const serviceAccount = require('d:/UnityProject/serviceAccountKey.json'); // Thay đổi đường dẫn
 const session = require('express-session');
 const app = express();
 
@@ -55,7 +55,41 @@ app.get('/', (req, res) => {
             res.render('index', { user: null, products: products });
         });
 });
-
+app.get('/products', (req, res) => {
+    // Fetch products from your database or API
+    const products = [
+        { id: '1', title: 'Node.js Complete Course', price: 100.00, description: 'Node.js Complete Course with Express and MongoDB', diamonds: 1000 },
+        { id: '2', title: 'React Masterclass', price: 89.99, description: 'Comprehensive React course including Redux and React Hooks', diamonds: 900 },
+        { id: '3', title: 'Python for Data Science', price: 79.99, description: 'Learn Python for data analysis and machine learning', diamonds: 800 },
+        { id: '4', title: 'Full Stack Web Development', price: 149.99, description: 'Become a full stack developer with this comprehensive course', diamonds: 1500 },
+        { id: '5', title: 'Mobile App Development with Flutter', price: 94.99, description: 'Build cross-platform mobile apps with Flutter and Dart', diamonds: 950 },
+        { id: '6', title: 'DevOps Essentials', price: 129.99, description: 'Master DevOps practices and tools for modern software development', diamonds: 1300 },
+        { id: '6', title: 'DevOps Essentials', price: 129.99, description: 'Master DevOps practices and tools for modern software development', diamonds: 1300 },
+        { id: '6', title: 'DevOps Essentials', price: 129.99, description: 'Master DevOps practices and tools for modern software development', diamonds: 1300 },
+    ];
+    res.render('products', { products: products });
+});
+app.get('/character', (req, res) => {
+    res.render('character');
+});
+app.get('/characters/amelia', (req, res) => {
+    res.render('characters/amelia');
+});
+app.get('/characters/gura', (req, res) => {
+    res.render('characters/gura');
+});
+app.get('/characters/calli', (req, res) => {
+    res.render('characters/calli');
+});
+app.get('/characters/kiara', (req, res) => {
+    res.render('characters/kiara');
+});
+app.get('/characters/ina', (req, res) => {
+    res.render('characters/ina');
+});
+app.get('/weapon', (req, res) => {
+    res.render('weapon');
+});
 // Route kiểm tra đăng nhập
 app.get('/check-auth', (req, res) => {
     const sessionCookie = req.cookies.session || '';

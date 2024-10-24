@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninomae Ina'nis - HoloCure Character</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .character-profile {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: start;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        .character-image {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .character-info {
+            max-width: 600px;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .stats-table th, .stats-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .stats-table th {
+            background-color: #f2f2f2;
+        }
+        .weapon-section {
+            margin-top: 2rem;
+        }
+        .weapon-image {
+            max-width: 100px;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem;">Ninomae Ina'nis</h1>
+
+        <div class="character-profile">
+            <img src="/images/ina.jpg" alt="Ninomae Ina'nis" class="character-image">
+            <div class="character-info">
+                <h2>Background</h2>
+                <p>Ninomae Ina'nis is a mysterious girl who gained the power of the Ancient Ones. She's a talented artist with a calm demeanor and a penchant for puns. Despite her connection to eldritch powers, Ina is gentle and caring, using her abilities to create rather than destroy.</p>
+
+                <h2>Stats</h2>
+                <table class="stats-table">
+                    <tr>
+                        <th>Stat</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>HP</td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>ATK</td>
+                        <td>1.3x</td>
+                    </tr>
+                    <tr>
+                        <td>SPD</td>
+                        <td>1.20x</td>
+                    </tr>
+                    <tr>
+                        <td>CRT</td>
+                        <td>6%</td>
+                    </tr>
+                </table>
+
+                <div class="weapon-section">
+                    <h2>Weapon: Tentacles of the Ancient Ones</h2>
+                    <img src="/images/weapons/tentacles.png" alt="Tentacles of the Ancient Ones" class="weapon-image">
+                    <p>Ina's primary weapons are the mystical tentacles granted by the Ancient Ones. These versatile appendages can attack, defend, and manipulate the environment around her.</p>
+                    <ul>
+                        <li>Damage: Medium</li>
+                        <li>Range: Long</li>
+                        <li>Special Effect: Can attack multiple enemies simultaneously and create barriers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script type="module">
+        // Your Firebase configuration and initialization code here
+    </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<nav class="navbar">
+    <div class="navbar-logo">
+        <a href="/">Logo</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="navbar-content">
+        <ul class="navbar-links">
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/products">Sản phẩm</a></li>
+            <li><a href="/character">Character</a></li>
+            <li><a href="/weapon">Weapon</a></li>
+        </ul>
+        <div class="navbar-auth">
+            <!-- This will be populated by JavaScript -->
+        </div>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: #10FAFF;
+        color: black;
+    }
+
+    .navbar-logo a {
+        color: black;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .navbar-content {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-links {
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .navbar-links li {
+        margin-left: 1rem;
+    }
+
+    .navbar-links a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .navbar-auth {
+        margin-left: 1rem;
+    }
+
+    .navbar-auth a, .navbar-auth span {
+        color: black;
+        text-decoration: none;
+        margin-left: 0.5rem;
+    }
+
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: black;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .navbar-content {
+            display: none;
+            width: 100%;
+        }
+
+        .navbar-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar-links {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .navbar-links li {
+            margin: 0.5rem 0;
+        }
+
+        .navbar-auth {
+            margin: 0.5rem 0;
+        }
+
+        .menu-toggle {
+            display: block;
+            align-self: flex-end;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+    }
+</style>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDAq5iYAalbx8mrj7PAUvhlDGeJiEEreP0",
+        authDomain: "holocure-27638.firebaseapp.com",
+        databaseURL: "https://holocure-27638-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "holocure-27638",
+        storageBucket: "holocure-27638.appspot.com",
+        messagingSenderId: "397627522507",
+        appId: "1:397627522507:web:92cc3302a67f346eba0a4e",
+        measurementId: "G-6T306ZY51M"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    function updateNavbar(user) {
+        const navbarAuth = document.querySelector('.navbar-auth');
+        if (user) {
+            navbarAuth.innerHTML = `
+                <span class="user-info">
+                    ${user.displayName || user.email}
+                </span>
+                <a href="#" class="logout-btn" onclick="logout()">Đăng xuất</a>
+            `;
+        } else {
+            navbarAuth.innerHTML = `
+                <a href="/login" class="login-btn">Đăng nhập</a>
+                <a href="/register" class="register-btn">Đăng ký</a>
+            `;
+        }
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        updateNavbar(user);
+        if (user) {
+            console.log('User is signed in');
+            // You can emit a custom event here if you need to notify other parts of your app
+            window.dispatchEvent(new CustomEvent('userAuthChanged', { detail: { user } }));
+        } else {
+            console.log('No user is signed in');
+            window.dispatchEvent(new CustomEvent('userAuthChanged', { detail: { user: null } }));
+        }
+    });
+
+    window.logout = function() {
+        signOut(auth).then(() => {
+            console.log('User signed out');
+            window.location.href = '/';
+        }).catch((error) => {
+            console.error('Logout error:', error);
+        });
+    }
+
+    function toggleMenu() {
+        const navbarContent = document.querySelector('.navbar-content');
+        navbarContent.classList.toggle('active');
+    }
+
+    window.toggleMenu = toggleMenu;
+</script>

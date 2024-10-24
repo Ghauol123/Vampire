@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amelia Watson - HoloCure Character</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .character-profile {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: start;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        .character-image {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .character-info {
+            max-width: 600px;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .stats-table th, .stats-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .stats-table th {
+            background-color: #f2f2f2;
+        }
+        .weapon-section {
+            margin-top: 2rem;
+        }
+        .weapon-image {
+            max-width: 100px;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem;">Amelia Watson</h1>
+
+        <div class="character-profile">
+            <img src="/images/amelia.jpg" alt="Amelia Watson" class="character-image">
+            <div class="character-info">
+                <h2>Background</h2>
+                <p>Amelia Watson is a detective who claims to have traveled from the future to investigate the past. With her time-traveling pocket watch and a syringe of questionable contents, she's ready to solve any mystery that comes her way.</p>
+
+                <h2>Stats</h2>
+                <table class="stats-table">
+                    <tr>
+                        <th>Stat</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>HP</td>
+                        <td>90</td>
+                    </tr>
+                    <tr>
+                        <td>ATK</td>
+                        <td>1x</td>
+                    </tr>
+                    <tr>
+                        <td>SPD</td>
+                        <td>1.40x</td>
+                    </tr>
+                    <tr>
+                        <td>CRT</td>
+                        <td>5%</td>
+                    </tr>
+                </table>
+
+                <div class="weapon-section">
+                    <h2>Weapon: Magnifying Glass</h2>
+                    <img src="/images/weapons/magnifying_glass.png" alt="Magnifying Glass" class="weapon-image">
+                    <p>Amelia's primary weapon is her trusty magnifying glass. It may not seem like much, but in her hands, it becomes a powerful tool for both investigation and combat.</p>
+                    <ul>
+                        <li>Damage: Medium</li>
+                        <li>Range: Short</li>
+                        <li>Special Effect: Increases critical hit chance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script type="module">
+        // Your Firebase configuration and initialization code here
+    </script>
+</body>
+</html>

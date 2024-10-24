@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .buy-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+        <h1>Sản phẩm của chúng tôi</h1>
+        <div class="product-container">
+            <% products.forEach(function(product) { %>
+                <div class="product">
+                    <h2 class="product-title"><%= product.title %></h2>
+                    <p class="product-price">Giá: $<%= product.price.toFixed(2) %></p>
+                    <p class="product-diamonds">Kim cương: <%= product.diamonds %> 💎</p>
+                    <button onclick="buyProduct('<%= product.id %>')" class="buy-button">Mua với PayPal</button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    <%- include('partials/footer') %>
+    <script>
+        let currentUser = null;
+
+        window.addEventListener('userAuthChanged', (event) => {
+            currentUser = event.detail.user;
+        });
+
+        window.buyProduct = function(productId) {
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để mua sản phẩm.');
+                window.location.href = '/login';
+                return;
+            }
+
+            fetch('/create-paypal-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.approvalUrl) {
+                    window.location.href = data.approvalUrl;
+                    console.log("mở order");
+                } else {
+                    console.error('Failed to create PayPal order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

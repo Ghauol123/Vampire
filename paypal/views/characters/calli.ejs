@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mori Calliope - HoloCure Character</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .character-profile {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: start;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        .character-image {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .character-info {
+            max-width: 600px;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .stats-table th, .stats-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .stats-table th {
+            background-color: #f2f2f2;
+        }
+        .weapon-section {
+            margin-top: 2rem;
+        }
+        .weapon-image {
+            max-width: 100px;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem;">Mori Calliope</h1>
+
+        <div class="character-profile">
+            <img src="/images/calli.jpg" alt="Mori Calliope" class="character-image">
+            <div class="character-info">
+                <h2>Background</h2>
+                <p>Mori Calliope is the Grim Reaper's first apprentice. She's a hardworking and serious individual who also happens to be an aspiring rapper. Despite her intimidating appearance, Calli has a kind heart and a dry sense of humor.</p>
+
+                <h2>Stats</h2>
+                <table class="stats-table">
+                    <tr>
+                        <th>Stat</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>HP</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>ATK</td>
+                        <td>1.2x</td>
+                    </tr>
+                    <tr>
+                        <td>SPD</td>
+                        <td>1.25x</td>
+                    </tr>
+                    <tr>
+                        <td>CRT</td>
+                        <td>7%</td>
+                    </tr>
+                </table>
+
+                <div class="weapon-section">
+                    <h2>Weapon: Death Scythe</h2>
+                    <img src="/images/weapons/death_scythe.png" alt="Death Scythe" class="weapon-image">
+                    <p>Calli's primary weapon is her imposing Death Scythe. This massive weapon is capable of reaping souls and dealing devastating damage to her enemies.</p>
+                    <ul>
+                        <li>Damage: Very High</li>
+                        <li>Range: Long</li>
+                        <li>Special Effect: Has a chance to instantly defeat weaker enemies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+    <script type="module">
+        // Your Firebase configuration and initialization code here
+    </script>
+</body>
+</html>

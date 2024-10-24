@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoloCure Characters</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        main {
+            flex: 1;
+        }
+        .character-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .character-card {
+            width: 250px;
+            border: 2px solid #10FAFF;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .character-card:hover {
+            transform: translateY(-5px);
+        }
+        .character-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .character-info {
+            padding: 1rem;
+            text-align: center;
+        }
+        .character-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .character-description {
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem;">HoloCure Characters</h1>
+
+        <div class="character-container">
+            <div class="character-card">
+                <a href="/characters/amelia">
+                    <img src="/images/amelia.jpg" alt="Amelia Watson" class="character-image">
+                    <div class="character-info">
+                        <h2 class="character-name">Amelia Watson</h2>
+                        <p class="character-description">A detective with a mysterious background and time-traveling abilities.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="character-card">
+                <a href="/characters/gura">
+                    <img src="/images/gura.jpg" alt="Gawr Gura" class="character-image">
+                    <div class="character-info">
+                        <h2 class="character-name">Gawr Gura</h2>
+                        <p class="character-description">An adorable shark girl from Atlantis with a trident and a love for rhythm games.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="character-card">
+                <a href="/characters/calli">
+                    <img src="/images/calli.jpg" alt="Mori Calliope" class="character-image">
+                    <div class="character-info">
+                        <h2 class="character-name">Mori Calliope</h2>
+                        <p class="character-description">The Grim Reaper's first apprentice, a rapper with a scythe and attitude.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="character-card">
+                <a href="/characters/kiara">
+                    <img src="/images/kiara.jpg" alt="Takanashi Kiara" class="character-image">
+                    <div class="character-info">
+                        <h2 class="character-name">Takanashi Kiara</h2>
+                        <p class="character-description">A phoenix warrior who runs a fast-food chain in her spare time.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="character-card">
+                <a href="/characters/ina">
+                    <img src="/images/ina.jpg" alt="Ninomae Ina'nis" class="character-image">
+                    <div class="character-info">
+                        <h2 class="character-name">Ninomae Ina'nis</h2>
+                        <p class="character-description">A priestess of the Ancient Ones with tentacles and a talent for art.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script type="module">
+        // Your Firebase configuration and initialization code here
+    </script>
+</body>
+</html>

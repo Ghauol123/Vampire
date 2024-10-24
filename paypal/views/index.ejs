@@ -3,56 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
+    <title>HoloCure - Hololive Fan Game</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        .hero {
+            background-image: url('/images/holocure-background.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 3rem 0;
+            background-color: white;
+        }
+        .feature {
+            text-align: center;
+            padding: 1rem;
+        }
+        .feature img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        .cta {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: #10FAFF;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #ff4081;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #e91e63;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-logo">
-            <a href="/">Logo</a>
-        </div>
-        <ul class="navbar-links">
-            <li><a href="/">Trang chủ</a></li>
-            <li><a href="/about">Giới thiệu</a></li>
-            <li><a href="/contact">Liên hệ</a></li>
-        </ul>
-        <div class="navbar-auth">
-            <% if (user) { %>
-                <span class="user-info">
-                    <%= user.displayName || user.email %> (ID: <%= user.uid %>)
-                </span>
-                <a href="/logout" class="logout-btn">Đăng xuất</a>
-            <% } else { %>
-                <a href="/login" class="login-btn">Đăng nhập</a>
-                <a href="/register" class="register-btn">Đăng ký</a>
-            <% } %>
-        </div>
-    </nav>
+    <%- include('partials/navbar') %>
 
-    <div class="container">
-        <h1>Chào mừng đến với trang chủ</h1>
-        <div class="product-container">
-            <% products.forEach(function(product) { %>
-                <div class="product">
-                    <h2 class="product-title"><%= product.title %></h2>
-                    <p class="product-price">Price: $<%= product.price.toFixed(2) %></p>
-                    <p class="product-diamonds">Diamonds: <%= product.diamonds %> 💎</p>
-                    <button onclick="buyProduct('<%= product.id %>')" class="buy-button">Buy with PayPal</button>
-                </div>
-            <% }); %>
+    <div class="hero">
+        <div>
+            <h1>Welcome to HoloCure</h1>
+            <p>Dive into the exciting world of Hololive with this fan-made game!</p>
         </div>
     </div>
-    <!-- <h1>Node.js Complete Course</h1>
-    <h2>Price: $100.00</h2>
-    <form action="/pay" method="post">
-        <input type="submit" value="Buy">
-    </form> -->
+
+    <div class="features">
+        <div class="feature">
+            <img src="/images/feature1.jpg" alt="Feature 1">
+            <h2>Exciting Gameplay</h2>
+            <p>Battle hordes of enemies with your favorite VTubers!</p>
+        </div>
+        <div class="feature">
+            <img src="/images/feature2.jpg" alt="Feature 2">
+            <h2>Unique Characters</h2>
+            <p>Play as various Hololive talents, each with special abilities!</p>
+        </div>
+        <div class="feature">
+            <img src="/images/feature3.jpg" alt="Feature 3">
+            <h2>Regular Updates</h2>
+            <p>Enjoy new content and characters with frequent updates!</p>
+        </div>
+    </div>
+
+    <div class="cta">
+        <h2>Ready to start your adventure?</h2>
+        <a href="/products" class="cta-button">Get HoloCure Now!</a>
+    </div>
+
+    <%- include('partials/footer') %>
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-        import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -69,31 +125,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const database = getDatabase(app);
 
-        let currentUser = null;
-
-        // Check login status
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                currentUser = user;
-                document.querySelector('.navbar-auth').innerHTML = `
-                    <span class="user-info">
-                        ${user.displayName || user.email} (ID: ${user.uid})
-                    </span>
-                    <a href="#" class="logout-btn" onclick="logout()">Đăng xuất</a>
-                    <button onclick="addDiamonds()" class="add-diamonds-btn">Add 1000 Diamonds</button>
-                `;
-            } else {
-                // No user is signed in
-                currentUser = null;
-                document.querySelector('.navbar-auth').innerHTML = `
-                    <a href="/login" class="login-btn">Đăng nhập</a>
-                    <a href="/register" class="register-btn">Đăng ký</a>
-                `;
-            }
-        });
 
         window.logout = function() {
             signOut(auth).then(() => {
@@ -102,55 +134,6 @@
             }).catch((error) => {
                 // An error happened.
                 console.error('Logout error:', error);
-            });
-        }
-
-        window.addDiamonds = function() {
-    if (!currentUser) {
-        alert('Vui lòng đăng nhập để thêm kim cương.');
-        return;
-    }
-
-    const userId = currentUser.uid;
-    const diamondsRef = ref(database, `users/${userId}/Diamonds`);
-    
-    runTransaction(diamondsRef, (currentDiamonds) => {
-        const newDiamonds = (currentDiamonds || 0) + 1000;
-        console.log("Đã thêm 1000 kim cương vào tài khoản của bạn");
-        return newDiamonds;
-    }).then(() => {
-        alert('Đã thêm 1000 kim cương vào tài khoản của bạn!');
-    }).catch((error) => {
-        console.error('Error adding diamonds:', error);
-        alert('Có lỗi xảy ra khi thêm kim cương. Vui lòng thử lại sau.');
-    });
-}
-
-        window.buyProduct = function(productId) {
-            if (!currentUser) {
-                alert('Vui lòng đăng nhập để mua sản phẩm.');
-                window.location.href = '/login';
-                return;
-            }
-
-            fetch('/create-paypal-order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ productId }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.approvalUrl) {
-                    window.location.href = data.approvalUrl;
-                    console.log("mở order");
-                } else {
-                    console.error('Failed to create PayPal order');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
         }
     </script>
