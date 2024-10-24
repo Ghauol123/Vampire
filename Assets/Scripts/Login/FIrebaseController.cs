@@ -27,47 +27,114 @@ public class FirebaseController : MonoBehaviour
     public bool isSignedIn = false;
     public GameObject scoreScrollViewContent;
     public GameObject scoreEntryPrefab;
-    private string userId;
+    public string userId;
     TabBetweenFields tabBetweenFields;
-    private void Awake() {
+    public Canvas mainCanvas; // Reference to the main canvas
+    public List<CharacterData> characterDataList; // Use a list to handle multiple characters
+
+    private void Awake()
+    {
         tabBetweenFields = FindAnyObjectByType<TabBetweenFields>();
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);  // Ensure this object persists across scenes
+            InitializeFirebase(); // Ensure Firebase is initialized in Awake
+        }
+        else
+        {
+            Destroy(gameObject);  // Destroy duplicate instances
+            return;
+        }
     }
+
     void Start()
     {
-        // if (instance == null)
-        // {
-        //     instance = this;
-        //     DontDestroyOnLoad(gameObject);  // Đảm bảo không bị phá hủy khi chuyển cảnh
-        // }
-        // else
-        // {
-        //     Destroy(gameObject);  // Nếu đã có instance, hủy đối tượng mới
-        // }
-        // Initialize the login button state
+        SetCanvasActiveState();
         OpenLoginPanel();
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == Firebase.DependencyStatus.Available)
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitializeFirebase(); // Reinitialize Firebase when a new scene is loaded
+        SetCanvasActiveState();
+        AssignCameraToCanvas(); // Re-assign camera when a new scene is loaded
+    }
+
+    private void SetCanvasActiveState()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "Login") // Replace "LoginScene" with the actual name of your login scene
+        {
+            mainCanvas.gameObject.SetActive(true);
+        }
+        else
+        {
+            mainCanvas.gameObject.SetActive(false);
+        }
+    }
+
+    private void AssignCameraToCanvas()
+    {
+        if (mainCanvas != null)
+        {
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
             {
-                InitializeFirebase();
+                mainCanvas.worldCamera = mainCamera;
             }
             else
             {
-                UnityEngine.Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
+                Debug.LogWarning("Main camera not found. Ensure there is a camera tagged as 'MainCamera' in the scene.");
             }
-        });
+        }
+        else
+        {
+            Debug.LogError("Main canvas is not assigned.");
+        }
     }
 
-    public void OpenLoginPanel()
+public void OpenLoginPanel()
+{
+    if (loginPanel == null)
     {
-        loginPanel.SetActive(true);
-        signupPanel.SetActive(false);
-        tabBetweenFields.isLoginActive = true;
-        forgotPasswordPanel.SetActive(false);
-        // gamePanel.SetActive(false);
-        // profilePanel.SetActive(false);
+        Debug.LogError("Login panel is not assigned.");
+        return;
     }
+    if (signupPanel == null)
+    {
+        Debug.LogError("Signup panel is not assigned.");
+        return;
+    }
+    if (forgotPasswordPanel == null)
+    {
+        Debug.LogError("Forgot password panel is not assigned.");
+        return;
+    }
+    if (tabBetweenFields == null)
+    {
+        Debug.LogError("TabBetweenFields is not assigned.");
+        return;
+    }
+
+    loginPanel.SetActive(true);
+    signupPanel.SetActive(false);
+    tabBetweenFields.isLoginActive = true;
+    forgotPasswordPanel.SetActive(false);
+    // gamePanel.SetActive(false);
+    // profilePanel.SetActive(false);
+}
 
     public void OpenSignupPanel()
     {
@@ -201,9 +268,40 @@ public class FirebaseController : MonoBehaviour
             FirebaseUser newUser = task.Result.User;
             Debug.LogFormat("Firebase user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
             
+            // Initialize characters for the new user
+            InitializeCharactersForNewUser(newUser.UserId, characterDataList);
+
             // Send email verification
             SendVerificationEmail(newUser);
         });
+    }
+
+    private void InitializeCharactersForNewUser(string userId, List<CharacterData> characterDataList)
+    {
+        if (dbReference == null)
+        {
+            Debug.LogError("Database reference is null. Cannot initialize characters.");
+            return;
+        }
+
+        int initialLevel = 1;
+
+        foreach (CharacterData characterData in characterDataList)
+        {
+            string characterId = characterData.Name; // Use the character's name as the ID
+            string path = $"users/{userId}/characters/{characterId}/level";
+            dbReference.Child(path).SetValueAsync(initialLevel).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    Debug.Log($"Initialized {characterId} with level {initialLevel} for user {userId}");
+                }
+                else
+                {
+                    Debug.LogError($"Failed to initialize {characterId} for user {userId}: {task.Exception}");
+                }
+            });
+        }
     }
 
     private void SendVerificationEmail(FirebaseUser user)
@@ -262,21 +360,35 @@ public class FirebaseController : MonoBehaviour
             }
             
             Debug.LogFormat("User signed in successfully: {0} ({1})", user.DisplayName, user.UserId);
+            userId = user.UserId; // Update userId after successful sign-in
             isSignedIn = true;
-            DataPersistenceManager.instance.OnUserChanged();
+            // DataPersistenceManager.instance.OnUserChanged();
             OpenGamePanel();
         });
     }
 
     void InitializeFirebase()
     {
-        auth = FirebaseAuth.DefaultInstance;
-        userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-        Debug.Log(userId);
+        if (auth == null)
+        {
+            auth = FirebaseAuth.DefaultInstance;
+        }
+
+        if (auth.CurrentUser != null)
+        {
+            userId = auth.CurrentUser.UserId;
+            Debug.Log(userId);
+        }
+        else
+        {
+            Debug.Log("No user is currently signed in.");
+        }
+
         dbReference = FirebaseDatabase.DefaultInstance.RootReference; 
         auth.StateChanged += AuthStateChanged;
-        AuthStateChanged(this, null);
+        AuthStateChanged(this, null); // Call StateChanged to check user state immediately
     }
+
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
         if (auth == null)
@@ -286,10 +398,10 @@ public class FirebaseController : MonoBehaviour
         }
 
         FirebaseUser currentUser = auth.CurrentUser;
-        // if (currentUser == null)
-        // {
-        //     Debug.LogError("CurrentUser is null. No user is signed in.");
-        // }
+        if (currentUser == null)
+        {
+            Debug.LogWarning("CurrentUser is null. No user is signed in.");
+        }
 
         if (user != currentUser)
         {
@@ -302,55 +414,37 @@ public class FirebaseController : MonoBehaviour
             if (signedIn)
             {
                 Debug.Log("Signed in " + user.UserId + " " + user.DisplayName);
+                userId = user.UserId; // Update userId when a new user signs in
                 isSignedIn = true;
-                DataPersistenceManager.instance.OnUserChanged(); // Gọi OnUserChanged khi có người dùng đăng nhập
+                // DataPersistenceManager.instance.OnUserChanged(); // Call OnUserChanged when a user signs in
             }
+        }
+    }
+
+    public void SignOutUser()
+    {
+        if (auth != null)
+        {
+            auth.SignOut();
+            user = null;
+            userId = null;
+            isSignedIn = false;
+            Debug.Log("User signed out successfully.");
+        }
+        else
+        {
+            Debug.LogError("FirebaseAuth instance is null. Cannot sign out.");
         }
     }
 
     private void OnDestroy()
     {
-        auth.StateChanged -= AuthStateChanged;
-        auth = null;
+        if (auth != null)
+        {
+            auth.StateChanged -= AuthStateChanged;
+        }
+        auth = null; // Only set to null if you are sure you want to reset it
     }
-
-    // void UpdateUserProfile(string username)
-    // {
-    //     FirebaseUser currentUser = auth.CurrentUser;
-    //     if (currentUser != null)
-    //     {
-    //         UserProfile profile = new UserProfile
-    //         {
-    //             DisplayName = username,
-    //             PhotoUrl = new System.Uri("https://placehold.co/150x150")
-    //         };
-    //         currentUser.UpdateUserProfileAsync(profile).ContinueWithOnMainThread(task =>
-    //         {
-    //             if (task.IsCanceled)
-    //             {
-    //                 Debug.LogError("UpdateUserProfileAsync was canceled.");
-    //                 return;
-    //             }
-    //             if (task.IsFaulted)
-    //             {
-    //                 Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-    //                 foreach (Exception exception in task.Exception.Flatten().InnerExceptions)
-    //                 {
-    //                     Firebase.FirebaseException firebaseEx = exception as Firebase.FirebaseException;
-    //                     if (firebaseEx != null)
-    //                     {
-    //                         AuthError errorCode = (AuthError)firebaseEx.ErrorCode;
-    //                         ShowNotification(GetErrorMessageFromException(errorCode));
-    //                     }
-    //                 }
-    //                 return;
-    //             }
-    //             Debug.Log("User profile updated successfully.");
-    //             OpenLoginPanel();
-    //         });
-    //     }
-    // }
-
     bool isSigned = false;
     private void Update()
     {
@@ -447,5 +541,52 @@ public class FirebaseController : MonoBehaviour
         // Check if password contains at least one special character
         string specialCharacters = @"!@#$%^&*()_+=-{}[]|\:;""'<>,.?/";
         return password.IndexOfAny(specialCharacters.ToCharArray()) != -1;
+    }
+
+    public void SaveCharacterLevel(string characterId, int level)
+    {
+        if (user == null)
+        {
+            Debug.LogError("No user is signed in.");
+            return;
+        }
+
+        string path = $"users/{user.UserId}/characters/{characterId}/level";
+        dbReference.Child(path).SetValueAsync(level).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log($"Character {characterId} level saved: {level}");
+            }
+            else
+            {
+                Debug.LogError("Failed to save character level: " + task.Exception);
+            }
+        });
+    }
+
+    public void LoadCharacterLevel(string characterId, Action<int> onLevelLoaded)
+    {
+        if (user == null)
+        {
+            Debug.LogError("No user is signed in.");
+            return;
+        }
+
+        string path = $"users/{user.UserId}/characters/{characterId}/level";
+        dbReference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                int level = snapshot.Exists ? int.Parse(snapshot.Value.ToString()) : 1;
+                Debug.Log($"Character {characterId} level loaded: {level}");
+                onLevelLoaded(level);
+            }
+            else
+            {
+                Debug.LogError("Failed to load character level: " + task.Exception);
+            }
+        });
     }
 }

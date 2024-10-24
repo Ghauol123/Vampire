@@ -48,7 +48,11 @@ public bool isGameLoaded;
     public bool IsGameOver {get{return currentState == GameState.GameOver;}}
     public bool chosingUpgrade {get{return currentState == GameState.LevelUp;}}
 
-
+    [Header("Damage Text Setting")]
+    public Canvas damageTextCanvas;
+    public float textFontSize = 20f;
+    public TMP_FontAsset textFont;
+    public Camera referenceCamera;
     // public GameObject player;
     PlayerStats[] playerStats;
     public static int GetCumulativeLevels(){
@@ -72,6 +76,8 @@ public bool isGameLoaded;
 
     // PlayerStats[] playerStats;
     FirebaseSaveGame firebaseSaveGame;
+    private PlayerInventory playerInventory;
+
     void Start()
     {
         pauseScreen.SetActive(false);
@@ -88,6 +94,7 @@ public bool isGameLoaded;
         LevelUpScreen.SetActive(false);
         playerStats = FindObjectsOfType<PlayerStats>();
         firebaseSaveGame = FindObjectOfType<FirebaseSaveGame>();
+        playerInventory = FindObjectOfType<PlayerInventory>();
     }
 
     // Update is called once per frame
@@ -110,8 +117,14 @@ public bool isGameLoaded;
         }
     }
     public void ChangeState(GameState newState)
-    // Change the current state of the game
     {
+        // Check if the inventory is full and all items are at max level
+        if (playerInventory != null && playerInventory.CheckFullLevelAndSlots())
+        {
+            Debug.Log("Cannot change state, inventory is full and all items are at max level.");
+            return;
+        }
+
         previousState = currentState;
         currentState = newState;
     }
@@ -202,7 +215,7 @@ public async void GameOver()
     foreach (var playerStat in playerStats)
     {
         totalScore += playerStat.score;
-        characterName = playerStat.cst.name; // Assuming all playerStats have the same character name
+        characterName = playerStat.cst.Name; // Assuming all playerStats have the same character name
         totalLevel += playerStat.level;
     }
     
@@ -312,6 +325,14 @@ public async void GameOver()
     }
     public void StartLevelUp()
     {
+        // Check if the inventory is full and all items are at max level
+        if (playerInventory != null && playerInventory.CheckFullLevelAndSlots())
+        {
+            Debug.Log("Cannot start level up, inventory is full and all items are at max level.");
+            ChangeState(GameState.GamePlay);
+            return;
+        }
+
         ChangeState(GameState.LevelUp);
         // if the level up screen is already active, record that another level up is requested
         if(LevelUpScreen.activeSelf) stackLevelups++;
@@ -319,11 +340,10 @@ public async void GameOver()
             LevelUpScreen.SetActive(true);
             Time.timeScale = 0f;
             stopWacthDisplay.enabled = false;
-                        foreach (var playerStat in playerStats)
+            foreach (var playerStat in playerStats)
             {
                 playerStat.SendMessage("RemoveAndApplyUpgradeOption");
             }
-            // playerStats.SendMessage("RemoveAndApplyUpgradeOption");
         }
     }
     public void EndLevelUp()
@@ -337,7 +357,59 @@ public async void GameOver()
             StartLevelUp();
         };
     }
-    // Save system methods
+    public static void GenerateDamageText(string text, Transform target, float duration =1f, float speed = 1f){
+        if(!instance.damageTextCanvas) return;
+        if(!instance.referenceCamera) instance.referenceCamera = Camera.main;
+        instance.StartCoroutine(instance.GenerateDamageTextCoroutine(text, target, duration, speed));
+    }
+    IEnumerator GenerateDamageTextCoroutine(string text, Transform target, float duration = 1f, float speed = 50f) {
+        Debug.Log("Coroutine started");
 
+        GameObject textObj = new GameObject("DamageText");
+        RectTransform rectTransform = textObj.AddComponent<RectTransform>();
+        TextMeshProUGUI textMesh = textObj.AddComponent<TextMeshProUGUI>();
+        textMesh.text = text;
+        textMesh.horizontalAlignment = HorizontalAlignmentOptions.Center;
+        textMesh.verticalAlignment = VerticalAlignmentOptions.Middle;
+        textMesh.fontSize = textFontSize;
+        Debug.Log("Text Created: " + text);
 
+        if (textFont) textMesh.font = textFont;
+        
+        // Ensure the text object is a child of the canvas
+        textObj.transform.SetParent(instance.damageTextCanvas.transform, false);
+
+        // Check if target is not destroyed before setting initial position
+        if (target != null) {
+            rectTransform.position = referenceCamera.WorldToScreenPoint(target.position);
+            Debug.Log("referenceCamera Position: " + referenceCamera.transform.position);
+            Debug.Log("target Position: " + target.position);
+            Debug.Log("Text Position: " + rectTransform.position);
+        }
+
+        Destroy(textObj, duration);
+
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+        float t = 0;
+        float yOffset = 0;
+
+        while (t < duration) {
+            yield return waitForEndOfFrame;
+            t += Time.deltaTime;
+
+            // Check if target still exists before updating position
+            if (target == null) {
+                // If target is destroyed, exit coroutine
+                yield break;
+            }
+
+            textMesh.color = new Color(textMesh.color.r, textMesh.color.g, textMesh.color.b, 1 - t / duration);
+            yOffset += speed * Time.deltaTime;
+
+            // Update the position of the damage text relative to the target
+            // rectTransform.position = referenceCamera.WorldToScreenPoint(target.position + new Vector3(0, yOffset, 0));
+            rectTransform.position = new Vector3(target.position.x, target.position.y + yOffset, target.position.z);
+
+        }
+    }
 }

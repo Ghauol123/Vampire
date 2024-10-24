@@ -9,14 +9,11 @@ public class CostumeButton : MonoBehaviour
     public CostumeData costumeData;
     
     [SerializeField]
-    private Image costumeImage;
+    public Image costumeImage;
     
     // [SerializeField]
     // private TextMeshProUGUI costumeName;
     
-    [SerializeField]
-    private TextMeshProUGUI costumePrice;
-
     private UISpriteAnimation spriteAnimation;
     private int costumeIndex;
     private CharacterSelected characterSelected;
@@ -25,8 +22,6 @@ public class CostumeButton : MonoBehaviour
         if (costumeData != null)
         {
             costumeImage.sprite = costumeData.CostumeSprite;
-            costumePrice.text = costumeData.Price.ToString();
-
             // Setup UISpriteAnimation
             SetupSpriteAnimation();
         }
@@ -47,7 +42,7 @@ public class CostumeButton : MonoBehaviour
         characterSelected.playbutton.SetActive(true);
     }
 
-    private void SetupSpriteAnimation()
+    public void SetupSpriteAnimation()
     {
         // Get or add UISpriteAnimation component
         spriteAnimation = costumeImage.gameObject.GetComponent<UISpriteAnimation>();

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="/css/auth.css">
+    <!-- Thêm Firebase SDK nếu cần -->
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <h1>Đăng ký</h1>
+        <form id="registerForm">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+            <button type="submit">Đăng ký</button>
+        </form>
+        <p id="errorMessage"></p>
+        <p>Đã có tài khoản? <a href="/login">Đăng nhập</a></p>
+    </div>
+
+    <script>
+        // Firebase configuration and register logic here
+    </script>
+</body>
+</html>

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 using System;
+using TMPro;
 
 public class CharacterAvatar : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,6 +13,12 @@ public class CharacterAvatar : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public Text weaponNameText;
     public Text inforWeaponText;
     public Image avatarWeapon;
+    public Text characterInformation;
+
+    public TextMeshProUGUI HPText;
+    public TextMeshProUGUI ATKText;
+    public TextMeshProUGUI SPDText;
+    public TextMeshProUGUI CRTText;
 
     public RuntimeAnimatorController animatorController;
     public Sprite title_Character;
@@ -29,9 +36,16 @@ public class CharacterAvatar : MonoBehaviour, IPointerEnterHandler, IPointerExit
         animatorController = characterData.animatorController;
         weaponNameText.text = characterData.StartingWeapon.baseStats.name;
         inforWeaponText.text = characterData.StartingWeapon.baseStats.description;
+        characterInformation.text = characterData.InformationCharacter;
         avatarWeapon.sprite = characterData.StartingWeapon.baseStats.Icon;
         characterAnimation.GetComponent<Animator>().runtimeAnimatorController = animatorController;
         characterAnimation.GetComponent<SpriteRenderer>().sprite = title_Character;
+
+        HPText.text = "HP: " + characterData.stats.maxHeal;
+        ATKText.text = "ATK: " + characterData.stats.might;
+        SPDText.text = "SPD: " + characterData.stats.moveSpeed;
+        CRTText.text = "CRT: " + characterData.stats.criticalChance;
+
         Func_PlayUIAnim();
 
 

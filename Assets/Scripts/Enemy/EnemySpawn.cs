@@ -77,21 +77,28 @@ public class EnemySpawn : MonoBehaviour
         waves[currentWaveCount].waveQuota = currentWaveQuota;
         Debug.LogWarning(currentWaveQuota);
     }
-    void SpawnEnemy()
+void SpawnEnemy()
+{
+    if (waves[currentWaveCount].spawnCount < waves[currentWaveCount].waveQuota && !maxEnemiesReached)
     {
-        ////kiểm tra xem số lượng kẻ thù tối thiểu trong đợt đã xuất hiện chưa
-        if (waves[currentWaveCount].spawnCount < waves[currentWaveCount].waveQuota && !maxEnemiesReached)
+        foreach (var enemyGroups in waves[currentWaveCount].enemyGroups)
         {
-            // Sinh ra từng loại kẻ thù cho đến khi đủ hạn ngạch
-            foreach (var enemyGroups in waves[currentWaveCount].enemyGroups)
+            if (enemyGroups.spawnCount < enemyGroups.enemyCount)
             {
-                // kiểm tra xem số lượng kẻ thù tối thiểu thuộc loại này đã được sinh ra chưa
-                if (enemyGroups.spawnCount < enemyGroups.enemyCount)
+                // Sử dụng object pool để lấy enemy từ pool
+                GameObject enemy = ObjectPool.Instance.GetObject(enemyGroups.enemyPrefabs);
+                
+                if (enemy != null)
                 {
-                    Instantiate(enemyGroups.enemyPrefabs, player.position + spawningPosition[Random.Range(0, spawningPosition.Count)].position, Quaternion.identity);
+                    enemy.transform.position = player.position + spawningPosition[Random.Range(0, spawningPosition.Count)].position;
+                    enemy.transform.rotation = Quaternion.identity;
+                    enemy.SetActive(true);  // Kích hoạt lại đối tượng lấy từ object pool
+
                     enemyGroups.spawnCount++;
                     waves[currentWaveCount].spawnCount++;
                     enemysAlive++;
+                    
+                    // Kiểm tra nếu đã đạt số lượng kẻ thù tối đa
                     if (enemysAlive >= maxEnemiesAllowed)
                     {
                         maxEnemiesReached = true;
@@ -101,6 +108,7 @@ public class EnemySpawn : MonoBehaviour
             }
         }
     }
+}
     public void OnEnemyKill()
     {
         enemysAlive--;

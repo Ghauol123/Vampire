@@ -49,25 +49,22 @@ public class SpawnManager : MonoBehaviour
                 }
                 return;
             }
-            // Do not spawn enemies if we do not meet the conditions to do so.
             if(!CanSpawn()) {
-                // spawnTimer += waves[currentWaveIndex].GetSpawnTime();
                 ActiveCooldown();
                 return;
             }
 
-            // Get the array of enemies that we are spawning for this tick.
             GameObject[] enemies = waves[currentWaveIndex].GetSpawnPrefabs(EnemyStats.count);
-            foreach(GameObject enemy in enemies) {
+            foreach(GameObject enemyPrefab in enemies) {
                 if(!CanSpawn()) continue;
                 Vector2 spawnPosition = GenerateRandomPosition();
-                Instantiate(enemy, spawnPosition, Quaternion.identity);
+                GameObject enemy = ObjectPool.Instance.GetObjectEnemy(enemyPrefab);
+                enemy.transform.position = spawnPosition;
+                enemy.transform.rotation = Quaternion.identity;
                 currentWaveSpawnCount++;
-                enemiesSpawned++; // Update spawned count
-                enemiesAlive++; // Update alive count
+                enemiesSpawned++;
+                enemiesAlive++;
             }
-            // Regenerate the spawn timer
-            // spawnTimer += waves[currentWaveIndex].GetSpawnTime();
             ActiveCooldown();
         }
     }

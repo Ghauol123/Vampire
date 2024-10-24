@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .bill {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .bill-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .bill-items {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .bill-items th, .bill-items td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .bill-items th {
+            background-color: #f2f2f2;
+        }
+        .bill-total {
+            margin-top: 20px;
+            text-align: right;
+            font-weight: bold;
+        }
+        .user-info {
+            background-color: #e9f7ef;
+            border: 1px solid #27ae60;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .firebase-info {
+            background-color: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your purchase. Your transaction has been completed successfully.</p>
+        
+        <% if (user) { %>
+        <div class="user-info">
+            <h3>Account Information</h3>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>User ID:</strong> <%= user.uid %></p>
+        </div>
+        <% } %>
+        
+        <div class="bill">
+            <div class="bill-header">
+                <h2>Invoice</h2>
+                <p>Order ID: <%= result.id || 'N/A' %></p>
+                <p>Date: <%= new Date().toLocaleString() %></p>
+            </div>
+            
+            <table class="bill-items">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= productInfo.title || 'Item description' %></td>
+                        <td>1</td>
+                        <td>$<%= productInfo.price ? productInfo.price.toFixed(2) : '0.00' %></td>
+                        <td>$<%= productInfo.price ? productInfo.price.toFixed(2) : '0.00' %></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="bill-total">
+                <p>Total: $<%= productInfo.price ? productInfo.price.toFixed(2) : '0.00' %></p>
+            </div>
+        </div>
+        
+        <% if (user && productInfo.diamonds) { %>
+        <div class="firebase-info">
+            <h3>Firebase Diamonds Update</h3>
+            <p><strong>Diamonds Added:</strong> <%= productInfo.diamonds %></p>
+            <p><strong>Firebase Path:</strong> https://holocure-27638-default-rtdb.asia-southeast1.firebasedatabase.app/users/<%= user.uid %>/Diamonds</p>
+        </div>
+        <% } %>
+        
+        <a href="/">Return to Home</a>
+    </div>
+</body>
+</html>

@@ -27,7 +27,7 @@ public class ScoreLoader : MonoBehaviour
     // Dictionary để lưu trữ các Sprite của nhân vật
     private Dictionary<string, Sprite> characterSprites = new Dictionary<string, Sprite>();
 
-    private const string DEFAULT_CHARACTER = "Amelia";
+    private const string DEFAULT_CHARACTER = "Amelia Watson";
 
     void Start()
     {
@@ -335,6 +335,24 @@ public class ScoreLoader : MonoBehaviour
             // Có thể đặt một hình ảnh mặc định ở đây nếu muốn
             // characterImage.sprite = defaultSprite;
         }
+    }
+
+    // New method to delete all global scores
+    public void DeleteAllGlobalScores()
+    {
+        DatabaseReference globalScoresRef = dbReference.Child("globalScores");
+
+        globalScoresRef.SetValueAsync(null).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError("Error deleting global scores: " + task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                Debug.Log("All global scores have been successfully deleted.");
+            }
+        });
     }
 
     // Xóa các phương thức LoadCharacterSprites() và Dictionary characterSprites

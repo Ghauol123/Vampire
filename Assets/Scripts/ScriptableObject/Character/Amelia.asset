@@ -13,37 +13,22 @@ MonoBehaviour:
   m_Name: Amelia
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 08a46bdc288196d4f96fe3fe7cbe6014, type: 3}
-  name: Amelia Watson
+  charname: Amelia Watson
+  informationCharacter: Amelia Watson is one of the playable characters in HoloCure.
+    She belongs to the group HoloMyth and is available at the start of the game.
+    Her starting weapon is Pistol Shot.
   startingWeapon: {fileID: 11400000, guid: ebb65440a5260734494c56747498caff, type: 2}
   sprite: {fileID: 21300000, guid: 9c7fa6d8e95d6a24bac8c486631b083c, type: 3}
   animatorController: {fileID: 9100000, guid: d42369e5f500c734dba095e3aa202abe, type: 2}
   title_Character: {fileID: 21300000, guid: f85340a9c1638ad4cbe2815f90f6da12, type: 3}
   costumes:
   - {fileID: 11400000, guid: 54f7662fa9794eb41a7f78e41f0773c0, type: 2}
-  defaultCostume: {fileID: 0}
   level: 1
-  baseStats:
-    maxHeal: 0
-    recovery: 0
-    armor: 0
-    moveSpeed: 0
-    might: 0
-    area: 0
-    amount: 0
-    cooldown: 0
-    magnet: 0
-    revival: 0
-    criticalChance: 0
-    criticalMultiplier: 0
-    expMultiplier: 0
-    curse: 0
-    healMultiplier: 0
-  upgradeCost: 100
   stats:
     maxHeal: 10000
     recovery: 1
     armor: 0
-    moveSpeed: 0.35
+    moveSpeed: 1
     might: 1.3
     area: 1
     amount: 1

@@ -117,9 +117,9 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     public List<Slot> weaponSlot = new List<Slot>(6);
-    public List<Slot> passiveSlot = new List<Slot>(6);
+    public List<Slot> passiveSlot = new List<Slot>(4);
     public List<StatSlot> statSlot = new List<StatSlot>(4);
-
+    public bool isInventoryFullAndMaxLevel;
     /// <summary>
     /// Represents the UI elements for displaying upgrade options to the player.
     /// Contains references to text displays, icons, and buttons for upgrades.
@@ -417,13 +417,11 @@ public class PlayerInventory : MonoBehaviour
         return;
     }
 
-    // Make a duplication of the available weapon/passive upgrade lists
     List<ItemData> availableUpgrades = new List<ItemData>();
     List<ItemData> allUpgrades = new List<ItemData>(availableWeapons);
     allUpgrades.AddRange(availablePassive);
     allUpgrades.AddRange(availableStats);
 
-    // Iterate through each slot in the upgrade UI
     int weaponSlotList = GetSlotLeft(weaponSlot);
     int passiveSlotList = GetSlotLeft(passiveSlot);
     int statSlotList = GetSlotLeft(statSlot);
@@ -441,7 +439,6 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            // Chỉ thêm vũ khí mới nếu còn slot trống và chưa có trong kho đồ
             if (data is WeaponData && weaponSlotList > 0 && !Has(data as WeaponData))
             {
                 availableUpgrades.Add(data);
@@ -455,6 +452,12 @@ public class PlayerInventory : MonoBehaviour
                 availableUpgrades.Add(data);
             }
         }
+    }
+
+    if (availableUpgrades.Count == 0)
+    {
+        Debug.Log("No available upgrades.");
+        return; // No upgrades available, exit early
     }
 
     foreach (UpgradeUI upgradeOption in upgradeUIOpitons)
@@ -558,4 +561,43 @@ public class PlayerInventory : MonoBehaviour
     {
         ui.upgradeNameDisplay.transform.parent.gameObject.SetActive(true);
     }
+public bool CheckFullLevelAndSlots()
+{
+    // Check if all weapon slots are full and at max level
+    foreach (Slot slot in weaponSlot)
+    {
+        // Kiểm tra null cho slot.item và slot.item.itemData
+        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
+        {
+            isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+    }
+
+    // Check if all passive slots are full and at max level
+    foreach (Slot slot in passiveSlot)
+    {
+        // Kiểm tra null cho slot.item và slot.item.itemData
+        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
+        {
+            isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+    }
+
+    // Check if all stat slots are full and at max level
+    foreach (StatSlot slot in statSlot)
+    {
+        // Kiểm tra null cho slot.item và slot.item.itemData
+        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
+        {
+            isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+    }
+
+    isInventoryFullAndMaxLevel = true;
+    return true;
+}
+
 }

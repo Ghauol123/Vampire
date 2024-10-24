@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="/">Logo</a>
+        </div>
+        <ul class="navbar-links">
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/about">Giới thiệu</a></li>
+            <li><a href="/contact">Liên hệ</a></li>
+        </ul>
+        <div class="navbar-auth">
+            <% if (user) { %>
+                <span class="user-info">
+                    <%= user.displayName || user.email %> (ID: <%= user.uid %>)
+                </span>
+                <a href="/logout" class="logout-btn">Đăng xuất</a>
+            <% } else { %>
+                <a href="/login" class="login-btn">Đăng nhập</a>
+                <a href="/register" class="register-btn">Đăng ký</a>
+            <% } %>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Chào mừng đến với trang chủ</h1>
+        <div class="product-container">
+            <% products.forEach(function(product) { %>
+                <div class="product">
+                    <h2 class="product-title"><%= product.title %></h2>
+                    <p class="product-price">Price: $<%= product.price.toFixed(2) %></p>
+                    <p class="product-diamonds">Diamonds: <%= product.diamonds %> 💎</p>
+                    <button onclick="buyProduct('<%= product.id %>')" class="buy-button">Buy with PayPal</button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    <!-- <h1>Node.js Complete Course</h1>
+    <h2>Price: $100.00</h2>
+    <form action="/pay" method="post">
+        <input type="submit" value="Buy">
+    </form> -->
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+        import { getDatabase, ref, runTransaction } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDAq5iYAalbx8mrj7PAUvhlDGeJiEEreP0",
+            authDomain: "holocure-27638.firebaseapp.com",
+            databaseURL: "https://holocure-27638-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "holocure-27638",
+            storageBucket: "holocure-27638.appspot.com",
+            messagingSenderId: "397627522507",
+            appId: "1:397627522507:web:92cc3302a67f346eba0a4e",
+            measurementId: "G-6T306ZY51M"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        let currentUser = null;
+
+        // Check login status
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                currentUser = user;
+                document.querySelector('.navbar-auth').innerHTML = `
+                    <span class="user-info">
+                        ${user.displayName || user.email} (ID: ${user.uid})
+                    </span>
+                    <a href="#" class="logout-btn" onclick="logout()">Đăng xuất</a>
+                    <button onclick="addDiamonds()" class="add-diamonds-btn">Add 1000 Diamonds</button>
+                `;
+            } else {
+                // No user is signed in
+                currentUser = null;
+                document.querySelector('.navbar-auth').innerHTML = `
+                    <a href="/login" class="login-btn">Đăng nhập</a>
+                    <a href="/register" class="register-btn">Đăng ký</a>
+                `;
+            }
+        });
+
+        window.logout = function() {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                window.location.href = '/';
+            }).catch((error) => {
+                // An error happened.
+                console.error('Logout error:', error);
+            });
+        }
+
+        window.addDiamonds = function() {
+    if (!currentUser) {
+        alert('Vui lòng đăng nhập để thêm kim cương.');
+        return;
+    }
+
+    const userId = currentUser.uid;
+    const diamondsRef = ref(database, `users/${userId}/Diamonds`);
+    
+    runTransaction(diamondsRef, (currentDiamonds) => {
+        const newDiamonds = (currentDiamonds || 0) + 1000;
+        console.log("Đã thêm 1000 kim cương vào tài khoản của bạn");
+        return newDiamonds;
+    }).then(() => {
+        alert('Đã thêm 1000 kim cương vào tài khoản của bạn!');
+    }).catch((error) => {
+        console.error('Error adding diamonds:', error);
+        alert('Có lỗi xảy ra khi thêm kim cương. Vui lòng thử lại sau.');
+    });
+}
+
+        window.buyProduct = function(productId) {
+            if (!currentUser) {
+                alert('Vui lòng đăng nhập để mua sản phẩm.');
+                window.location.href = '/login';
+                return;
+            }
+
+            fetch('/create-paypal-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.approvalUrl) {
+                    window.location.href = data.approvalUrl;
+                    console.log("mở order");
+                } else {
+                    console.error('Failed to create PayPal order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

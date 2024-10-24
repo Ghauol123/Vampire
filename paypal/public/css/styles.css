@@ -1,0 +1,199 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 1rem 2rem;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-links {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links li {
+    margin-right: 1rem;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-auth a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+}
+
+.login-btn, .register-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+.register-btn {
+    background-color: #007bff;
+}
+
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links {
+        margin-top: 1rem;
+        flex-direction: column;
+    }
+
+    .navbar-links li {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-auth {
+        margin-top: 1rem;
+    }
+}
+
+.user-name {
+    margin-right: 1rem;
+    color: white;
+}
+
+.logout-btn {
+    padding: 0.5rem 1rem;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.product {
+    background-color: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(20% - 1.6rem); /* 5 sản phẩm trên một hàng, trừ đi khoảng cách giữa chúng */
+    min-width: 200px; /* Đảm bảo sản phẩm không quá nhỏ trên màn hình nhỏ */
+}
+
+.product-title {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+}
+
+.buy-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 1200px) {
+    .product {
+        width: calc(25% - 1.5rem); /* 4 sản phẩm trên một hàng */
+    }
+}
+
+@media (max-width: 992px) {
+    .product {
+        width: calc(33.333% - 1.33rem); /* 3 sản phẩm trên một hàng */
+    }
+}
+
+@media (max-width: 768px) {
+    .product {
+        width: calc(50% - 1rem); /* 2 sản phẩm trên một hàng */
+    }
+}
+
+@media (max-width: 480px) {
+    .product {
+        width: 100%; /* 1 sản phẩm trên một hàng */
+    }
+}
+
+.product-diamonds {
+    color: #1e90ff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-diamonds::before {
+    content: '💎 ';
+    margin-right: 5px;
+}

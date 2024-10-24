@@ -15,30 +15,28 @@ public class DropRateManager : MonoBehaviour
 
     public List<Drops> drops;
 
-    private void OnDestroy() {
-        if(!gameObject.scene.isLoaded){
-            return;
-        }
-
-        float randomNumber = Random.Range(0f,100f);
+    public void DropItems(Vector3 position) {
+        float randomNumber = Random.Range(0f, 100f);
         List<Drops> possibleDrops = new List<Drops>();
         
-        foreach(Drops rate in drops){
-            if(randomNumber <= rate.dropRate){
+        foreach (Drops rate in drops) {
+            if (randomNumber <= rate.dropRate) {
                 possibleDrops.Add(rate);
             }
             rate.itemsPrefabs.GetComponent<Pickup>().Exp = rate.Exp;
         }
 
-        if(possibleDrops.Count > 0){
+        if (possibleDrops.Count > 0) {
             foreach (Drops drop in possibleDrops) {
-                // Instantiate item và set vị trí rơi
                 for (int i = 0; i < drop.Amount; i++) {
-                    Vector3 randomDropPosition = transform.position + Random.insideUnitSphere * 2f; // Điều chỉnh bán kính rơi tại đây
-                    Instantiate(drop.itemsPrefabs, randomDropPosition, Quaternion.identity);
+                    Vector3 randomDropPosition = position + Random.insideUnitSphere * 2f;
+                    GameObject pooledObject = ObjectPool.Instance.GetObject(drop.itemsPrefabs);
+                    if (pooledObject != null) {
+                        pooledObject.transform.position = randomDropPosition;
+                        pooledObject.SetActive(true);
+                    }
                 }
             }
         }
-
     }
 }

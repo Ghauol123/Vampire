@@ -41,6 +41,7 @@ public class PlayerStats : MonoBehaviour
             // {
             //     GameManager.instance.CurrentHealDisplay.text = string.Format("Health: {0} / {1}",currentHeal, actualStats.maxHeal);
             // }
+            UpdateHealDisplay();
             }
         }
     }
@@ -277,8 +278,24 @@ public void InitializeNewGame()
             // Set experience cap for new level
             SetExperienceCapForLevel(level);
 
-            GameManager.instance.StartLevelUp();
+            // Ensure the level-up process is handled correctly
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.StartLevelUp();
+            }
+            else
+            {
+                Debug.LogWarning("GameManager instance is null, cannot start level up.");
+            }
+
             updateLevelDisplay();
+            // if(playerInventory.isInventoryFullAndMaxLevel == true)
+            // {
+            //     if (GameManager.instance.LevelUpScreen.activeSelf)
+            // {
+            //     GameManager.instance.EndLevelUp();
+            // }
+            // }
         }
     }
 
@@ -308,17 +325,22 @@ public void InitializeNewGame()
 
     public void updateHealBar()
     {
-        healBar.fillAmount = currentHeal / actualStats.maxHeal;
+        // Ensure that healBar is not null to avoid errors
+        if (healBar != null)
+        {
+            healBar.fillAmount = currentHeal / actualStats.maxHeal;
+        }
+        UpdateHealDisplay();
     }
 
 public void updateExpBar()
 {
-    // Ensure that experienceCap is not zero to avoid division by zero errors
-    if (experienceCap > 0)
+    // Ensure that ExpBar is not null and experienceCap is not zero to avoid errors
+    if (ExpBar != null && experienceCap > 0)
     {
         ExpBar.fillAmount = (float)experience / experienceCap;
     }
-    else
+    else if (ExpBar != null)
     {
         ExpBar.fillAmount = 0f; // Or some other default value
     }
@@ -327,11 +349,19 @@ public void updateExpBar()
 
     public void updateLevelDisplay()
     {
-        levelDisplay.text = "LV:" + level.ToString();
+        // Ensure that levelDisplay is not null to avoid errors
+        if (levelDisplay != null)
+        {
+            levelDisplay.text = "LV:" + level.ToString();
+        }
     }
     public void UpdateCoinDisplay()
     {
-        coinDisplay.text = "Coin: " + coin.ToString();
+        // Ensure that coinDisplay is not null to avoid errors
+        if (coinDisplay != null)
+        {
+            coinDisplay.text = "Coin: " + coin.ToString();
+        }
     }
 
     public void RestoreHeal(float amount)
@@ -374,5 +404,14 @@ public void updateExpBar()
     public void PlusScore()
     {
         score += 10;
+    }
+
+    private void UpdateHealDisplay()
+    {
+        // Ensure that healDisplay is not null to avoid errors
+        if (healDisplay != null)
+        {
+            healDisplay.text = $"{currentHeal} / {actualStats.maxHeal}";
+        }
     }
 }

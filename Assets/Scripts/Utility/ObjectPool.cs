@@ -15,11 +15,14 @@ public class ObjectPool : MonoBehaviour
     {
         if (objectPools.TryGetValue(prefab.name, out Queue<GameObject> objectPool))
         {
-            if (objectPool.Count > 0)
+            while (objectPool.Count > 0)
             {
                 GameObject obj = objectPool.Dequeue();
-                obj.SetActive(true);
-                return obj;
+                if (obj != null) // Check if the object is not null
+                {
+                    obj.SetActive(true);
+                    return obj;
+                }
             }
         }
 
@@ -41,5 +44,32 @@ public class ObjectPool : MonoBehaviour
         GameObject obj = Instantiate(prefab);
         obj.name = prefab.name;
         return obj;
+    }
+
+    public GameObject GetObjectEnemy(GameObject prefab)
+    {
+        if (objectPools.TryGetValue(prefab.name, out Queue<GameObject> objectPool))
+        {
+            while (objectPool.Count > 0)
+            {
+                GameObject obj = objectPool.Dequeue();
+                if (obj != null) // Check if the object is not null
+                {
+                    obj.SetActive(true);
+                    ResetEnemy(obj);
+                    return obj;
+                }
+            }
+        }
+        return CreateNewObject(prefab);
+    }
+
+    private void ResetEnemy(GameObject obj)
+    {
+        EnemyStats enemyStats = obj.GetComponent<EnemyStats>();
+        if (enemyStats != null)
+        {
+            enemyStats.ResetEnemy();
+        }
     }
 }

@@ -31,6 +31,12 @@ public class PlayerMoving : MonoBehaviour
 
     KeyBindManager keyBindManager;  // Reference to KeyBindManager
 
+    // Key bindings
+    private KeyCode upKey;
+    private KeyCode downKey;
+    private KeyCode leftKey;
+    private KeyCode rightKey;
+
     /// <summary>
     /// Initializes components and references.
     /// </summary>
@@ -43,6 +49,12 @@ public class PlayerMoving : MonoBehaviour
 
         // Get reference to KeyBindManager
         keyBindManager = FindObjectOfType<KeyBindManager>();
+
+        // Initialize key bindings
+        upKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Up", KeyCode.W.ToString()));
+        downKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Down", KeyCode.S.ToString()));
+        leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Left", KeyCode.A.ToString()));
+        rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Right", KeyCode.D.ToString()));
     }
 
     /// <summary>
@@ -60,67 +72,49 @@ public class PlayerMoving : MonoBehaviour
     {
         Move();
     }
-    
+
     /// <summary>
     /// Manages player input for movement.
     /// </summary>
     void InputManagement()
     {
-        if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp){
+        if (GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp)
+        {
             return;
         }
 
-        // Use KeyCode from KeyBindManager to check input
         float moveX = 0f;
         float moveY = 0f;
 
-        if (Input.GetKey((KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Up", KeyCode.W.ToString()))))
-        {
-            moveY = 1f;
-        }
-        else if (Input.GetKey((KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Down", KeyCode.S.ToString()))))
-        {
-            moveY = -1f;
-        }
+        if (Input.GetKey(upKey)) moveY = 1f;
+        else if (Input.GetKey(downKey)) moveY = -1f;
 
-        if (Input.GetKey((KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Left", KeyCode.A.ToString()))))
-        {
-            moveX = -1f;
-        }
-        else if (Input.GetKey((KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Right", KeyCode.D.ToString()))))
-        {
-            moveX = 1f;
-        }
+        if (Input.GetKey(leftKey)) moveX = -1f;
+        else if (Input.GetKey(rightKey)) moveX = 1f;
 
         moveDir = new Vector2(moveX, moveY).normalized;
 
+        // Update last moved vector
+        UpdateLastMovedVector();
+    }
+
+    void UpdateLastMovedVector()
+    {
         if (moveDir != Vector2.zero)
         {
-            if (moveDir.x != 0)
-            {
-                lastHorizontalVector = moveDir.x;
-                lastMovedVector = new Vector2(lastHorizontalVector, 0f);
-            }
-
-            if (moveDir.y != 0)
-            {
-                lastVerticalVector = moveDir.y;
-                lastMovedVector = new Vector2(0f, lastVerticalVector);
-            }
-
-            if (moveDir.x != 0 && moveDir.y != 0)
-            {
-                lastMovedVector = new Vector2(lastHorizontalVector, lastVerticalVector);
-            }
+            lastHorizontalVector = moveDir.x;
+            lastVerticalVector = moveDir.y;
+            lastMovedVector = moveDir;
         }
     }
-    
+
     /// <summary>
     /// Moves the player based on input and constraints.
     /// </summary>
     void Move()
     {
-        if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp){
+        if (GameManager.instance.IsGameOver || GameManager.instance.IsGamePause || GameManager.instance.IsLevelUp || moveDir == Vector2.zero)
+        {
             return;
         }
 
@@ -130,6 +124,10 @@ public class PlayerMoving : MonoBehaviour
         newPosition.x = Mathf.Clamp(newPosition.x, MinX, MaxX);
         newPosition.y = Mathf.Clamp(newPosition.y, MinY, MaxY);
 
-        rb.MovePosition(newPosition);
+        // Only move if position has changed
+        if (rb.position != newPosition)
+        {
+            rb.MovePosition(newPosition);
+        }
     }
 }

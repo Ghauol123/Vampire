@@ -118,29 +118,45 @@ public class EnemyStats : MonoBehaviour
             Kill();
         }
     }
+    
     IEnumerator DamageFlash(){
         sr.color = damageColor;
         yield return new WaitForSeconds(damageFlashDuration);
         sr.color = originalColor;
     }
-    public void Kill(){
+    public void Kill()
+    {
         col.enabled = false; 
         StartCoroutine(KillFade());
-
-        // GameManager.instance.ScoreEndGame.text = "Score: "+PlayerStats.score.ToString();
         PlayerStats.IncreaseKillnumber(1);
+
+        // Drop items before returning to the pool
+        DropRateManager dropManager = FindObjectOfType<DropRateManager>();
+        if (dropManager != null) {
+            dropManager.DropItems(transform.position);
+        }
     }
-    IEnumerator KillFade(){
+    IEnumerator KillFade()
+    {
         WaitForEndOfFrame w = new WaitForEndOfFrame();
         float t = 0, origiAlpha = sr.color.a;
-        while(t<deathFadeTime){
+        while(t < deathFadeTime)
+        {
             yield return w;
             t += Time.deltaTime;
-            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (1-t/deathFadeTime)*origiAlpha);
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (1 - t / deathFadeTime) * origiAlpha);
         }
-        Destroy(gameObject);
         PlayerStats.PlusScore();
+        ObjectPool.Instance.ReturnObject(gameObject);
+
     }
+    public void ResetEnemy()
+{
+    sr.color = originalColor; // Reset color
+    col.enabled = true; // Enable collider
+    currentHealth = currentStats.maxHealth; // Reset health
+    // Reset any other necessary properties here
+}
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Player")){
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
@@ -159,7 +175,7 @@ public class EnemyStats : MonoBehaviour
         audioSource.PlayOneShot(hitSound); // Replace 'yourCollisionClip' with your audio clip
     }
 }
-    private void OnDestroy() {
-        count --;
-    }
+    // private void OnDestroy() {
+    //     count --;
+    // }
 }

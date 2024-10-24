@@ -17,7 +17,7 @@ MonoBehaviour:
   spawnTime: {x: 2, y: 3}
   spawnPerTic: {x: 1, y: 2}
   spawnDuration: 180
-  startingEnemyCount: 500
+  startingEnemyCount: 100
   maxEnemies: 1000
   exitCondition: -1
   mustKillAllEnemies: 1

@@ -10,10 +10,16 @@ public class BLBookWeapon : Weapon
     public float currentCooldowns;
     private List<Projectile> activeProjectiles = new List<Projectile>();
     Projectile newProjectile;
+        public float currentAttackInterval; // thời gian bắn giữa các viên đạn
+    public int currentAttackCount; // giới hạn số viên đạn có thể bắn được trong 1 lần
+
     protected override void Start()
     {
         base.Start();
+        currentCooldown = 0; // Đặt cooldown về 0 khi khởi tạo
         SpawnProjectiles();
+        currentAttackInterval = ((WeaponData)data).baseStats.projectileInterval;
+        currentAttackCount = ((WeaponData)data).baseStats.number;
     }
 
     protected override void Update()
@@ -70,7 +76,10 @@ public class BLBookWeapon : Weapon
     {
         if (!canAttack()) return false;
         SpawnProjectiles();
-        if (currentCooldown <= 0) currentCooldown += currentStats.cooldown;
+        if (currentCooldown <= 0) 
+        {
+            currentCooldown += currentStats.cooldown; // Chỉ tăng cooldown sau khi tấn công
+        }
         return true;
     }
 

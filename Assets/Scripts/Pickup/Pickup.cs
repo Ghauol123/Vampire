@@ -7,7 +7,7 @@ using UnityEngine.VFX;
 
 public class Pickup : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
+    // private SpriteRenderer spriteRenderer;
     public float lifeSpan = 0.5f;
     protected PlayerStats target; // if the pickup has a target, then fly toward the target
     protected float speed; // tốc độ ba
@@ -19,24 +19,46 @@ public class Pickup : MonoBehaviour
     EnemyStats enemyStats;
         public AudioClip hitSound; // Clip âm thanh va chạm
     private AudioSource audioSource; // Component AudioSource
+    private Collider2D pickupCollider;
 
     // Tạo ID khi đối tượng được khởi tạo
     protected virtual void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // spriteRenderer = GetComponent<SpriteRenderer>();
+        pickupCollider = GetComponent<Collider2D>();
     }
     protected virtual void Update(){
         if(target){
             // tính toán khoảng cách để di chuyển đến người chơi
             Vector2 distance = target.transform.position - transform.position;
-            if (distance.sqrMagnitude > 0.01f) 
-{
-    transform.position += (Vector3)distance.normalized * speed * Time.deltaTime;
-}
-else
-{
-    Destroy(gameObject);
-}
+            
+            // Enable or disable the collider based on the distance
+            if (distance.sqrMagnitude <= activationDistance * activationDistance)
+            {
+                if (!pickupCollider.enabled)
+                {
+                    pickupCollider.enabled = true;
+                    Debug.Log($"{gameObject.name} is within range, collider enabled.");
+                }
+            }
+            else
+            {
+                if (pickupCollider.enabled)
+                {
+                    pickupCollider.enabled = false;
+                    Debug.Log($"{gameObject.name} is out of range, collider disabled.");
+                }
+            }
+
+            // Move towards the player if within range
+            if (distance.sqrMagnitude > 0.01f)
+            {
+                transform.position += (Vector3)distance.normalized * speed * Time.deltaTime;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
     public virtual bool Collect(PlayerStats target, float speed, float lifeSpan = 0f){
@@ -45,7 +67,7 @@ else
             this.speed = speed;
             if(lifeSpan > 0) this.lifeSpan = lifeSpan;
             PlayCollisionSound();
-            Destroy(gameObject, Math.Max(0.01f,this.lifeSpan));
+            StartCoroutine(ReturnToPoolAfterDelay(Math.Max(0.01f, this.lifeSpan)));
             return true;
         }
         return false;
@@ -76,4 +98,35 @@ else
         if(Heal != 0 ) target.RestoreHeal(Exp);
         if(Coin != 0 ) target.IncreaseCoin(Coin);
     }
+
+    private IEnumerator ReturnToPoolAfterDelay(float delay) {
+        yield return new WaitForSeconds(delay);
+        ReturnToPool();
+    }
+
+    private void ReturnToPool() {
+        // Assuming you have a method in your ObjectPool to return objects
+        ObjectPool.Instance.ReturnObject(gameObject);
+    }
+
+// private void OnBecameInvisible()
+// {
+//     if (pickupCollider != null)
+//     {
+//         pickupCollider.enabled = false;
+//         Debug.Log($"{gameObject.name} became invisible, collider disabled.");
+//     }
+// }
+
+// private void OnBecameVisible()
+// {
+//     if (pickupCollider != null)
+//     {
+//         pickupCollider.enabled = true;
+//         Debug.Log($"{gameObject.name} became visible, collider enabled.");
+//     }
+// }
+
+public float activationDistance = 5.0f; // Set the distance within which the pickup is active
+
 }
