@@ -47,7 +47,7 @@ public class CharacterLoadLevel : MonoBehaviour
         }
 
         CharacterData character = characters[characterIndex];
-        firebaseController.LoadCharacterLevel(character.name, level =>
+        firebaseController.LoadCharacterLevel(character.Name, level =>
         {
             character.SetLevel(level);
             character.AdjustStatsBasedOnLevel(); // Adjust stats based on the loaded level

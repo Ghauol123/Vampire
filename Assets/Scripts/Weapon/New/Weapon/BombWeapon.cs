@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BombWeapon : ProjectileWeapon
 {
-    Bomb currentBomb;
     // Override the Attack method to spawn bombs
     protected override bool Attack(int attackCount = 1)
     {

@@ -41,30 +41,31 @@ public abstract class Weapon : Item
         //     return result;
         // }
         public static Stats operator +(Stats s1, Stats s2)
-{
-    Stats result = new Stats
-    {
-        name = s2.name ?? s1.name,
-        Icon = s2.Icon ?? s1.Icon,
-        description = s2.description ?? s1.description,
-        hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect,
-        projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs,
-        auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs,
-        meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs,
-        spawnVariance = s2.spawnVariance,
-        lifespan = s1.lifespan + s2.lifespan,
-        damage = s1.damage + s2.damage,
-        damageVariance = s1.damageVariance + s2.damageVariance,
-        area = s1.area + s2.area,
-        speed = s1.speed + s2.speed,
-        cooldown = s1.cooldown + s2.cooldown,
-        number = s1.number + s2.number,
-        piercing = s1.piercing + s2.piercing,
-        projectileInterval = s1.projectileInterval + s2.projectileInterval,
-        knockback = s1.knockback + s2.knockback
-    };
-    return result;
-}
+        {
+            Stats result = new Stats
+            {
+                name = s2.name ?? s1.name,
+                Icon = s2.Icon ?? s1.Icon,
+                description = s2.description ?? s1.description,
+                hitEffect = s2.hitEffect ?? s1.hitEffect,
+                projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs,
+                bombPrefabs = s2.bombPrefabs ?? s1.bombPrefabs,
+                auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs,
+                meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs,
+                spawnVariance = s2.spawnVariance,
+                lifespan = s1.lifespan + s2.lifespan,
+                damage = s1.damage + s2.damage,
+                damageVariance = s1.damageVariance + s2.damageVariance,
+                area = s1.area + s2.area,
+                speed = s1.speed + s2.speed,
+                cooldown = s1.cooldown + s2.cooldown,
+                number = s1.number + s2.number,
+                piercing = s1.piercing + s2.piercing,
+                projectileInterval = s1.projectileInterval + s2.projectileInterval,
+                knockback = s1.knockback + s2.knockback
+            };
+            return result;
+        }
 
         public float getDamage(){
             return damage + Random.Range(0,damageVariance);
@@ -102,14 +103,32 @@ public abstract class Weapon : Item
             Attack(currentStats.number);
         }
     }
-    public override bool DoLevelUp(){
+    public override bool DoLevelUp()
+    {
         base.DoLevelUp();
-        if(!CanLevelUp()){
-            Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max leve of {2} already reached", name,currentLevel, data.maxLevel));
+        if(!CanLevelUp())
+        {
+            Debug.LogWarning(string.Format("Cannot level up {0} to level {1}. max level of {2} already reached", name, currentLevel, data.maxLevel));
             return false;
         }
-        // otherwise, add stats of the next level to our weapon
+
+        // Lưu trữ prefabs hiện tại
+        Projectile currentProjectilePrefab = currentStats.projectilePrefabs;
+        Bomb currentBombPrefab = currentStats.bombPrefabs;
+        Aura currentAuraPrefab = currentStats.auraPrefabs;
+        Melee currentMeleePrefab = currentStats.meleePrefabs;
+
+        // Nâng cấp stats
         currentStats += (Stats)data.GetLevelData(++currentLevel);
+
+        // Khôi phục prefabs nếu chúng bị null sau khi nâng cấp
+        if (currentStats.projectilePrefabs == null) currentStats.projectilePrefabs = currentProjectilePrefab;
+        if (currentStats.bombPrefabs == null) currentStats.bombPrefabs = currentBombPrefab;
+        if (currentStats.auraPrefabs == null) currentStats.auraPrefabs = currentAuraPrefab;
+        if (currentStats.meleePrefabs == null) currentStats.meleePrefabs = currentMeleePrefab;
+
+        Debug.Log($"Leveled up {name} to level {currentLevel}. Current bomb prefab: {currentStats.bombPrefabs}");
+
         return true;
     }
     public virtual bool canAttack(){

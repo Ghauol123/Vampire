@@ -25,8 +25,8 @@ public class FirebaseController : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseUser user;
     public bool isSignedIn = false;
-    public GameObject scoreScrollViewContent;
-    public GameObject scoreEntryPrefab;
+    // public GameObject scoreScrollViewContent;
+    // public GameObject scoreEntryPrefab;
     public string userId;
     TabBetweenFields tabBetweenFields;
     public Canvas mainCanvas; // Reference to the main canvas

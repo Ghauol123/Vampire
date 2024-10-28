@@ -173,6 +173,7 @@ MonoBehaviour:
   damageSource: 0
   hasAutoAim: 0
   rotationSpeed: {x: 0, y: 0, z: 0}
+  bom1Sprite: {fileID: 21300000, guid: 32a608078f375ab48a8985db0012bf2a, type: 3}
   explosionRadius: 2
   enemyLayerMask:
     serializedVersion: 2

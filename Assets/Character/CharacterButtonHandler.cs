@@ -10,9 +10,11 @@ public class CharacterButtonHandler : CharacterLoadLevel
     public Transform buttonParent; // Assign the parent transform in the Unity Editor
     private FirebaseController firebaseController;
     private Dictionary<int, TextMeshProUGUI> levelTexts = new Dictionary<int, TextMeshProUGUI>();
+    private Dictionary<int, TextMeshProUGUI> upgradeCostTexts = new Dictionary<int, TextMeshProUGUI>();
     [SerializeField]
     private TextMeshProUGUI goldText; // UI element to display current gold
     private int currentGold;
+    public int upgradeCost;
 
     private async void Start()
     {
@@ -36,17 +38,21 @@ public class CharacterButtonHandler : CharacterLoadLevel
                 costumeButton.SetupSpriteAnimation();
             }
 
-            // Get the TextMeshPro component and set the character level
-            TextMeshProUGUI levelText = buttonObject.GetComponentInChildren<TextMeshProUGUI>();
-            if (levelText != null)
+            // Get the TextMeshPro components for level and upgrade cost
+            TextMeshProUGUI[] texts = buttonObject.GetComponentsInChildren<TextMeshProUGUI>();
+            if (texts.Length >= 2)
             {
-                levelText.text = $"Level: {characters[index].Level}";
-                levelTexts[index] = levelText; // Store the reference
+                texts[0].text = $"Level: {characters[index].Level}";
+                texts[1].text = $"Upgrade: {characters[index].UpgradeMoney}";
+                levelTexts[index] = texts[0];
+                upgradeCostTexts[index] = texts[1];
             }
 
             // Set up the button listener
             characterButton.onClick.AddListener(() => OnCharacterButtonClicked(index));
         }
+        
+        UpdateGoldDisplay();
     }
 
 
@@ -59,7 +65,7 @@ public class CharacterButtonHandler : CharacterLoadLevel
         }
 
         CharacterData character = characters[characterIndex];
-        int upgradeCost = 1 * character.Level;
+        int upgradeCost = character.UpgradeMoney;
 
         if (character.Level >= 7)
         {
@@ -75,21 +81,31 @@ public class CharacterButtonHandler : CharacterLoadLevel
             character.AdjustStatsBasedOnLevel(); // Adjust stats after upgrading the level
             Debug.Log($"Character {character.Name} upgraded to level {character.Level}");
 
-            // Update the level text
-            if (levelTexts.TryGetValue(characterIndex, out TextMeshProUGUI levelText))
-            {
-                levelText.text = $"Level: {character.Level}";
-            }
-
-            // Save the new level to Firebase
+            UpdateCharacterDisplay(characterIndex);
             firebaseController.SaveCharacterLevel(character.Name, character.Level);
-
-            // Update gold display
-            goldText.text = $"Gold: {currentGold}";
+            UpdateGoldDisplay();
         }
         else
         {
             Debug.Log($"Not enough gold to upgrade {character.Name}. Required: {upgradeCost}, Available: {currentGold}");
         }
+    }
+
+    private void UpdateCharacterDisplay(int characterIndex)
+    {
+        CharacterData character = characters[characterIndex];
+        if (levelTexts.TryGetValue(characterIndex, out TextMeshProUGUI levelText))
+        {
+            levelText.text = $"Level: {character.Level}";
+        }
+        if (upgradeCostTexts.TryGetValue(characterIndex, out TextMeshProUGUI upgradeCostText))
+        {
+            upgradeCostText.text = $"Upgrade: {character.UpgradeMoney}";
+        }
+    }
+
+    private void UpdateGoldDisplay()
+    {
+        goldText.text = $"Gold: {currentGold}";
     }
 }

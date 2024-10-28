@@ -95,6 +95,10 @@ public bool isGameLoaded;
         playerStats = FindObjectsOfType<PlayerStats>();
         firebaseSaveGame = FindObjectOfType<FirebaseSaveGame>();
         playerInventory = FindObjectOfType<PlayerInventory>();
+        if (playerInventory == null)
+        {
+            Debug.LogError("PlayerInventory not found!");
+        }
     }
 
     // Update is called once per frame
@@ -118,15 +122,15 @@ public bool isGameLoaded;
     }
     public void ChangeState(GameState newState)
     {
-        // Check if the inventory is full and all items are at max level
         if (playerInventory != null && playerInventory.CheckFullLevelAndSlots())
         {
-            Debug.Log("Cannot change state, inventory is full and all items are at max level.");
-            return;
+            Debug.Log("Inventory is full and all items are at max level.");
+            // Có thể thêm xử lý đặc biệt ở đây nếu cần
         }
 
         previousState = currentState;
         currentState = newState;
+        Debug.Log($"Game state changed to: {newState}");
     }
     public void PauseGame()
     // Pause the game
@@ -325,7 +329,7 @@ public async void GameOver()
     }
     public void StartLevelUp()
     {
-        // Check if the inventory is full and all items are at max level
+        Debug.Log("Attempting to start level up...");
         if (playerInventory != null && playerInventory.CheckFullLevelAndSlots())
         {
             Debug.Log("Cannot start level up, inventory is full and all items are at max level.");
@@ -333,6 +337,7 @@ public async void GameOver()
             return;
         }
 
+        Debug.Log("Starting level up...");
         ChangeState(GameState.LevelUp);
         // if the level up screen is already active, record that another level up is requested
         if(LevelUpScreen.activeSelf) stackLevelups++;

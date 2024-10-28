@@ -36,7 +36,7 @@ MonoBehaviour:
     damageVariance: 5
     area: 1
     speed: 0
-    cooldown: 2
+    cooldown: 3
     projectileInterval: 1
     knockback: 0
     number: 1
@@ -44,8 +44,34 @@ MonoBehaviour:
     maxInstance: 0
   linearGrowth:
   - name: Level 2
-    description: Add 1 additional book
-    Icon: {fileID: 0}
+    description: 'Increase size by 30%. '
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 0.3
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 3
+    description: 'Reduce attack cooldown by 0.5 seconds. '
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -63,15 +89,15 @@ MonoBehaviour:
     damageVariance: 0
     area: 0
     speed: 0
-    cooldown: 0
+    cooldown: -0.5
     projectileInterval: 0
     knockback: 0
-    number: 1
+    number: 0
     piercing: 0
     maxInstance: 0
-  - name: Level 3
-    description: Increase damage by 30% and increase duration by 1 second
-    Icon: {fileID: 0}
+  - name: Level 4
+    description: 'Increase damage by 50%. '
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -84,9 +110,9 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 1
-    damage: 3
-    damageVariance: 3
+    lifespan: 0
+    damage: 9
+    damageVariance: 8
     area: 0
     speed: 0
     cooldown: 0
@@ -95,35 +121,9 @@ MonoBehaviour:
     number: 0
     piercing: 0
     maxInstance: 0
-  - name: Level 4
-    description: Add 1 additional book
-    Icon: {fileID: 0}
-    type: 
-    projectilePrefabs: {fileID: 0}
-    bombPrefabs: {fileID: 0}
-    auraPrefabs: {fileID: 0}
-    meleePrefabs: {fileID: 0}
-    hitEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 0
-    damageVariance: 0
-    area: 0
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
-    number: 1
-    piercing: 0
-    maxInstance: 0
-  - name: Level 4
-    description: Increase Damage by 40%
-    Icon: {fileID: 0}
+  - name: Level 5
+    description: 'Reduce attack cooldown by 0.5 seconds. '
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -138,7 +138,7 @@ MonoBehaviour:
       height: 0
     lifespan: 0
     damage: 4
-    damageVariance: 4
+    damageVariance: 8
     area: 0
     speed: 0
     cooldown: 0
@@ -148,8 +148,34 @@ MonoBehaviour:
     piercing: 0
     maxInstance: 0
   - name: Level 6
-    description: Add 1 additional book
-    Icon: {fileID: 0}
+    description: Increase size by 50%
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 0.5
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 1
+    piercing: 0
+    maxInstance: 0
+  - name: Level 7
+    description: 'Fire an additional beam from behind '
+    Icon: {fileID: 21300000, guid: 8718c99ab928f5345aaac4c3fe974ac9, type: 3}
     type: 
     projectilePrefabs: {fileID: 0}
     bombPrefabs: {fileID: 0}
@@ -170,33 +196,7 @@ MonoBehaviour:
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
-    maxInstance: 0
-  - name: Level 7
-    description: Increase damage by 40%
-    Icon: {fileID: 0}
-    type: 
-    projectilePrefabs: {fileID: 0}
-    bombPrefabs: {fileID: 0}
-    auraPrefabs: {fileID: 0}
-    meleePrefabs: {fileID: 0}
-    hitEffect: {fileID: 0}
-    spawnVariance:
-      serializedVersion: 2
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    lifespan: 0
-    damage: 4
-    damageVariance: 4
-    area: 0
-    speed: 0
-    cooldown: 0
-    projectileInterval: 0
-    knockback: 0
     number: 0
-    piercing: 0
+    piercing: 1
     maxInstance: 0
   randomGrowth: []

@@ -137,6 +137,8 @@ public class Bomb : WeaponEffect
     public Vector3 rotationSpeed = new Vector3(0, 0, 0);
     protected Rigidbody2D rb;
     Animator animator;
+    public Sprite bom1Sprite; // Kéo thả sprite cho bom1 từ inspector
+
     protected int pierce;
 
     public float explosionRadius = 2f; // Bán kính vụ nổ
@@ -251,9 +253,16 @@ public class Bomb : WeaponEffect
         if (animator != null)
         {
             animator.SetBool("isExploding", false); // Reset trạng thái nổ
+            animator.Play("holobomb1");
         }
         ObjectPool.Instance.ReturnObject(gameObject);
-            GetComponent<Collider2D>().enabled = true;
+        GetComponent<Collider2D>().enabled = true;
+                // Đặt lại sprite về sprite bom1
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && bom1Sprite != null)
+        {
+            spriteRenderer.sprite = bom1Sprite; // Đặt sprite về bom1
+        }
 
         Debug.Log("Bomb returned to pool");
     }

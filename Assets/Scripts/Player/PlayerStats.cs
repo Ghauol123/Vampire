@@ -142,7 +142,7 @@ public void InitializeNewGame()
 
     playerInventory = GetComponent<PlayerInventory>();
     playerPickUp = GetComponentInChildren<PlayerPickUp>();
-    baseStat = actualStats = cst.stats;
+    baseStat = actualStats = cst.currentStat;
     playerPickUp.SetMagnet(actualStats.magnet);
     currentHeal = actualStats.maxHeal;
 

@@ -170,8 +170,8 @@ MonoBehaviour:
     cooldown: 0
     projectileInterval: 0
     knockback: 0
-    number: 1
-    piercing: 0
+    number: 0
+    piercing: 1
     maxInstance: 0
   - name: Level 7
     description: Fire an additional Asacoco

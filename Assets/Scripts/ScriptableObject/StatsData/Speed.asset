@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Speed
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: b65611fb4b14b3c4ea2b51ef9c72f722, type: 3}
-  maxLevel: 0
+  maxLevel: 5
   baseStats:
     name: Speed
     description: Increase Speed by 5%
@@ -33,6 +33,7 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 0
   growth:
   - name: Level 2
@@ -53,6 +54,7 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 0
   - name: Level 3
     description: 
@@ -72,6 +74,7 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 0
   - name: Level 4
     description: 
@@ -91,6 +94,7 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 0
   - name: Level 5
     description: 
@@ -110,4 +114,5 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 0

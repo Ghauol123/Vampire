@@ -6,8 +6,8 @@ const admin = require('firebase-admin');
 const cookieParser = require('cookie-parser');
 const serviceAccount = require('d:/UnityProject/serviceAccountKey.json'); // Thay đổi đường dẫn
 const session = require('express-session');
+const helmet = require('helmet');
 const app = express();
-
 // Sử dụng cookie-parser middleware
 app.use(cookieParser());
 
@@ -284,3 +284,26 @@ async function updateUserDiamonds(userId, diamondsToAdd) {
     }
 }
 
+// Update or add this configuration
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: [
+        "'self'",
+        'https://www.paypal.com',
+        'https://www.paypalobjects.com',
+        'https://t.paypal.com',
+        'https://stats.g.doubleclick.net',
+        'https://www.google-analytics.com',
+        'https://www.googletagmanager.com',
+        'https://www.google.com',
+        'https://www.gstatic.com',
+        'data:',
+        // Add the URL that was causing the error here
+        'https://example.com', // Replace with the actual URL from your error message
+      ],
+      // Add other directives as needed
+    },
+  })
+);

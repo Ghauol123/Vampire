@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costumeData: {fileID: 0}
   costumeImage: {fileID: 2699372438878222155}
-  costumePrice: {fileID: 4609024568567288238}
+  costumeName: {fileID: 4609024568567288238}
 --- !u!1 &2699372438878222158
 GameObject:
   m_ObjectHideFlags: 0

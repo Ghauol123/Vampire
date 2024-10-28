@@ -5350,8 +5350,6 @@ MonoBehaviour:
   notificationText: {fileID: 2142477529}
   rememberMeToggle: {fileID: 0}
   isSignedIn: 0
-  scoreScrollViewContent: {fileID: 0}
-  scoreEntryPrefab: {fileID: 0}
   userId: 
   mainCanvas: {fileID: 1078279019}
   characterDataList:

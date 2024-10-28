@@ -12,6 +12,7 @@ public class CharacterAvatar : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public CharacterData characterData; // Dữ liệu nhân vật
     public Text weaponNameText;
     public Text inforWeaponText;
+    public Text levelText;
     public Image avatarWeapon;
     public Text characterInformation;
 
@@ -41,10 +42,11 @@ public class CharacterAvatar : MonoBehaviour, IPointerEnterHandler, IPointerExit
         characterAnimation.GetComponent<Animator>().runtimeAnimatorController = animatorController;
         characterAnimation.GetComponent<SpriteRenderer>().sprite = title_Character;
 
-        HPText.text = "HP: " + characterData.stats.maxHeal;
-        ATKText.text = "ATK: " + characterData.stats.might;
-        SPDText.text = "SPD: " + characterData.stats.moveSpeed;
-        CRTText.text = "CRT: " + characterData.stats.criticalChance;
+        HPText.text = "HP: " + characterData.currentStat.maxHeal;
+        ATKText.text = "ATK: " + characterData.currentStat.might;
+        SPDText.text = "SPD: " + characterData.currentStat.moveSpeed;
+        CRTText.text = "CRT: " + characterData.currentStat.criticalChance;
+        levelText.text = "Level: " + characterData.Level;
 
         Func_PlayUIAnim();
 

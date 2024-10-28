@@ -7,7 +7,7 @@ public class WebView : MonoBehaviour
 {
     public void OnPaymentButtonClick()
 {
-    string paymentUrl = "https://github.com/Ghauol123/Vampire/blob/master/Assets/Scripts/Login/FIrebaseController.cs";
+    string paymentUrl = "http://localhost:3000/";
 
     // Mở WebView
     Application.OpenURL(paymentUrl);  // Đây chỉ là một ví dụ cơ bản, có thể cần plugin nếu bạn muốn có WebView trực tiếp trong Unity.

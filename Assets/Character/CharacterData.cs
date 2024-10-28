@@ -28,18 +28,22 @@ public class CharacterData : ScriptableObject
     public Sprite title_Character;
     [SerializeField]
     public List<CostumeData> costumes;
-        [SerializeField]
+    [SerializeField]
     private int level = 1; // Thêm thuộc tính cấp độ
     public int Level 
     {
         get => level; 
         set => level = value;
     }
+    [SerializeField]
+    private int upgradeMoney = 100;
+    public int UpgradeMoney { get => upgradeMoney; private set => upgradeMoney = value; }
         public void UpgradeLevel()
     {
         if (Level < 7)
         {
             Level++;
+            UpdateUpgradeMoney();
         }
     }
 
@@ -90,16 +94,33 @@ public class CharacterData : ScriptableObject
             return s1;
         }
     }
-    public  Stats stats = new Stats{
-        maxHeal = 100, moveSpeed = 1, might = 1, amount = 1, area = 1, cooldown =1, healMultiplier = 1
-    };
+
+    public Stats stats = new Stats();
+    public Stats currentStat;
+
+    private void OnEnable()
+    {
+        // Initialize currentStat with baseStat when the ScriptableObject is enabled
+        currentStat = stats;
+    }
+
+    public void ResetToBaseStats()
+    {
+        currentStat = stats;
+        Level = 1;
+    }
 
     public void AdjustStatsBasedOnLevel()
     {
-        // Example logic to adjust stats based on level
-        // You can customize this logic based on your game's requirements
-        stats.maxHeal = stats.maxHeal + (Level - 1) * 10; // Increase maxHeal by 10 for each level
-        stats.moveSpeed = 1 + (Level - 1) * 0.1f; // Increase moveSpeed by 0.1 for each level
+        currentStat = stats;
+        currentStat.maxHeal += (Level - 1) * 10;
+        currentStat.moveSpeed += (Level - 1) * 0.1f;
         // Add more adjustments for other stats as needed
+    }
+
+    public void UpdateUpgradeMoney()
+    {
+        // This is just an example. Adjust the formula as needed.
+        UpgradeMoney = 100 * Level;
     }
 }

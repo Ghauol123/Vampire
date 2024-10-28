@@ -563,41 +563,56 @@ public class PlayerInventory : MonoBehaviour
     }
 public bool CheckFullLevelAndSlots()
 {
-    // Check if all weapon slots are full and at max level
+    // Kiểm tra từng slot vũ khí
     foreach (Slot slot in weaponSlot)
     {
-        // Kiểm tra null cho slot.item và slot.item.itemData
-        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
+        // Nếu slot trống, tức là không có vũ khí
+        if (slot.IstEmpty())
         {
-            isInventoryFullAndMaxLevel = false;
+             isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+
+        // Kiểm tra xem vũ khí có đạt level tối đa chưa
+        Weapon weapon = slot.GetWeapon();
+        if (weapon != null && weapon.currentLevel < weapon.maxLevel)
+        {
             return false;
         }
     }
-
-    // Check if all passive slots are full and at max level
+        // Kiểm tra từng slot vũ khí
     foreach (Slot slot in passiveSlot)
     {
-        // Kiểm tra null cho slot.item và slot.item.itemData
-        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
+        // Nếu slot trống, tức là không có vũ khí
+        if (slot.IstEmpty())
         {
-            isInventoryFullAndMaxLevel = false;
+             isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+
+        // Kiểm tra xem vũ khí có đạt level tối đa chưa
+        Passive weapon = slot.GetPassiveItem();
+        if (weapon != null && weapon.currentLevel < weapon.maxLevel)
+        {
+             isInventoryFullAndMaxLevel = false;
             return false;
         }
     }
-
-    // Check if all stat slots are full and at max level
-    foreach (StatSlot slot in statSlot)
-    {
-        // Kiểm tra null cho slot.item và slot.item.itemData
-        if (slot.IstEmpty() || (slot.item != null && slot.item.itemData != null && slot.item.currentLevel < slot.item.itemData.maxLevel))
-        {
-            isInventoryFullAndMaxLevel = false;
+    foreach(StatSlot slot in statSlot){
+        if(slot.IstEmpty()){
+             isInventoryFullAndMaxLevel = false;
+            return false;
+        }
+        Stats stats = slot.GetStats();
+        if(stats != null && stats.currentLevel < stats.maxLevel){
+             isInventoryFullAndMaxLevel = false;
             return false;
         }
     }
-
     isInventoryFullAndMaxLevel = true;
+    Debug.Log("Inventory is full and all items are at max level");
     return true;
 }
 
 }
+

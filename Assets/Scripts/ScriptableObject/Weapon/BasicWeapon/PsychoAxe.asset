@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PsychoAxe
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
-  maxLevel: 1
+  maxLevel: 7
   behaviour: AxeWeapon
   baseStats:
     name: PsychoAxe
-    description: Throw an axe
+    description: 'Throw an axe that spirals outward from the player. '
     Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
-    type: 
+    type: Range
     projectilePrefabs: {fileID: 1194904874994523079, guid: 23dabdf25f614204db3630ab675064de, type: 3}
     bombPrefabs: {fileID: 0}
     auraPrefabs: {fileID: 0}
@@ -31,16 +31,172 @@ MonoBehaviour:
       y: 0
       width: 0
       height: 0
-    lifespan: 20
-    damage: 20
-    damageVariance: 3
-    area: 2
+    lifespan: 3
+    damage: 10
+    damageVariance: 4
+    area: 1
     speed: 10
     cooldown: 2
-    projectileInterval: 0.2
-    knockback: 1
+    projectileInterval: 0
+    knockback: 0
     number: 1
-    piercing: 3
-    maxInstance: 2
-  linearGrowth: []
+    piercing: 10
+    maxInstance: 10
+  linearGrowth:
+  - name: Level 2
+    description: 'Increase size of axe by 20%. Increase damage of axe by 20%. '
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 4
+    damageVariance: 4
+    area: 0.2
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 3
+    description: Reduce delay between attacks by 20%.
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: -0.8
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 4
+    description: Increase damage by 33%, and size by 20%.
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 5
+    damageVariance: 5
+    area: 0.2
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 5
+    description: 'Remove hit limit, and lasts 1 second longer. '
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 1
+    damage: 0
+    damageVariance: 0
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 10000000
+    maxInstance: 0
+  - name: Level 6
+    description: 'Increase attack size by 50%. '
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 0
+    damageVariance: 0
+    area: 0.5
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
+  - name: Level 7
+    description: Increase damage by 50%.
+    Icon: {fileID: 21300000, guid: aa0189dbc6731804aa3eb7a093f908ff, type: 3}
+    type: 
+    projectilePrefabs: {fileID: 0}
+    bombPrefabs: {fileID: 0}
+    auraPrefabs: {fileID: 0}
+    meleePrefabs: {fileID: 0}
+    hitEffect: {fileID: 0}
+    spawnVariance:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    lifespan: 0
+    damage: 5
+    damageVariance: 5
+    area: 0
+    speed: 0
+    cooldown: 0
+    projectileInterval: 0
+    knockback: 0
+    number: 0
+    piercing: 0
+    maxInstance: 0
   randomGrowth: []

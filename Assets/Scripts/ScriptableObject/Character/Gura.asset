@@ -23,16 +23,32 @@ MonoBehaviour:
   title_Character: {fileID: 21300000, guid: d1496285aa52754439d06fe4e6d6cc75, type: 3}
   costumes:
   - {fileID: 11400000, guid: acbeb47a6db1c83478b985c6ec95121d, type: 2}
-  level: 1
+  level: 6
   stats:
-    maxHeal: 10000
+    maxHeal: 50
     recovery: 1
     armor: 0
-    moveSpeed: 1
-    might: 1.1
-    area: 1
+    moveSpeed: 3.0000005
+    might: 1.5000001
+    area: 1.1599998
     amount: 1
-    cooldown: 1
+    cooldown: 0.9200001
+    magnet: 1
+    revival: 0
+    criticalChance: 1
+    criticalMultiplier: 2
+    expMultiplier: 3.12
+    curse: 0
+    healMultiplier: 1
+  currentStat:
+    maxHeal: 100
+    recovery: 1
+    armor: 0
+    moveSpeed: 3.5000005
+    might: 1.5000001
+    area: 1.1599998
+    amount: 1
+    cooldown: 0.9200001
     magnet: 1
     revival: 0
     criticalChance: 1
