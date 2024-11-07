@@ -881,6 +881,9 @@
         <mxCell id="BLR2TpMTPNOGj06B-bgx-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-15" target="BLR2TpMTPNOGj06B-bgx-18">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-57" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-15" target="BLR2TpMTPNOGj06B-bgx-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-15" value="Login" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="220" y="220" width="120" height="80" as="geometry" />
         </mxCell>
@@ -987,6 +990,36 @@
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-54" value="&amp;lt;&amp;lt;Enable&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="540" y="80" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-60" value="&amp;lt;&amp;lt;Include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="600" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-61" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="170" width="460" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-62" target="BLR2TpMTPNOGj06B-bgx-64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-62" target="BLR2TpMTPNOGj06B-bgx-63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-62" value="Select Character" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="190" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-63" value="Select Skin" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="860" y="280" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-64" value="View Character Stats" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="190" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-68" value="Include" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="890" y="200" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-69" value="Include" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="770" y="290" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-70" value="Character Manager" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="860" y="170" width="120" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
