@@ -842,7 +842,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="0_y9ov1vrZCOQJ16rY8M" name="usecase">
-    <mxGraphModel dx="2876" dy="2232" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3033" dy="2314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -855,16 +855,11 @@
         <mxCell id="BLR2TpMTPNOGj06B-bgx-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="45" y="650" width="390" height="125" as="geometry" />
         </mxCell>
-        <mxCell id="BLR2TpMTPNOGj06B-bgx-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-5" target="BLR2TpMTPNOGj06B-bgx-6">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="BLR2TpMTPNOGj06B-bgx-9" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="BLR2TpMTPNOGj06B-bgx-7">
-          <mxGeometry x="-0.3926" y="2" relative="1" as="geometry">
-            <mxPoint x="16" y="-11" as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-5" value="View score global" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="65" y="673" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-6" target="BLR2TpMTPNOGj06B-bgx-5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-6" value="View Score Personal" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="305" y="672.5" width="120" height="80" as="geometry" />
@@ -991,7 +986,7 @@
         <mxCell id="BLR2TpMTPNOGj06B-bgx-54" value="&amp;lt;&amp;lt;Enable&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="540" y="80" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="BLR2TpMTPNOGj06B-bgx-60" value="&amp;lt;&amp;lt;Include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-60" value="&amp;lt;&amp;lt;enable&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="110" y="600" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-61" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -1002,6 +997,15 @@
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-62" target="BLR2TpMTPNOGj06B-bgx-63">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-62" target="BLR2TpMTPNOGj06B-bgx-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="140" />
+              <mxPoint x="1060" y="140" />
+              <mxPoint x="1060" y="-90" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-62" value="Select Character" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="710" y="190" width="120" height="80" as="geometry" />
@@ -1021,17 +1025,11 @@
         <mxCell id="BLR2TpMTPNOGj06B-bgx-70" value="Character Manager" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="860" y="170" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="BLR2TpMTPNOGj06B-bgx-71" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-37" target="BLR2TpMTPNOGj06B-bgx-62">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1040" y="-90" />
-              <mxPoint x="1040" y="130" />
-              <mxPoint x="770" y="130" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-72" value="&amp;lt;&amp;lt;enable&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="890" y="140" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-75" value="Extends" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="215" y="680" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
