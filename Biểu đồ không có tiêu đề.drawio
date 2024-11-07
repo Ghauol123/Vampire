@@ -847,7 +847,7 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="BLR2TpMTPNOGj06B-bgx-2" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-10" y="-220" width="1960" height="1050" as="geometry" />
+          <mxGeometry x="-10" y="-220" width="1960" height="1200" as="geometry" />
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-1" value="Player" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="-400" y="180" width="65" height="130" as="geometry" />
@@ -1088,6 +1088,9 @@
         <mxCell id="BLR2TpMTPNOGj06B-bgx-92" value="Level Up" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1430" y="260" width="120" height="80" as="geometry" />
         </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-119" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-94" target="BLR2TpMTPNOGj06B-bgx-108">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-94" value="Choose Upgrade" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1430" y="420" width="120" height="80" as="geometry" />
         </mxCell>
@@ -1130,7 +1133,40 @@
           <mxGeometry x="950" y="840" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="BLR2TpMTPNOGj06B-bgx-107" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1340" y="620" width="580" height="200" as="geometry" />
+          <mxGeometry x="1340" y="620" width="580" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-116" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;startArrow=classic;startFill=1;endArrow=none;endFill=0;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-108" target="BLR2TpMTPNOGj06B-bgx-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;startArrow=classic;startFill=1;endArrow=none;endFill=0;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-108" target="BLR2TpMTPNOGj06B-bgx-109">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-108" value="UpgradeItems" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="625" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-109" value="UpgradeItems" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1760" y="760" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-110" value="UpgradeItems" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="770" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-111" value="UpgradeItems" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="770" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-117" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.417;entryY=0.027;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;dashPattern=8 8;startArrow=classic;startFill=1;endArrow=none;endFill=0;" edge="1" parent="1" source="BLR2TpMTPNOGj06B-bgx-108" target="BLR2TpMTPNOGj06B-bgx-111">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-120" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1520" y="530" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-122" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1840" y="697.5" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-123" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1630" y="705" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BLR2TpMTPNOGj06B-bgx-124" value="&amp;lt;&amp;lt;include&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="710" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
