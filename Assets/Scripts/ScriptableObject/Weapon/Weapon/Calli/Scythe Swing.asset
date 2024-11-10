@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e94637bfb1fa6ce44927a2b62331a7f2, type: 3}
   m_Name: Scythe Swing
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 8acfb2c392c9edd478d3ecc66416e6f3, type: 3}
   maxLevel: 7
   behaviour: MeleeWeapon
   baseStats:

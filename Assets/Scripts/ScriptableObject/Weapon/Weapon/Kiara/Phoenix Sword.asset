@@ -142,9 +142,9 @@ MonoBehaviour:
     area: 0
     speed: 0
     cooldown: 0
-    projectileInterval: 0
+    projectileInterval: 0.2
     knockback: 0
-    number: 0
+    number: 1
     piercing: 0
     maxInstance: 0
   - name: Level 6

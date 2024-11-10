@@ -33,5 +33,33 @@ MonoBehaviour:
       criticalChance: 0
       criticalMultiplier: 0
       expMultiplier: 0
+      curse: 0
       healMultiplier: 2
+    weaponBoosts:
+      name: 
+      description: 
+      Icon: {fileID: 0}
+      type: 
+      projectilePrefabs: {fileID: 0}
+      bombPrefabs: {fileID: 0}
+      auraPrefabs: {fileID: 0}
+      meleePrefabs: {fileID: 0}
+      hitEffect: {fileID: 0}
+      spawnVariance:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      lifespan: 0
+      damage: 0
+      damageVariance: 0
+      area: 2
+      speed: 0
+      cooldown: 0
+      projectileInterval: 0
+      knockback: 0
+      number: 0
+      piercing: 0
+      maxInstance: 0
   growth: []

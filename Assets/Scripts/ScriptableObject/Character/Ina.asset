@@ -20,11 +20,28 @@ MonoBehaviour:
   startingWeapon: {fileID: 11400000, guid: 5ad05f241da074841bf4fc6b6a2efaf1, type: 2}
   sprite: {fileID: 21300000, guid: a72692c0d2ffac340acf962e1a817ad9, type: 3}
   animatorController: {fileID: 9100000, guid: a1e982e8c36ba3e49a706327059888ed, type: 2}
-  title_Character: {fileID: 0}
+  title_Character: {fileID: 21300000, guid: e80dafa155db1ba40b3a64ea6b8bc4a6, type: 3}
   costumes:
   - {fileID: 11400000, guid: ce191e1d70910a3429f0db71186f8553, type: 2}
   level: 1
+  upgradeMoney: 100
   stats:
+    maxHeal: 75
+    recovery: 1
+    armor: 1
+    moveSpeed: 0.9
+    might: 1.5
+    area: 1
+    amount: 1
+    cooldown: 1
+    magnet: 1
+    revival: 0
+    criticalChance: 0.01
+    criticalMultiplier: 2
+    expMultiplier: 1
+    curse: 0
+    healMultiplier: 1
+  currentStat:
     maxHeal: 75
     recovery: 1
     armor: 1

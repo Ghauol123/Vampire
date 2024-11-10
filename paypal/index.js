@@ -144,9 +144,26 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
-    // Xử lý đăng ký ở đây
-    res.send('Xử lý đăng ký');
+app.post('/register', async (req, res) => {
+    try {
+        // Sau khi tạo user thành công
+        const userRecord = await admin.auth().createUser({
+            email: req.body.email,
+            password: req.body.password,
+            displayName: req.body.displayName
+        });
+
+        // Khởi tạo dữ liệu cho user mới
+        const db = admin.database();
+        await db.ref(`users/${userRecord.uid}`).set({
+            Diamonds: 0
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(400).json({ error: error.message });
+    }
 });
 
 // Route xử lý thanh toán
@@ -193,10 +210,15 @@ app.get('/complete-order', async (req, res) => {
                 email: decodedClaims.email,
                 uid: decodedClaims.uid
             };
-            await updateUserDiamonds(user.uid, product.diamonds);
+
+            // Cập nhật với thông tin thanh toán
+            await updateUserDiamonds(user.uid, product.diamonds, {
+                productTitle: product.title,
+                amount: product.price,
+                orderId: orderId
+            });
         } catch (error) {
             console.error('Error verifying session:', error);
-            // Proceed without user information if session verification fails
         }
 
         res.render('success', { 
@@ -269,41 +291,83 @@ app.post('/create-paypal-order', async (req, res) => {
 });
 
 // Add this function to update diamonds in Firebase
-async function updateUserDiamonds(userId, diamondsToAdd) {
+async function updateUserDiamonds(userId, diamondsToAdd, paymentDetails) {
     const db = admin.database();
-    const userRef = db.ref(`users/${userId}/Diamonds`);
+    const userRef = db.ref(`users/${userId}`);
     
     try {
-        await userRef.transaction((currentDiamonds) => {
+        // Cập nhật kim cương
+        await userRef.child('Diamonds').transaction((currentDiamonds) => {
             return (currentDiamonds || 0) + diamondsToAdd;
         });
-        console.log(`Updated diamonds for user ${userId}`);
+
+        // Lưu thông tin giao dịch
+        const transactionRef = userRef.child('transactions').push();
+        await transactionRef.set({
+            productTitle: paymentDetails.productTitle,
+            amount: paymentDetails.amount,
+            diamonds: diamondsToAdd,
+            timestamp: admin.database.ServerValue.TIMESTAMP,
+            orderId: paymentDetails.orderId
+        });
+
+        console.log(`Updated diamonds and transaction history for user ${userId}`);
     } catch (error) {
-        console.error('Error updating diamonds:', error);
+        console.error('Error updating user data:', error);
         throw error;
     }
 }
 
-// Update or add this configuration
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: [
-        "'self'",
-        'https://www.paypal.com',
-        'https://www.paypalobjects.com',
-        'https://t.paypal.com',
-        'https://stats.g.doubleclick.net',
-        'https://www.google-analytics.com',
-        'https://www.googletagmanager.com',
-        'https://www.google.com',
-        'https://www.gstatic.com',
-        'data:',
-        // Add the URL that was causing the error here
-        'https://example.com', // Replace with the actual URL from your error message
-      ],
-      // Add other directives as needed
-    },
-  })
-);
+// Cập nhật cấu hình CSP
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: [
+//         "'self'",
+//         "'unsafe-inline'",
+//         "https://www.gstatic.com",
+//         "https://www.google.com",
+//         "https://www.googletagmanager.com",
+//       ],
+//       connectSrc: [
+//         "'self'",
+//         "https://*.firebaseio.com",
+//         "wss://*.firebaseio.com",
+//         "https://*.firebasedatabase.app",
+//         "wss://*.firebasedatabase.app",
+//         "https://identitytoolkit.googleapis.com",
+//         "https://securetoken.googleapis.com"
+//       ],
+//       imgSrc: [
+//         "'self'",
+//         'https://www.paypal.com',
+//         'https://www.paypalobjects.com',
+//         'https://t.paypal.com',
+//         'https://stats.g.doubleclick.net',
+//         'https://www.google-analytics.com',
+//         'https://www.googletagmanager.com',
+//         'https://www.google.com',
+//         'https://www.gstatic.com',
+//         'data:',
+//       ],
+//       frameSrc: ["'self'", "https://www.google.com"],
+//       objectSrc: ["'none'"],
+//       upgradeInsecureRequests: [],
+//       styleSrc: [
+//         "'self'",
+//         "'unsafe-inline'",
+//         "https://cdnjs.cloudflare.com"
+//       ],
+//       fontSrc: [
+//         "'self'",
+//         "https://cdnjs.cloudflare.com"
+//       ],
+//     },
+//   })
+// );
+
+// Thêm route cho trang profile
+app.get('/profile', (req, res) => {
+    res.render('profile');
+});

@@ -23,12 +23,13 @@ MonoBehaviour:
   title_Character: {fileID: 21300000, guid: f85340a9c1638ad4cbe2815f90f6da12, type: 3}
   costumes:
   - {fileID: 11400000, guid: 54f7662fa9794eb41a7f78e41f0773c0, type: 2}
-  level: 6
+  level: 1
+  upgradeMoney: 100
   stats:
     maxHeal: 100
     recovery: 1
     armor: 0
-    moveSpeed: 3.9000003
+    moveSpeed: 1
     might: 2.3
     area: 1.4000001
     amount: 1
@@ -41,10 +42,10 @@ MonoBehaviour:
     curse: 0
     healMultiplier: 1
   currentStat:
-    maxHeal: 150
+    maxHeal: 100
     recovery: 1
     armor: 0
-    moveSpeed: 4.4000006
+    moveSpeed: 1
     might: 2.3
     area: 1.4000001
     amount: 1

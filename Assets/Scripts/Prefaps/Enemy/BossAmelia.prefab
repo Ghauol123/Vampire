@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    maxHealth: 100
+    maxHealth: 100000
     moveSpeed: 0.5
     damage: 10
     knockbackMultiple: 1
@@ -153,6 +153,8 @@ MonoBehaviour:
       freeze: 0
       kill: 0
       debuff: 0
+    curseBoost: 0
+    levelBoost: 0
   currentStats:
     maxHealth: 0
     moveSpeed: 0
@@ -162,6 +164,8 @@ MonoBehaviour:
       freeze: 0
       kill: 0
       debuff: 0
+    curseBoost: 0
+    levelBoost: 0
   currentHealth: 0
   damageColor: {r: 0, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2

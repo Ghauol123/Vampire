@@ -265,15 +265,53 @@ public void OpenLoginPanel()
                 ShowNotification(errors);
                 return;
             }
+
             FirebaseUser newUser = task.Result.User;
-            Debug.LogFormat("Firebase user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
             
+            // Lưu username vào Realtime Database
+            Dictionary<string, object> userData = new Dictionary<string, object>
+            {
+                { "username", username },
+                { "email", email }
+            };
+            
+            dbReference.Child("users").Child(newUser.UserId).Child("userInfo").SetValueAsync(userData)
+                .ContinueWithOnMainThread(task => {
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogError("Failed to save user data: " + task.Exception);
+                    }
+                    else
+                    {
+                        Debug.Log("User data saved successfully");
+                    }
+                });
+
             // Initialize characters for the new user
             InitializeCharactersForNewUser(newUser.UserId, characterDataList);
 
             // Send email verification
             SendVerificationEmail(newUser);
         });
+    }
+
+    // Thêm phương thức để lấy username
+    public void GetUsername(string userId, System.Action<string> callback)
+    {
+        dbReference.Child("users").Child(userId).Child("userInfo").Child("username")
+            .GetValueAsync().ContinueWithOnMainThread(task => {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Failed to get username: " + task.Exception);
+                    callback(null);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    string username = snapshot.Value?.ToString();
+                    callback(username);
+                }
+            });
     }
 
     private void InitializeCharactersForNewUser(string userId, List<CharacterData> characterDataList)

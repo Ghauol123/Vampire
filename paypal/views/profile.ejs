@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - HoloCure</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .profile-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .diamonds-display {
+            background: linear-gradient(135deg, #10FAFF 0%, #0056b3 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .diamonds-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .diamonds-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .profile-actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .profile-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile {
+            background-color: #10FAFF;
+            color: white;
+        }
+
+        .edit-profile:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-profile {
+            background-color: #ff4081;
+            color: white;
+        }
+
+        .logout-profile:hover {
+            background-color: #e91e63;
+        }
+
+        .transactions-section {
+            margin-top: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .transactions-header {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .transaction-product {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .transaction-date {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .transaction-details {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .transaction-amount {
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        .transaction-diamonds {
+            color: #ff4081;
+            font-weight: bold;
+        }
+
+        .no-transactions {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .profile-button {
+                width: 100%;
+            }
+
+            .transaction-item {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .transaction-details {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>User Profile</h1>
+        </div>
+
+        <div class="diamonds-display">
+            <div class="diamonds-value" id="diamondCount">0</div>
+            <div class="diamonds-label">Diamonds</div>
+        </div>
+
+        <div class="profile-form">
+            <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input type="email" id="userEmail" disabled>
+            </div>
+            <div class="form-group">
+                <label for="userPassword">Password</label>
+                <input type="password" id="userPassword" value="********" disabled>
+            </div>
+        </div>
+
+        <div class="transactions-section">
+            <h2 class="transactions-header">Transaction History</h2>
+            <div id="transactionsList">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button class="profile-button edit-profile" onclick="editProfile()">Change Password</button>
+            <button class="profile-button logout-profile" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script type="module" src="/js/profile.js"></script>
+</body>
+</html> 

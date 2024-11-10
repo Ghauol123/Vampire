@@ -414,4 +414,43 @@ public void updateExpBar()
             healDisplay.text = $"{currentHeal} / {actualStats.maxHeal}";
         }
     }
+
+    public void RecalculateWeaponStats()
+    {
+        // Lấy tất cả các vũ khí đang được trang bị
+        Weapon[] equippedWeapons = GetComponentsInChildren<Weapon>();
+        
+        foreach (Weapon weapon in equippedWeapons)
+        {
+            if (weapon != null)
+            {
+                // Lưu lại các prefab
+                Projectile projectilePrefab = weapon.currentStats.projectilePrefabs;
+                Bomb bombPrefab = weapon.currentStats.bombPrefabs;
+                Aura auraPrefab = weapon.currentStats.auraPrefabs;
+                Melee meleePrefab = weapon.currentStats.meleePrefabs;
+
+
+
+                // Áp dụng tất cả các passive boost
+                foreach (Passive passive in GetComponentsInChildren<Passive>())
+                {
+                    if (passive != null)
+                    {
+                        weapon.currentStats += passive.currentWeaponBoosts;
+                    }
+                }
+
+                // Khôi phục lại các prefab
+                if (weapon.currentStats.projectilePrefabs == null) 
+                    weapon.currentStats.projectilePrefabs = projectilePrefab;
+                if (weapon.currentStats.bombPrefabs == null) 
+                    weapon.currentStats.bombPrefabs = bombPrefab;
+                if (weapon.currentStats.auraPrefabs == null) 
+                    weapon.currentStats.auraPrefabs = auraPrefab;
+                if (weapon.currentStats.meleePrefabs == null) 
+                    weapon.currentStats.meleePrefabs = meleePrefab;
+            }
+        }
+    }
 }

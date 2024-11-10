@@ -236,14 +236,17 @@ public class ScoreLoader : MonoBehaviour
             playTimeText.text = "Time: " + scoreData["playTimeInSeconds"].ToString() + "s";
             leveltext.text = "LV:" + scoreData["level"].ToString();
 
-            // Nếu là điểm toàn cầu, hiển thị tên người chơi, nếu không thì hiển thị tên nhân vật
+            // Hiển thị thông tin khác nhau dựa trên chế độ
             if (isPersonalScores)
             {
                 nameText.text = scoreData["characterName"].ToString();
             }
             else
             {
-                nameText.text = scoreData["playerName"].ToString(); // Đảm bảo bạn lưu "playerName" khi lưu điểm global
+                // Hiển thị cả tên người chơi và nhân vật trong chế độ toàn cầu
+                string playerName = scoreData["playerName"]?.ToString() ?? "Unknown";
+                // string characterName = scoreData["characterName"]?.ToString() ?? "Unknown";
+                nameText.text = $"{playerName}";
             }
 
             rank++;

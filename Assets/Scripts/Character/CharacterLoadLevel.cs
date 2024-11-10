@@ -50,6 +50,7 @@ public class CharacterLoadLevel : MonoBehaviour
         firebaseController.LoadCharacterLevel(character.Name, level =>
         {
             character.SetLevel(level);
+            character.SetMoney(level);
             character.AdjustStatsBasedOnLevel(); // Adjust stats based on the loaded level
             Debug.Log($"Character {character.Name} level set to {character.Level}");
         });

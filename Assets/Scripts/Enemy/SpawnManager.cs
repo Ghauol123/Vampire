@@ -28,6 +28,13 @@ public class SpawnManager : MonoBehaviour
     private void Start() {
         if(instance) Debug.Log("There are multiple SpawnManagers in the scene");
         instance = this;
+        // Reset enemy counts when starting new game
+        enemiesAlive = 0;
+        enemiesSpawned = 0;
+        EnemyStats.count = 0;
+        currentWaveIndex = 0;
+        currentWaveSpawnCount = 0;
+        currentWaveDuration = 0f;
     }
 
     private void Update() {

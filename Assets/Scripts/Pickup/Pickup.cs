@@ -99,11 +99,10 @@ public class Pickup : MonoBehaviour
     //     if(Coin != 0 ) target.IncreaseCoin(Coin);
     // }
     private void OnDisable() {
-                if(!target) return;
-        if(Exp != 0 ) target.IncreaseExperience(Exp);
-        if(Heal != 0 ) target.RestoreHeal(Exp);
-        if(Coin != 0 ) target.IncreaseCoin(Coin);
-
+        if(!target) return;
+        if(Exp != 0) target.IncreaseExperience(Exp);
+        if(Heal != 0) target.RestoreHeal(Heal);
+        if(Coin != 0) target.IncreaseCoin(Coin);
     }
     private IEnumerator ReturnToPoolAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);

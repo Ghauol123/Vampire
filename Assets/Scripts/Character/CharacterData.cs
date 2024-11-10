@@ -51,6 +51,9 @@ public class CharacterData : ScriptableObject
     {
         Level = newLevel;
     }
+    public void SetMoney(int newLevel){
+        upgradeMoney = 100*Level;
+    }
     [System.Serializable]
     //struct dùng để lưu trữ các giá trị của stats, thường để biểu diễn các giá trị cố định và nhẹ nhàng
     // struct không thể kế thừa từ class khác cũng như class không thể kế thừa từ struct, struct có thể thực hiện interface

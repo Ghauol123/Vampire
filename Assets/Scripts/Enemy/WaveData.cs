@@ -15,7 +15,6 @@ public class WaveData : SpawnData
     public ExitCondition exitCondition = (ExitCondition)1;
     [Tooltip("All enemies must be dead for the wave to advance")]
     public bool mustKillAllEnemies = false;
-    public uint spawnCount; // the number of enemies already spawned in this wave
 
     public override GameObject[] GetSpawnPrefabs(int totalEnemies = 0)
     {

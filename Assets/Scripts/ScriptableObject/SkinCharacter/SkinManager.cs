@@ -108,7 +108,7 @@ public class SkinManager : MonoBehaviour
     private async void UpdateCoinDisplay()
     {
         // Check if FirebaseLoadCoin instance exists and user is signed in
-        if (FirebaseLoadCoin.instance != null && FirebaseLoadCoin.instance.userId != null)
+        if (FirebaseLoadCoin.instance != null && FirebaseController.instance.userId != null)
         {
             try
             {

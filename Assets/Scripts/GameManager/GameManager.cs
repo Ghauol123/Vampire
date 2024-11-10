@@ -8,53 +8,63 @@ using TMPro;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Firebase.Auth;
+using Firebase.Database;
 
 public class GameManager : MonoBehaviour
 {
-public static GameManager instance;
-public bool isGameLoaded;
+    #region Singleton
+    public static GameManager instance;
+    #endregion
+
+    #region Game State
     public GameState currentState;
     public GameState previousState;
+    public bool isGameLoaded;
+    public bool IsGamePause = false;
+    public bool IsLevelUp = false;
+    public bool IsGameOver => currentState == GameState.GameOver;
+    public bool chosingUpgrade => currentState == GameState.LevelUp;
+    #endregion
+
+    #region UI References
     [Header("Screens")]
     public GameObject pauseScreen;
     public GameObject ResultScreen;
     public GameObject gameOverScreen;
     public GameObject LevelUpScreen;
     public int stackLevelups = 0;
-    [Header("Current Stas Displays")]
-    // public TMP_Text CurrentSpeedDisplay;
-    // public TMP_Text CurrentHealDisplay;
-    // public TMP_Text CurrentMightDisplay;
-    // public TMP_Text CurrentProjectTileSpeedDisplay;
-    // public TMP_Text CurrentrecoveryDisplay;
-    // public TMP_Text CurrentMagnetDisplay;
+
+    [Header("HUD Elements")]
     public TMP_Text levelReach;
     public TMP_Text ScoreEndGame;
     public TMP_Text timeSurvival;
-    [Header("Result Screen Displays")]
+    public TMP_Text stopWacthDisplay;
+
+    [Header("Result Screen Elements")]
     public Image characterImage;
     public TMP_Text characterName;
     public Image IconCharacter;
     public List<Image> weaponIcon;
     public List<Image> passiveItemIcon;
+    #endregion
+
+    #region Game Systems
     [Header("Time")]
     public float TimeLimit;
     public float stopWatchTime;
-    public TMP_Text stopWacthDisplay;
 
-    public bool IsGamePause = false;
-    public bool IsLevelUp = false;
-
-    public bool IsGameOver {get{return currentState == GameState.GameOver;}}
-    public bool chosingUpgrade {get{return currentState == GameState.LevelUp;}}
-
-    [Header("Damage Text Setting")]
+    [Header("Damage Text")]
     public Canvas damageTextCanvas;
     public float textFontSize = 20f;
     public TMP_FontAsset textFont;
     public Camera referenceCamera;
-    // public GameObject player;
-    PlayerStats[] playerStats;
+    #endregion
+
+    #region Component References
+    private PlayerStats[] playerStats;
+    private FirebaseSaveGame firebaseSaveGame;
+    private PlayerInventory playerInventory;
+    #endregion
     public static int GetCumulativeLevels(){
         if(instance == null) return 1;
         int totalLevel = 0;
@@ -73,11 +83,6 @@ public bool isGameLoaded;
         }
         return Mathf.Max(1, 1 + totalCurse);
     }
-
-    // PlayerStats[] playerStats;
-    FirebaseSaveGame firebaseSaveGame;
-    private PlayerInventory playerInventory;
-
     void Start()
     {
         pauseScreen.SetActive(false);
@@ -192,8 +197,22 @@ public async void GameOver()
     // Save score to Firebase
     TimeSpan timeSpan = TimeSpan.FromSeconds(stopWatchTime);
     
-    // Assuming you have a way to get the player's name, for example from Firebase auth or player data
-    string playerName = FirebaseAuth.DefaultInstance.CurrentUser.DisplayName; // If using Firebase Authentication
+    // Lấy userId của current user
+    string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+    string playerName = "Unknown"; // Default name
+    
+    // Lấy username từ Firebase Database
+    await FirebaseDatabase.DefaultInstance
+        .GetReference("users")
+        .Child(userId)
+        .Child("userInfo")
+        .Child("username")
+        .GetValueAsync().ContinueWith(task => {
+            if (task.IsCompleted && !task.IsFaulted && task.Result.Value != null)
+            {
+                playerName = task.Result.Value.ToString();
+            }
+        });
 
     int firebaseCoin = await FirebaseLoadCoin.instance.GetCurrentCoinFromFirebase();
 
@@ -223,6 +242,7 @@ public async void GameOver()
         totalLevel += playerStat.level;
     }
     
+    // Sử dụng playerName đã lấy được từ database
     firebaseSaveGame.SaveScoreToFirebase(totalScore, characterName, timeSpan, totalLevel, playerName);
 }
 

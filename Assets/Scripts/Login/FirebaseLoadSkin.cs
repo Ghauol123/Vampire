@@ -7,14 +7,12 @@ using UnityEngine;
 public class FirebaseLoadSkin : MonoBehaviour
 {
     private DatabaseReference dbReference;
-    private FirebaseAuth auth;
     private string userId;
     private CharacterManager characterManager;
 
     void Start()
     {
-        auth = FirebaseAuth.DefaultInstance;
-        userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        userId = FirebaseController.instance.userId;
         Debug.Log("User ID: " + userId);
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
 
@@ -61,40 +59,6 @@ public class FirebaseLoadSkin : MonoBehaviour
             }
         });
     }
-
-    // private void UpdateCharacterManager(Dictionary<string, List<string>> purchasedSkins)
-    // {
-    //     if (characterManager != null)
-    //     {
-    //         foreach (var characterEntry in purchasedSkins)
-    //         {
-    //             string characterName = characterEntry.Key;
-    //             List<string> costumeNames = characterEntry.Value;
-
-    //             CharacterData characterData = characterManager.GetCharacterData(characterName);
-
-    //             if (characterData != null)
-    //             {
-    //                 characterData.costumes.Clear();
-
-    //                 foreach (string costumeName in costumeNames)
-    //                 {
-    //                     CostumeData costumeData = characterManager.GetCostumeData(costumeName);
-    //                     if (costumeData != null)
-    //                     {
-    //                         characterData.costumes.Add(costumeData);
-    //                     }
-    //                 }
-
-    //                 characterManager.UpdateCharacterCostumes(characterData);
-    //             }
-    //         }
-    //     }
-    //     else
-    //     {
-    //         Debug.LogError("CharacterManager not found.");
-    //     }
-    // }
     private void UpdateCharacterManager(Dictionary<string, List<string>> purchasedSkins)
 {
     if (characterManager != null)
