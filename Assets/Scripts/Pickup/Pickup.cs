@@ -10,6 +10,7 @@ public class Pickup : MonoBehaviour
     // private SpriteRenderer spriteRenderer;
     public float lifeSpan = 0.5f;
     protected PlayerStats target; // if the pickup has a target, then fly toward the target
+    protected BOTStats bOTStats;
     protected float speed; // tốc độ ba
     [Header("Exp and Heal")]
     public int Exp;
@@ -17,7 +18,7 @@ public class Pickup : MonoBehaviour
     public int Coin;
     public bool Coolected = false;
     EnemyStats enemyStats;
-        public AudioClip hitSound; // Clip âm thanh va chạm
+    public AudioClip hitSound; // Clip âm thanh va chạm
     private AudioSource audioSource; // Component AudioSource
     private Collider2D pickupCollider;
 
@@ -26,6 +27,7 @@ public class Pickup : MonoBehaviour
     {
         // spriteRenderer = GetComponent<SpriteRenderer>();
         pickupCollider = GetComponent<Collider2D>();
+        // bOTStats = FindAnyObjectByType<BOTStats>();
     }
     protected virtual void Update(){
         if(target){
@@ -72,6 +74,18 @@ public class Pickup : MonoBehaviour
         }
         return false;
     }
+    // public virtual bool Collect(BOTStats target, float speed, float lifeSpan = 0f){
+    //     if (!this.bOTStats)
+    //     {
+    //         this.bOTStats = target;
+    //         this.speed = speed;
+    //         if (lifeSpan > 0) this.lifeSpan = lifeSpan;
+    //         PlayCollisionSound();
+    //         StartCoroutine(ReturnToPoolAfterDelay(Math.Max(0.01f, this.lifeSpan)));
+    //         return true;
+    //     }
+    //     return false;
+    // }
     private void PlayCollisionSound()
 {
     audioSource = GetComponent<AudioSource>();
@@ -92,18 +106,31 @@ public class Pickup : MonoBehaviour
     //         Destroy(gameObject);
     //     }
     // }
-    // protected virtual void OnDestroy() {
-    //     if(!target) return;
-    //     if(Exp != 0 ) target.IncreaseExperience(Exp);
-    //     if(Heal != 0 ) target.RestoreHeal(Exp);
-    //     if(Coin != 0 ) target.IncreaseCoin(Coin);
-    // }
-    private void OnDisable() {
+    protected virtual void OnDisable() {
         if(!target) return;
-        if(Exp != 0) target.IncreaseExperience(Exp);
-        if(Heal != 0) target.RestoreHeal(Heal);
-        if(Coin != 0) target.IncreaseCoin(Coin);
+        if(Exp != 0 ) target.IncreaseExperience(Exp);
+        if(Heal != 0 ) target.RestoreHeal(Exp);
+        if(Coin != 0 ) target.IncreaseCoin(Coin);
     }
+    // private void OnDisable()
+    // {
+    //     if (bOTStats != null)
+    //     {
+    //         if (Exp != 0) target.IncreaseExperience(Exp);
+    //         if (Heal != 0) target.RestoreHeal(Heal);
+    //         if (Coin != 0) target.IncreaseCoin(Coin);
+    //     }
+    //     else if (target != null)
+    //     {
+    //         if (Exp != 0) target.IncreaseExperience(Exp);
+    //         if (Heal != 0) target.RestoreHeal(Heal);
+    //         if (Coin != 0) target.IncreaseCoin(Coin);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("Neither bOTStats nor target is set. Cannot apply pickup effects.");
+    //     }
+    // }
     private IEnumerator ReturnToPoolAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
         ReturnToPool();

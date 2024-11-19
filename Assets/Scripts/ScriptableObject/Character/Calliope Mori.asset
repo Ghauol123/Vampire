@@ -34,7 +34,7 @@ MonoBehaviour:
     area: 1
     amount: 1
     cooldown: 1
-    magnet: 4
+    magnet: 0.5
     revival: 0
     criticalChance: 0.1
     criticalMultiplier: 2
@@ -50,7 +50,7 @@ MonoBehaviour:
     area: 1
     amount: 1
     cooldown: 1
-    magnet: 4
+    magnet: 0.5
     revival: 0
     criticalChance: 0.1
     criticalMultiplier: 2

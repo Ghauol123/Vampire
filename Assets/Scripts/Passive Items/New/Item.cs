@@ -8,15 +8,18 @@ public class Item : MonoBehaviour
     public int currentLevel = 1, maxLevel = 1;
     [HideInInspector]
     public ItemData itemData;
-    protected PlayerStats owner;
+    public PlayerStats owner = null;
+    public BOTStats bOTowner = null;
     public class LevelData{
         public string name;
         public string description;
         public Sprite Icon;
     }
+    protected virtual void Start(){
+        AssignOwnerBasedOnParent();
+    }
     public virtual void Initialise(ItemData itemData){
         maxLevel = itemData.maxLevel;
-        owner = FindAnyObjectByType<PlayerStats>();
     }
     public virtual bool CanLevelUp(){
         return currentLevel <= maxLevel;
@@ -28,5 +31,28 @@ public class Item : MonoBehaviour
     //What effects you receive on equipping an item
     public virtual void onEquip(){}
     public virtual void OnUnEquip(){}
+        public void AssignOwnerBasedOnParent()
+{
+    // owner = null;
+    // bOTowner = null;
+    if (transform.parent != null)
+    {
+        // Check if the parent is a bot
+        var botStats = transform.parent.GetComponent<BOTStats>();
+        if (botStats != null)
+        {
+            bOTowner = botStats; // Assign botOwner
+            owner = null; // Ensure owner is null
+            return;
+        }
 
+        // Check if the parent is a player
+        var playerStats = transform.parent.GetComponent<PlayerStats>();
+        if (playerStats != null)
+        {
+            owner = playerStats; // Assign owner
+            bOTowner = null; // Ensure botOwner is null
+        }
+    }
+}
 }

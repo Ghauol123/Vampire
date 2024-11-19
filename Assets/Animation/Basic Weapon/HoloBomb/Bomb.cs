@@ -225,7 +225,9 @@ public class Bomb : WeaponEffect
                 if (enemyStats != null)
                 {
                     Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
-                    enemyStats.TakeDamage(GetDamage(), source);
+                                DamageBOP sourceDamage = owner != null ? DamageBOP.Player : DamageBOP.BOT;
+            enemyStats.TakeDamage(GetDamage(), source, 5f, 0.2f, sourceDamage);
+            
                 }
             }
         }

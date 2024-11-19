@@ -40,11 +40,13 @@ public class FirebaseController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);  // Ensure this object persists across scenes
-            InitializeFirebase(); // Ensure Firebase is initialized in Awake
+            // InitializeFirebase(); // Ensure Firebase is initialized in Awake
+            OnEnable();
         }
         else
         {
             Destroy(gameObject);  // Destroy duplicate instances
+            OnDisable();
             return;
         }
     }

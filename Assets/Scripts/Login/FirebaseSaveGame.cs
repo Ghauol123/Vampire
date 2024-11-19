@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class FirebaseSaveGame : MonoBehaviour
 {
-        private DatabaseReference dbReference; // Database reference
+    private DatabaseReference dbReference; // Database reference
     private FirebaseAuth auth;
     private FirebaseUser user;
     public static FirebaseSaveGame instance; // Singleton pattern
@@ -25,90 +25,124 @@ public class FirebaseSaveGame : MonoBehaviour
     {
         
     }
-    public void SaveScoreToFirebase(int score, string characterName, TimeSpan playTime, int level, string playerName)
-{
-    if (auth != null)
+    // public class PlayerData
+    // {
+    //     public int Score { get; set; }
+    //     public string CharacterName { get; set; }
+    //     public string PlayerName { get; set; }
+    //     public int Level { get; set; }  // Thêm level vào thông tin người chơi
+    // }
+
+    public void SaveScoreToFirebase(PlayerData playerData, PlayerData botData, TimeSpan playTime, string mapName, GameMode gameMode)
     {
-        string userId = auth.CurrentUser.UserId; // Get the current user's ID
-
-        // Lưu điểm số vào node 'scores' của người dùng
-        SaveScoreToUserScores(userId, score, characterName, playTime, level, playerName);
-
-        // Lưu điểm số vào node 'globalScores'
-        SaveScoreToGlobalScores(score, characterName, playTime, level, playerName );
-    }
-    else
-    {
-        Debug.LogError("No user is signed in. Cannot save score data.");
-    }
-}
-
-// Phương thức lưu điểm số vào 'scores' của người dùng
-private void SaveScoreToUserScores(string userId, int score, string characterName, TimeSpan playTime, int level, string playerName)
-{
-    // Get a reference to the user's scores node
-    DatabaseReference userScoresRef = dbReference.Child("users").Child(userId).Child("scores");
-
-    // Push a new score entry with a unique key
-    string newScoreKey = userScoresRef.Push().Key;
-
-    // Create the score data including the character name and playtime
-    Dictionary<string, object> scoreData = new Dictionary<string, object>
-    {
-        { "score", score },
-        { "characterName", characterName },
-        { "playerName", playerName }, // Include the player's name in the score data
-        { "playTimeInSeconds", (int)playTime.TotalSeconds }, // Store playtime as total seconds
-        { "timestamp", DateTime.UtcNow.ToString("o") }, // Optional: include the time of the score
-        { "level", level } // Include the level in the score data
-    };
-
-    // Save the new score to Firebase
-    userScoresRef.Child(newScoreKey).SetValueAsync(scoreData).ContinueWithOnMainThread(task =>
-    {
-        if (task.IsCompleted)
+        if (auth != null)
         {
-            Debug.Log("Score, character, and playtime saved successfully to user scores.");
+            string userId = auth.CurrentUser.UserId;
+            SaveScoreToUserScores(userId, playerData, botData, playTime, mapName, gameMode);
+            SaveScoreToGlobalScores(playerData, botData, playTime, mapName, gameMode);
         }
         else
         {
-            Debug.LogError("Failed to save score data to user scores: " + task.Exception);
+            Debug.LogError("No user is signed in. Cannot save score data.");
         }
-    });
-}
+    }
 
-// Phương thức lưu điểm số vào 'globalScores'
-private void SaveScoreToGlobalScores(int score, string characterName, TimeSpan playTime, int level, string playerName)
-{
-    // Get a reference to the global scores node
-    DatabaseReference globalScoresRef = dbReference.Child("globalScores");
-
-    // Push a new score entry with a unique key
-    string newScoreKey = globalScoresRef.Push().Key;
-
-    // Create the score data including the character name and playtime
-    Dictionary<string, object> scoreData = new Dictionary<string, object>
+    private void SaveScoreToUserScores(string userId, PlayerData playerData, PlayerData botData, TimeSpan playTime, string mapName, GameMode gameMode)
     {
-        { "score", score },
-        { "characterName", characterName },
-        { "playerName", playerName }, // Include the player's name in the score data
-        { "playTimeInSeconds", (int)playTime.TotalSeconds }, // Store playtime as total seconds
-        { "timestamp", DateTime.UtcNow.ToString("o") }, // Optional: include the time of the score
-        { "level", level } // Include the level in the score data
-    };
+        string gameModePath = gameMode.ToString().ToLower();
+        DatabaseReference userScoresRef = dbReference.Child("users").Child(userId).Child("scores")
+            .Child(gameModePath).Child(mapName);
+        
+        string newScoreKey = userScoresRef.Push().Key;
+        Dictionary<string, object> scoreData = new Dictionary<string, object>
+        {
+            { "timestamp", DateTime.UtcNow.ToString("o") },
+            { "playTimeInSeconds", (int)playTime.TotalSeconds },
+            { "gameMode", gameModePath },
+            // Thông tin người chơi chính
+            { "player", new Dictionary<string, object>
+                {
+                    { "score", playerData.Score },
+                    { "characterName", playerData.CharacterName },
+                    { "playerName", playerData.PlayerName },
+                    { "level", playerData.Level }
+                }
+            }
+        };
 
-    // Save the new score to Firebase
-    globalScoresRef.Child(newScoreKey).SetValueAsync(scoreData).ContinueWithOnMainThread(task =>
+        // Chỉ thêm thông tin bot nếu đang ở chế độ BotMode
+        if (gameMode == GameMode.BotMode && botData != null)
+        {
+            scoreData.Add("bot", new Dictionary<string, object>
+            {
+                { "score", botData.Score },
+                { "characterName", botData.CharacterName },
+                { "playerName", botData.PlayerName },
+                { "level", botData.Level }
+            });
+        }
+
+        // Save the new score to Firebase
+        userScoresRef.Child(newScoreKey).SetValueAsync(scoreData).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("Score, character, and playtime saved successfully to user scores.");
+            }
+            else
+            {
+                Debug.LogError("Failed to save score data to user scores: " + task.Exception);
+            }
+        });
+    }
+
+    private void SaveScoreToGlobalScores(PlayerData playerData, PlayerData botData, TimeSpan playTime, string mapName, GameMode gameMode)
     {
-        if (task.IsCompleted)
+        string gameModePath = gameMode.ToString().ToLower();
+        DatabaseReference globalScoresRef = dbReference.Child("globalScores")
+            .Child(gameModePath).Child(mapName);
+        
+        string newScoreKey = globalScoresRef.Push().Key;
+        Dictionary<string, object> scoreData = new Dictionary<string, object>
         {
-            Debug.Log("Score, character, and playtime saved successfully to global scores.");
-        }
-        else
+            { "timestamp", DateTime.UtcNow.ToString("o") },
+            { "playTimeInSeconds", (int)playTime.TotalSeconds },
+            { "gameMode", gameModePath },
+            // Thông tin người chơi chính
+            { "player", new Dictionary<string, object>
+                {
+                    { "score", playerData.Score },
+                    { "characterName", playerData.CharacterName },
+                    { "playerName", playerData.PlayerName },
+                    { "level", playerData.Level }
+                }
+            }
+        };
+
+        // Chỉ thêm thông tin bot nếu đang ở chế độ BotMode
+        if (gameMode == GameMode.BotMode && botData != null)
         {
-            Debug.LogError("Failed to save score data to global scores: " + task.Exception);
+            scoreData.Add("bot", new Dictionary<string, object>
+            {
+                { "score", botData.Score },
+                { "characterName", botData.CharacterName },
+                { "playerName", botData.PlayerName },
+                { "level", botData.Level }
+            });
         }
-    });
-}
+
+        // Save the new score to Firebase
+        globalScoresRef.Child(newScoreKey).SetValueAsync(scoreData).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log("Score, character, and playtime saved successfully to global scores.");
+            }
+            else
+            {
+                Debug.LogError("Failed to save score data to global scores: " + task.Exception);
+            }
+        });
+    }
 
 }

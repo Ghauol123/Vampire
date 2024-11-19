@@ -23,7 +23,7 @@ public class EliteLavaWeapon : ProjectileWeapon
         }
         if(!canAttack()) return false;
             GameObject projectileObj = ObjectPool.Instance.GetObject(currentStats.projectilePrefabs.gameObject);
-    projectileObj.transform.position = owner.transform.position;
+    projectileObj.transform.position = ownerTransform.transform.position;
     projectileObj.transform.rotation = Quaternion.identity;
 
     currentProjectile = projectileObj.GetComponent<Projectile>();

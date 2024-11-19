@@ -9,6 +9,7 @@ TagManager:
   - Burger
   - AmeGun
   - KeyBind
+  - BOT
   layers:
   - Default
   - TransparentFX

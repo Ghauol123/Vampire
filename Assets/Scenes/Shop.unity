@@ -3192,9 +3192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c321106bc172cc04ab68d6fa29e37a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 11400000, guid: cf15880ff46ad834eaf3a83c38ac8b42, type: 2}
-  - {fileID: 11400000, guid: a4387eef8179898418c7929960bd21b5, type: 2}
+  characters: []
   characterButtonPrefab: {fileID: 81406166499152349, guid: fd008631ae29e7543b531292cc8e891d, type: 3}
   buttonParent: {fileID: 662890897}
   goldText: {fileID: 951087270}
@@ -3233,9 +3231,7 @@ MonoBehaviour:
   allCostumes:
   - {fileID: 11400000, guid: c713c77dabba58b44bae73721b0eb5b2, type: 2}
   - {fileID: 11400000, guid: 40f168dc05869ef44b729509d6056535, type: 2}
-  characterDataList:
-  - {fileID: 11400000, guid: cf15880ff46ad834eaf3a83c38ac8b42, type: 2}
-  - {fileID: 11400000, guid: a4387eef8179898418c7929960bd21b5, type: 2}
+  characterDataList: []
   confirmationPanel: {fileID: 920936498}
   yesButton: {fileID: 1406639722}
   noButton: {fileID: 325892260}

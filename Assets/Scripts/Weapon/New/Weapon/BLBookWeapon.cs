@@ -10,7 +10,7 @@ public class BLBookWeapon : Weapon
     public float currentCooldowns;
     private List<Projectile> activeProjectiles = new List<Projectile>();
     Projectile newProjectile;
-        public float currentAttackInterval; // thời gian bắn giữa các viên đạn
+    public float currentAttackInterval; // thời gian bắn giữa các viên đạn
     public int currentAttackCount; // giới hạn số viên đạn có thể bắn được trong 1 lần
 
     protected override void Start()
@@ -39,7 +39,7 @@ public class BLBookWeapon : Weapon
                 {
                     float angle = (360f / numberOfProjectiles) * i + Time.time * rotationSpeed;
                     Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;
-                    activeProjectiles[i].transform.position = owner.transform.position + offset;
+                    activeProjectiles[i].transform.position = ownerTransform.transform.position + offset;
                 }
             }
         }
@@ -51,7 +51,7 @@ public class BLBookWeapon : Weapon
         for (int i = 0; i < numberOfProjectiles; i++)
         {
             float angle = (360f / numberOfProjectiles) * i;
-            Vector3 spawnPosition = owner.transform.position + (Vector3)GetSpawnOffset(angle);
+            Vector3 spawnPosition = ownerTransform.transform.position + (Vector3)GetSpawnOffset(angle);
 
             // newProjectile = Instantiate(
             //     currentStats.projectilePrefabs,
@@ -66,8 +66,8 @@ public class BLBookWeapon : Weapon
     newProjectile.weapon = this;
     newProjectile.owner = owner;
     newProjectile.Initialize();
-            newProjectile.weapon = this;
-            newProjectile.owner = owner;
+            // newProjectile.weapon = this;
+            // newProjectile.owner = owner;
             activeProjectiles.Add(newProjectile);
         }
     }

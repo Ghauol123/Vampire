@@ -47,7 +47,7 @@ public class SkinManager : MonoBehaviour
         // Assume the user is already authenticated and userId is available
         userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
-
+        characterDataList = FirebaseController.instance.characterDataList;
         // Load purchased skins and create buttons
         LoadPurchasedSkinsAndCreateButtons();
 

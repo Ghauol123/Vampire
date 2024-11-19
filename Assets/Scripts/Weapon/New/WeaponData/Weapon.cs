@@ -19,27 +19,6 @@ public abstract class Weapon : Item
         public float lifespan;
         public float damage, damageVariance, area, speed, cooldown, projectileInterval, knockback;
         public int number, piercing, maxInstance;
-        // public static Stats operator +(Stats s1, Stats s2){
-        //     Stats result = new Stats();
-        //     result.name = s2.name ?? s1.name;
-        //     result.description = s2.description ?? s1.description;
-        //     result.hitEffect = s2.hitEffect == null ? s1.hitEffect : s2.hitEffect;
-        //     result.projectilePrefabs = s2.projectilePrefabs ?? s1.projectilePrefabs;
-        //     result.auraPrefabs = s2.auraPrefabs ?? s1.auraPrefabs;
-        //     result.meleePrefabs = s2.meleePrefabs ?? s1.meleePrefabs;
-        //     result.spawnVariance = s2.spawnVariance;
-        //     result.lifespan =  s1.lifespan + s2.lifespan;
-        //     result.damage =  s1.damage + s2.damage;
-        //     result.damageVariance =  s1.damageVariance + s2.damageVariance;
-        //     result.area =  s1.area + s2.area;
-        //     result.speed =  s1.speed + s2.speed;
-        //     result.cooldown =  s1.cooldown + s2.cooldown;
-        //     result.number =  s1.number + s2.number;
-        //     result.piercing =  s1.piercing + s2.piercing;
-        //     result.projectileInterval =  s1.projectileInterval + s2.projectileInterval;
-        //     result.knockback =  s1.knockback + s2.knockback;
-        //     return result;
-        // }
         public static Stats operator +(Stats s1, Stats s2)
         {
             Stats result = new Stats
@@ -77,6 +56,11 @@ public abstract class Weapon : Item
     public ItemData data;
     protected float currentCooldown;
     protected PlayerMoving movement;
+    protected Transform ownerTransform = null;
+    protected float lastDirectionX;
+        public DamageBOP damageBOP;
+
+
     // For dynamically created weapons, call initialise to set everything up
     public virtual void Initialise(WeaponData data){
         base.Initialise(data);
@@ -86,21 +70,74 @@ public abstract class Weapon : Item
         movement =  FindAnyObjectByType<PlayerMoving>();
         // Set the cooldown to 0
         currentCooldown = currentStats.cooldown;
-        owner = FindAnyObjectByType<PlayerStats>();
-
     }
+//     public void AssignOwnerBasedOnParent()
+// {
+//     // owner = null;
+//     // bOTowner = null;
+//     if (transform.parent != null)
+//     {
+//         // Check if the parent is a bot
+//         var botStats = transform.parent.GetComponent<BOTStats>();
+//         if (botStats != null)
+//         {
+//             bOTowner = botStats; // Assign botOwner
+//             owner = null; // Ensure owner is null
+//             return;
+//         }
+
+//         // Check if the parent is a player
+//         var playerStats = transform.parent.GetComponent<PlayerStats>();
+//         if (playerStats != null)
+//         {
+//             owner = playerStats; // Assign owner
+//             bOTowner = null; // Ensure botOwner is null
+//         }
+//     }
+// }
     protected virtual void Awake() {
         if(data) currentStats = ((WeaponData)data).baseStats;
+        owner = FindAnyObjectByType<PlayerStats>();
+        bOTowner = FindAnyObjectByType<BOTStats>();
+
     }
-    protected virtual void Start(){
+    protected override void Start(){
         if(data){
             Initialise(data);
+        }
+        // AssignOwnerBasedOnParent();
+        base.Start();
+        if(owner == null && bOTowner != null){
+            ownerTransform = bOTowner.transform;
+        }
+        else{
+            ownerTransform = owner.transform;
         }
     }
     protected virtual void Update(){
         currentCooldown -= Time.deltaTime;
         if(currentCooldown <= 0){
             Attack(currentStats.number);
+        }
+
+        // Determine the direction based on the actual owner
+        if (owner != null)
+        {
+            // If the owner is a player
+            PlayerMoving playerMove = owner.GetComponent<PlayerMoving>();
+            if (playerMove != null && playerMove.lastMovedVector.x != 0)
+            {
+                lastDirectionX = playerMove.lastMovedVector.x;
+            }
+        }
+        else if (bOTowner != null)
+        {
+            // If the owner is a bot
+            BotMoving botMove = bOTowner.GetComponent<BotMoving>();
+            if (botMove != null && botMove.lastMovedVector.x != 0)
+            {
+                lastDirectionX = botMove.lastMovedVector.x;
+            }
         }
     }
     public override bool DoLevelUp()
@@ -139,34 +176,54 @@ public abstract class Weapon : Item
             currentCooldown += currentStats.cooldown;
             return true;
         }
+        
         return false;
     }
     // public virtual float GetDamage(){
     //     // Might is a multiplier for the damage
     //     return currentStats.getDamage() *owner.Stats.might;
     // }
-        public virtual float GetDamage()
+public virtual float GetDamage()
+{
+    float baseDamage = currentStats.getDamage();
+
+    if (owner != null) // If the owner is a player
     {
-        float baseDamage = currentStats.getDamage();
-        
-        // Lấy thông số chí mạng từ nhân vật
         float criticalChance = owner.Stats.criticalChance;
         float criticalMultiplier = owner.Stats.criticalMultiplier;
+        float might = owner.Stats.might;
 
-        // Kiểm tra xem có chí mạng hay không
+        // Determine if the hit is critical
         bool isCriticalHit = Random.value < criticalChance;
 
         if (isCriticalHit)
         {
-            baseDamage *= criticalMultiplier; // Nhân sát thương với hệ số chí mạng
-            // Debug.Log("Critical Hit!");
-            // Debug.Log("Critical Damage: " + baseDamage);
+            baseDamage *= criticalMultiplier; // Apply critical multiplier
+            Debug.Log("Player Critical Hit!");
         }
-        // Debug.Log("Damage: " + baseDamage * owner.Stats.might + "Weapon Name: " + name);
-        return baseDamage * owner.Stats.might; // Áp dụng sát thương với chỉ số might của nhân vật
+        baseDamage *= might; // Apply might multiplier
+    }
+    else if (bOTowner != null) // If the owner is a bot
+    {
+        float botCriticalChance = bOTowner.Stats.criticalChance;
+        float botCriticalMultiplier = bOTowner.Stats.criticalMultiplier;
+        float botMight = bOTowner.Stats.might;
+
+        // Determine if the hit is critical
+        bool isBotCriticalHit = Random.value < botCriticalChance;
+
+        if (isBotCriticalHit)
+        {
+            baseDamage *= botCriticalMultiplier; // Apply critical multiplier
+            Debug.Log("Bot Critical Hit!");
+        }
+        baseDamage *= botMight; // Apply might multiplier
     }
 
-        public virtual Stats GetStats(){return currentStats;}
+    return baseDamage;
+}
+
+    public virtual Stats GetStats(){return currentStats;}
 
     public virtual bool ActivateCooldown(bool strict = false){
         // If we are in strict mode, we can only activate cooldown if it is already 0
@@ -177,26 +234,19 @@ public abstract class Weapon : Item
         currentCooldown = Mathf.Min(actualCooldown,currentCooldown*actualCooldown);
         return true;
     }
-    //     public void LoadWeaponStatsByLevel(int level)
+    // public virtual void SetLevel(int level)
     // {
-    //     if (currentWeaponData != null)
+    //     if (level < 1 || level > data.maxLevel)
     //     {
-    //         currentStats = (Stats)currentWeaponData.GetLevelData(level);
+    //         Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
+    //         return;
     //     }
+    //     currentLevel = level;
+    //     currentStats = ((WeaponData)data).baseStats;
+    //     for (int i = 2; i <= level; i++)
+    //     {
+    //         currentStats += (Stats)data.GetLevelData(i);
+    //     }
+    //     Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: {currentStats.damage}");
     // }
-    public virtual void SetLevel(int level)
-    {
-        if (level < 1 || level > data.maxLevel)
-        {
-            Debug.LogWarning($"Level {level} is out of bounds for {data.name}.");
-            return;
-        }
-        currentLevel = level;
-        currentStats = ((WeaponData)data).baseStats;
-        for (int i = 2; i <= level; i++)
-        {
-            currentStats += (Stats)data.GetLevelData(i);
-        }
-        Debug.Log($"Set level for {data.name} to {currentLevel}. Current stats: {currentStats.damage}");
-    }
 }

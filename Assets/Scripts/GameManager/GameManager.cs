@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Firebase.Auth;
 using Firebase.Database;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,23 +30,39 @@ public class GameManager : MonoBehaviour
     #region UI References
     [Header("Screens")]
     public GameObject pauseScreen;
-    public GameObject ResultScreen;
+    public GameObject SinglePlayerResultScreen;
+    public GameObject BotModeResultScreen;
     public GameObject gameOverScreen;
     public GameObject LevelUpScreen;
     public int stackLevelups = 0;
 
-    [Header("HUD Elements")]
+    [Header("Single Player Result Elements")]
+    public TMP_Text kill;
     public TMP_Text levelReach;
     public TMP_Text ScoreEndGame;
     public TMP_Text timeSurvival;
     public TMP_Text stopWacthDisplay;
-
-    [Header("Result Screen Elements")]
     public Image characterImage;
     public TMP_Text characterName;
     public Image IconCharacter;
     public List<Image> weaponIcon;
     public List<Image> passiveItemIcon;
+
+    [Header("Bot Mode Result Elements")]
+    public TMP_Text timeSurvivalBotMode;
+ 
+    public TMP_Text playerScore;
+    public TMP_Text playerKills;
+    public TMP_Text botKills;
+    public TMP_Text playerLevel;
+    public Image playerCharacterImage;
+    public Image botCharacterImage;
+    public TMP_Text playerCharacterName;
+    public TMP_Text botCharacterName;
+    public List<Image> botWeaponIcon;
+    public List<Image> botPassiveItemIcon;
+     public List<Image> PlayerweaponIcon;
+    public List<Image> PlayerpassiveItemIcon;
     #endregion
 
     #region Game Systems
@@ -62,8 +79,16 @@ public class GameManager : MonoBehaviour
 
     #region Component References
     private PlayerStats[] playerStats;
+    private BOTStats bOTStats;
     private FirebaseSaveGame firebaseSaveGame;
     private PlayerInventory playerInventory;
+    private BOTInventory bOTInventory;
+    #endregion
+    #region Bot System
+    [Header("Bot System")]
+    public GameObject botPrefab;  // Kéo prefab BOT vào đây trong Inspector
+    private GameObject currentBot;  // Để theo dõi bot đã spawn
+    public GameMode playMode;
     #endregion
     public static int GetCumulativeLevels(){
         if(instance == null) return 1;
@@ -100,12 +125,35 @@ public class GameManager : MonoBehaviour
         playerStats = FindObjectsOfType<PlayerStats>();
         firebaseSaveGame = FindObjectOfType<FirebaseSaveGame>();
         playerInventory = FindObjectOfType<PlayerInventory>();
+        bOTInventory = FindAnyObjectByType<BOTInventory>();
         if (playerInventory == null)
         {
             Debug.LogError("PlayerInventory not found!");
         }
+        playMode = CharacterSelected.instance.gamemode;  // Lấy gamemode từ PlayerPrefs
+        SpawnBot();
+    }
+    void SpawnBot(){
+        if(playMode == GameMode.SinglePlayer){
+            return;
+        }
+        else if(playMode == GameMode.BotMode){
+                if (botPrefab == null)
+    {
+        Debug.LogError("Bot prefab is not assigned!");
+        return;
     }
 
+    if (currentBot != null)
+    {
+        Debug.LogWarning("Bot already exists!");
+        return;
+    }
+    currentBot = Instantiate(botPrefab, new Vector3(1,1,0), Quaternion.identity);
+            bOTStats = currentBot.GetComponent<BOTStats>();
+        bOTInventory = currentBot.GetComponent<BOTInventory>();
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -181,10 +229,11 @@ public class GameManager : MonoBehaviour
         pauseScreen.SetActive(false);
         gameOverScreen.SetActive(false);
         LevelUpScreen.SetActive(false);
+        SinglePlayerResultScreen.SetActive(false);
+        BotModeResultScreen.SetActive(false);
     }
 public async void GameOver()
 {
-    // Display the game over screen
     stopWacthDisplay.enabled = false;
     timeSurvival.text = stopWacthDisplay.text;
     ChangeState(GameState.GameOver);
@@ -192,16 +241,34 @@ public async void GameOver()
     gameOverScreen.SetActive(true);
     DisplayResultScreen();
     
-    int finalScore = CalculateFinalScore(); // Replace with your actual score calculation logic
-
-    // Save score to Firebase
+    if (playMode == GameMode.SinglePlayer && playerInventory != null)
+    {
+        AssignWeaponAndPassiveItem(playerInventory.weaponSlot, playerInventory.passiveSlot);
+    }
+    else if (playMode == GameMode.BotMode)
+    {
+            if (playerInventory != null)
+            {
+                AssignPPlayerWeaponAndPassiveItem(playerInventory.weaponSlot, playerInventory.passiveSlot); // Gán cho người chơi
+            }
+            
+            if (bOTInventory != null)
+            {
+                AssignBotWeaponAndPassiveItem(bOTInventory.weaponSlot, bOTInventory.passiveSlot); // Gán cho bot
+            }
+    }
+    
+    if (playerStats != null && playerStats.Length > 0)
+    {
+        kill.text = playerStats[0].killnumber.ToString();
+    }
     TimeSpan timeSpan = TimeSpan.FromSeconds(stopWatchTime);
-    
-    // Lấy userId của current user
+    string mapName = SceneManager.GetActiveScene().name;
+
+    // Lấy userId và username của current user
     string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-    string playerName = "Unknown"; // Default name
+    string playerName = "Unknown";
     
-    // Lấy username từ Firebase Database
     await FirebaseDatabase.DefaultInstance
         .GetReference("users")
         .Child(userId)
@@ -214,58 +281,168 @@ public async void GameOver()
             }
         });
 
+    // Xử lý coin
     int firebaseCoin = await FirebaseLoadCoin.instance.GetCurrentCoinFromFirebase();
-
-    // Lấy số coin từ game (giả sử bạn có biến chứa số coin từ game)
     int gameCoin = 0;
     foreach (var playerStat in playerStats)
     {
-        gameCoin += playerStat.coin; // playerStats.coin là số coin người chơi kiếm được trong game
+        gameCoin += playerStat.coin;
     }
-
-    // Tổng số coin
     int totalCoin = firebaseCoin + gameCoin;
-
-    // Cập nhật số coin mới lên Firebase
     await FirebaseLoadCoin.instance.UpdateCoinInFirebase(totalCoin);
 
+    // Tạo PlayerData cho người chơi chính
+    PlayerData playerData = null;
+    PlayerData botData = null;
 
-    // If you're storing the player's name elsewhere, retrieve it accordingly
-    int totalScore = 0;
-    string characterName = "";
-    int totalLevel = 0;
-    
-    foreach (var playerStat in playerStats)
+    // Kiểm tra chế độ chơi
+    if (playMode == GameMode.SinglePlayer)
     {
-        totalScore += playerStat.score;
-        characterName = playerStat.cst.Name; // Assuming all playerStats have the same character name
-        totalLevel += playerStat.level;
+        // Chế độ chơi đơn, chỉ lấy thông tin player
+        foreach (var playerStat in playerStats)
+        {
+            playerData = new PlayerData
+            {
+                Score = playerStat.score,
+                CharacterName = playerStat.cst.Name,
+                PlayerName = playerName,
+                Level = playerStat.level
+            };
+            break; // Chỉ lấy thông tin player đầu tiên vì chơi đơn
+        }
     }
-    
-    // Sử dụng playerName đã lấy được từ database
-    firebaseSaveGame.SaveScoreToFirebase(totalScore, characterName, timeSpan, totalLevel, playerName);
+    else if (playMode == GameMode.BotMode)
+    {
+                    if (bOTStats.GetComponent<BOTStats>() != null)
+            {
+                // Nếu là BOT
+                botData = new PlayerData
+                {
+                    Score = bOTStats.score,
+                    CharacterName = bOTStats.cst.Name,
+                    PlayerName = "Bot",
+                };
+            }
+        // Chế độ chơi với bot, lấy thông tin cả player và bot
+        foreach (var playerStat in playerStats)
+        {
+                // Nếu là Player
+                playerData = new PlayerData
+                {
+                    Score = playerStat.score,
+                    CharacterName = playerStat.cst.Name,
+                    PlayerName = playerName,
+                    Level = playerStat.level
+                };
+        }
+    }
+
+    // Kiểm tra và lưu điểm
+    if (playerData != null)
+    {
+        Debug.Log($"Saving game data - Mode: {playMode}, Player: {playerData.PlayerName}, Score: {playerData.Score}");
+        firebaseSaveGame.SaveScoreToFirebase(
+            playerData,
+            botData, // Sẽ là null trong chế độ SinglePlayer
+            timeSpan,
+            mapName,
+            playMode
+        );
+    }
+    else
+    {
+        Debug.LogError("No player data found for saving score!");
+    }
 }
 
     private int CalculateFinalScore()
     {
-        if (PlayerStats.instance == null)
+        int totalScore = 0;
+        
+        // Kiểm tra null
+        if (playerStats == null || playerStats.Length == 0)
         {
-            Debug.LogError("PlayerStats instance is null!");
-            return 0; // Trả về giá trị mặc định nếu instance bị null
+            Debug.LogWarning("No player stats found!");
+            return 0;
         }
 
-        // Lấy điểm từ PlayerStats
-        int score = PlayerStats.instance.score;
+        // Tính tổng điểm từ tất cả playerStats
+        foreach (var playerStat in playerStats)
+        {
+            if (playerStat != null)
+            {
+                totalScore += playerStat.score;
+                Debug.Log($"Adding score from player: {playerStat.score}, Total: {totalScore}");
+            }
+        }
 
-        // Kiểm tra điểm
-        Debug.Log("Final Score from PlayerStats: " + score);
-
-        return score;
+        Debug.Log($"Final Score calculated: {totalScore}");
+        return totalScore;
     }
-    public void DisplayResultScreen()
-    // Display the result screen
+    private void CalculateTotalKills()
+{
+    int playerKills = 0;
+    int botKills = 0;
+
+    if (playerStats == null || playerStats.Length == 0)
     {
-        ResultScreen.SetActive(true);
+        Debug.LogWarning("No stats found!");
+        return;
+    }
+
+    foreach (var stat in playerStats)
+    {
+        if (stat != null)
+        {
+            if (stat.GetComponent<BOTStats>() != null)
+            {
+                // Nếu là BOT
+                botKills = stat.killnumber;
+                Debug.Log($"BOT kills: {stat.killnumber}, Total BOT kills: {botKills}");
+            }
+            else
+            {
+                // Nếu là Player
+                playerKills = stat.killnumber;
+                Debug.Log($"Player kills: {stat.killnumber}, Total Player kills: {playerKills}");
+            }
+        }
+    }
+
+    Debug.Log($"Final Kill Count - Player: {playerKills}, BOT: {botKills}");
+}
+    public void DisplayResultScreen()
+    {
+        if (playMode == GameMode.SinglePlayer)
+        {
+            SinglePlayerResultScreen.SetActive(true);
+            BotModeResultScreen.SetActive(false);
+        }
+        else if (playMode == GameMode.BotMode)
+        {
+            SinglePlayerResultScreen.SetActive(false);
+            BotModeResultScreen.SetActive(true);
+            
+            // Update Bot Mode Result Screen
+            foreach (var stat in playerStats)
+            {
+                playerScore.text = stat.score.ToString();
+                timeSurvivalBotMode.text = stopWacthDisplay.text;
+                playerKills.text = stat.killnumber.ToString();
+                playerLevel.text = stat.level.ToString();
+                playerCharacterImage.sprite = stat.cst.Icon;
+                playerCharacterName.text = stat.cst.Name;
+            }
+
+            if (bOTStats != null)
+            {
+                // botScore.text = bOTStats.score.ToString();
+                botKills.text = bOTStats.killnumber.ToString();
+                // botLevel.text = bOTStats.level.ToString();
+                botCharacterImage.sprite = bOTStats.cst.Icon;
+                botCharacterName.text = bOTStats.cst.Name;
+            }
+        }
     }
     public void AssignCharacter(CharacterData cst)
     // Assign the character data to the result screen
@@ -286,38 +463,78 @@ public async void GameOver()
         ScoreEndGame.text = score.ToString();
     }
     public void AssignWeaponAndPassiveItem(List<PlayerInventory.Slot> weapon, List<PlayerInventory.Slot> passiveItems)
-    // Assign the weapon and passive item to the result screen
     {
-        if (weapon.Count != weaponIcon.Count || passiveItems.Count != passiveItemIcon.Count)
-        {
-            Debug.Log("Chosen weapon and passiveItem data list have different lenghts");
-            return;
-        }
+        Debug.Log($"Assigning weapons and passives. Weapons: {weapon.Count}, Weapon Icons: {weaponIcon.Count}");
+        
+        // Assign weapons
         for (int i = 0; i < weaponIcon.Count; i++)
         {
-            if (weapon[i].image.sprite)
+            if (i < weapon.Count && weapon[i].item != null)
             {
                 weaponIcon[i].sprite = weapon[i].image.sprite;
                 weaponIcon[i].enabled = true;
+                Debug.Log($"Assigned weapon {i}: {weapon[i].item.name}");
             }
             else
             {
                 weaponIcon[i].enabled = false;
+                Debug.Log($"Disabled weapon slot {i}");
             }
         }
+
+        // Assign passive items
         for (int i = 0; i < passiveItemIcon.Count; i++)
         {
-            if (passiveItems[i].image.sprite)
+            if (i < passiveItems.Count && passiveItems[i].item != null)
             {
                 passiveItemIcon[i].sprite = passiveItems[i].image.sprite;
                 passiveItemIcon[i].enabled = true;
+                Debug.Log($"Assigned passive {i}: {passiveItems[i].item.name}");
             }
             else
             {
                 passiveItemIcon[i].enabled = false;
+                Debug.Log($"Disabled passive slot {i}");
             }
         }
     }
+        public void AssignPPlayerWeaponAndPassiveItem(List<PlayerInventory.Slot> weapon, List<PlayerInventory.Slot> passiveItems)
+    {
+        Debug.Log($"Assigning weapons and passives. Weapons: {weapon.Count}, Weapon Icons: {weaponIcon.Count}");
+        
+        // Assign weapons
+        for (int i = 0; i < PlayerweaponIcon.Count; i++)
+        {
+            if (i < weapon.Count && weapon[i].item != null)
+            {
+                PlayerweaponIcon[i].sprite = weapon[i].image.sprite;
+                PlayerweaponIcon[i].enabled = true;
+                Debug.Log($"Assigned weapon {i}: {weapon[i].item.name}");
+            }
+            else
+            {
+                PlayerweaponIcon[i].enabled = false;
+                Debug.Log($"Disabled weapon slot {i}");
+            }
+        }
+
+        // Assign passive items
+        for (int i = 0; i < PlayerpassiveItemIcon.Count; i++)
+        {
+            if (i < passiveItems.Count && passiveItems[i].item != null)
+            {
+                PlayerpassiveItemIcon[i].sprite = passiveItems[i].image.sprite;
+                PlayerpassiveItemIcon[i].enabled = true;
+                Debug.Log($"Assigned passive {i}: {passiveItems[i].item.name}");
+            }   
+            else
+            {
+                PlayerpassiveItemIcon[i].enabled = false;
+                Debug.Log($"Disabled passive slot {i}");
+            }
+        }
+    }
+
     // public void SaveGameData(ref GameData data)
     // {
     //     data.timeSurvival = stopWatchTime;
@@ -365,9 +582,22 @@ public async void GameOver()
             LevelUpScreen.SetActive(true);
             Time.timeScale = 0f;
             stopWacthDisplay.enabled = false;
-            foreach (var playerStat in playerStats)
+            // if (playerInventory != null && bOTInventory != null)
+            // {
+            //     playerInventory.RemoveAndApplyUpgradeOption();
+            //     bOTInventory.AutoSelectUpgrade();
+            // }
+            if(playerInventory != null && bOTInventory == null){
+                playerInventory.RemoveAndApplyUpgradeOption();
+            }
+            else if (playerInventory != null && bOTInventory != null)
             {
-                playerStat.SendMessage("RemoveAndApplyUpgradeOption");
+                playerInventory.RemoveAndApplyUpgradeOption();
+                bOTInventory.AutoSelectUpgrade();
+            }
+            else
+            {
+                Debug.LogError("PlayerInventory reference is not set!");
             }
         }
     }
@@ -435,6 +665,42 @@ public async void GameOver()
             // rectTransform.position = referenceCamera.WorldToScreenPoint(target.position + new Vector3(0, yOffset, 0));
             rectTransform.position = new Vector3(target.position.x, target.position.y + yOffset, target.position.z);
 
+        }
+    }
+    public void AssignBotWeaponAndPassiveItem(List<BOTInventory.Slot> weapon, List<BOTInventory.Slot> passiveItems)
+    {
+        Debug.Log($"Assigning bot weapons and passives. Weapons: {weapon.Count}, Weapon Icons: {botWeaponIcon.Count}");
+        
+        // Assign weapons
+        for (int i = 0; i < botWeaponIcon.Count; i++)
+        {
+            if (i < weapon.Count && weapon[i].item != null)
+            {
+                botWeaponIcon[i].sprite = weapon[i].itemSprite;
+                botWeaponIcon[i].enabled = true;
+                Debug.Log($"Assigned bot weapon {i}: {weapon[i].item.name}");
+            }
+            else
+            {
+                botWeaponIcon[i].enabled = false;
+                Debug.Log($"Disabled bot weapon slot {i}");
+            }
+        }
+
+        // Assign passive items
+        for (int i = 0; i < botPassiveItemIcon.Count; i++)
+        {
+            if (i < passiveItems.Count && passiveItems[i].item != null)
+            {
+                botPassiveItemIcon[i].sprite = passiveItems[i].itemSprite;
+                botPassiveItemIcon[i].enabled = true;
+                Debug.Log($"Assigned bot passive {i}: {passiveItems[i].item.name}");
+            }
+            else
+            {
+                botPassiveItemIcon[i].enabled = false;
+                Debug.Log($"Disabled bot passive slot {i}");
+            }
         }
     }
 }

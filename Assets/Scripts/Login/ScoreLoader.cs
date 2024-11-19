@@ -29,15 +29,31 @@ public class ScoreLoader : MonoBehaviour
 
     private const string DEFAULT_CHARACTER = "Amelia Watson";
 
+    // Add new UI elements
+    public Button gameModeToggleButton;
+    public Button mapToggleButton;
+    public TextMeshProUGUI gameModeText;
+    public TextMeshProUGUI mapText;
+
+    // Add new state tracking variables
+    private GameMode currentGameMode = GameMode.SinglePlayer;
+    private string currentMap = "Easy"; // Default map
+    
+    // Define available maps
+    private readonly string[] availableMaps = { "Easy", "Hard" };
+
+    // Thêm biến mới
+    private TextMeshProUGUI toggleButtonText;
+
+    // Thêm biến để lưu tên nhân vật hiện tại
+    private string currentCharacterName = DEFAULT_CHARACTER;
+
     void Start()
     {
         // Khởi tạo Firebase
         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
         auth = FirebaseAuth.DefaultInstance;
         user = auth.CurrentUser;
-
-        // Gán sự kiện OnClick cho nút toggle
-        toggleButton.onClick.AddListener(ToggleScores);
 
         // // Gán sự kiện OnValueChanged cho thanh tìm kiếm
         // searchInputField.onValueChanged.AddListener(OnSearchValueChanged);
@@ -47,8 +63,9 @@ public class ScoreLoader : MonoBehaviour
 
         // Tải điểm cá nhân ban đầu với nhân vật mặc định
         LoadScoresByCharacterName(DEFAULT_CHARACTER);
+        
         panelChar.SetActive(false);
-
+        LoadPersonalScoresForMode();
         // Initialize the button text component
         btnpanelCharText = btnpanelChar.GetComponentInChildren<TextMeshProUGUI>();
         if (btnpanelCharText == null)
@@ -63,35 +80,33 @@ public class ScoreLoader : MonoBehaviour
         }
 
         // Add click listener to the character panel button
-        btnpanelChar.onClick.AddListener(ToggleCharacterPanel);    }
+        btnpanelChar.onClick.AddListener(ToggleCharacterPanel);    
+                if (gameModeToggleButton != null)
+            gameModeToggleButton.onClick.AddListener(ToggleGameMode);
+        if (mapToggleButton != null)
+            mapToggleButton.onClick.AddListener(ToggleMap);
 
-    // Phương thức chuyển đổi giữa điểm cá nhân và điểm toàn cầu
-    void ToggleScores()
-    {
-        isPersonalScores = !isPersonalScores;
+        // Initialize text displays
+        UpdateGameModeText();
+        UpdateMapText();
 
-        // Xóa nội dung cũ trước khi tải điểm mới
-        foreach (Transform child in scoreScrollViewContent.transform)
+        // Thêm listener cho toggle button
+        if (toggleButton != null)
         {
-            Destroy(child.gameObject);
+            toggleButton.onClick.AddListener(ToggleScoreView);
         }
 
-        if (isPersonalScores)
-        {
-            // Ẩn thanh tìm kiếm khi hiển thị điểm cá nhân
-            // searchInputField.gameObject.SetActive(false);
+        LoadScoresForCurrentSelection();
 
-            // Tải điểm cá nhân
-            LoadPersonalScores();
-        }
-        else
+        // Lấy component TextMeshProUGUI từ toggle button
+        toggleButtonText = toggleButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (toggleButtonText == null)
         {
-            // Hiển thị thanh tìm kiếm khi hiển thị điểm toàn cầu
-            // searchInputField.gameObject.SetActive(true);
-
-            // Tải điểm toàn cầu
-            LoadGlobalScores();
+            Debug.LogError("TextMeshProUGUI component not found on toggle button");
         }
+
+        // Cập nhật text ban đầu
+        UpdateToggleButtonText();
     }
 
     // New method to toggle the character panel
@@ -116,91 +131,42 @@ public class ScoreLoader : MonoBehaviour
         panelChar.SetActive(false);
     }
 
-    // Phương thức tìm kiếm khi có thay đổi trong InputField
-    void OnSearchValueChanged(string searchQuery)
-    {
-        // Lọc danh sách điểm theo tên người chơi
-        List<Dictionary<string, object>> filteredScores = allScores.FindAll(score =>
-        {
-            if (isPersonalScores)
-            {
-                return score["characterName"].ToString().ToLower().Contains(searchQuery.ToLower());
-            }
-            else
-            {
-                return score["playerName"].ToString().ToLower().Contains(searchQuery.ToLower());
-            }
-        });
-
-        // Hiển thị danh sách đã lọc
-        DisplayScores(filteredScores);
-    }
-
-    // Phương thức tải điểm cá nhân từ Firebase
-    public void LoadPersonalScores()
-    {
-        if (user == null)
-        {
-            Debug.LogError("No user signed in to load scores.");
-            return;
-        }
-
-        string userId = user.UserId;
-
-        DatabaseReference scoresRef = dbReference.Child("users").Child(userId).Child("scores");
-
-        scoresRef.GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Error retrieving personal scores: " + task.Exception);
-                return;
-            }
-
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                PopulateScoreList(snapshot, isPersonalScores: true);
-                
-                // Sau khi load xong, gọi LoadScoresByCharacterName với nhân vật mặc định
-                LoadScoresByCharacterName(DEFAULT_CHARACTER);
-            }
-        });
-    }
-
-    // Phương thức tải điểm toàn cầu từ Firebase
-    public void LoadGlobalScores()
-    {
-        DatabaseReference globalScoresRef = dbReference.Child("globalScores");
-
-        globalScoresRef.GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Error retrieving global scores: " + task.Exception);
-                return;
-            }
-
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                PopulateScoreList(snapshot, isPersonalScores: false);
-                
-                // Sau khi load xong, gọi LoadScoresByCharacterName với nhân vật mặc định
-                LoadScoresByCharacterName(DEFAULT_CHARACTER);
-            }
-        });
-    }
-
     // Phương thức lưu tất cả điểm vào danh sách và hiển thị
     private void PopulateScoreList(DataSnapshot snapshot, bool isPersonalScores)
     {
         allScores.Clear();
 
+        // Kiểm tra nếu snapshot không có dữ liệu
+        if (!snapshot.Exists)
+        {
+            Debug.Log("No scores found for current selection");
+            DisplayScores(allScores); // Hiển thị danh sách rỗng
+            return;
+        }
+
         foreach (DataSnapshot scoreSnapshot in snapshot.Children)
         {
-            Dictionary<string, object> scoreData = (Dictionary<string, object>)scoreSnapshot.Value;
-            allScores.Add(scoreData);
+            Dictionary<string, object> scoreData = new Dictionary<string, object>();
+            
+            // Lấy dữ liệu người chơi
+            var playerData = scoreSnapshot.Child("player").Value as Dictionary<string, object>;
+            if (playerData != null && 
+                playerData["characterName"].ToString() == currentCharacterName) // Sử dụng biến currentCharacterName
+            {
+                scoreData["score"] = playerData["score"];
+                scoreData["characterName"] = playerData["characterName"];
+                scoreData["playerName"] = playerData["playerName"];
+                scoreData["level"] = playerData["level"];
+                scoreData["playTimeInSeconds"] = scoreSnapshot.Child("playTimeInSeconds").Value;
+                allScores.Add(scoreData);
+            }
+        }
+
+        // Thêm debug logs
+        Debug.Log($"Found {allScores.Count} scores for {currentGameMode} mode in {currentMap} map");
+        foreach (var score in allScores)
+        {
+            Debug.Log($"Score: {score["score"]}, Player: {score["playerName"]}, Character: {score["characterName"]}");
         }
 
         DisplayScores(allScores);
@@ -254,75 +220,20 @@ public class ScoreLoader : MonoBehaviour
     }
     public void LoadScoresByCharacterName(string characterName = null)
     {
-        // Sử dụng DEFAULT_CHARACTER nếu characterName là null hoặc rỗng
-        characterName = string.IsNullOrEmpty(characterName) ? DEFAULT_CHARACTER : characterName;
+        // Cập nhật tên nhân vật hiện tại
+        currentCharacterName = string.IsNullOrEmpty(characterName) ? DEFAULT_CHARACTER : characterName;
 
-        // Update the button text when a character is selected
         if (btnpanelCharText != null)
         {
-            btnpanelCharText.text = characterName;
-        }
-        else
-        {
-            Debug.LogWarning("btnpanelCharText is null. Make sure it's properly assigned in the Inspector.");
+            btnpanelCharText.text = currentCharacterName;
         }
 
-        // Close the character panel
         closePanelChar();
 
-        DatabaseReference scoresRef;
-
-        if (isPersonalScores)
-        {
-            if (user == null)
-            {
-                Debug.LogError("No user signed in to load scores.");
-                return;
-            }
-
-            // Load personal scores
-            string userId = user.UserId;
-            scoresRef = dbReference.Child("users").Child(userId).Child("scores");
-        }
-        else
-        {
-            // Load global scores
-            scoresRef = dbReference.Child("globalScores");
-        }
-
-        scoresRef.GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted)
-            {
-                Debug.LogError("Error retrieving scores: " + task.Exception);
-                return;
-            }
-
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                List<Dictionary<string, object>> characterScores = new List<Dictionary<string, object>>();
-
-                foreach (DataSnapshot scoreSnapshot in snapshot.Children)
-                {
-                    Dictionary<string, object> scoreData = (Dictionary<string, object>)scoreSnapshot.Value;
-
-                    // Filter by character name for both personal and global scores
-                    if (scoreData.ContainsKey("characterName") &&
-                        scoreData["characterName"].ToString().ToLower() == characterName.ToLower())
-                    {
-                        characterScores.Add(scoreData);
-                    }
-                }
-
-                // Display the scores for the given character
-                DisplayScores(characterScores);
-            }
-        });
-
         // Tải và cập nhật hình ảnh nhân vật
-        Sprite characterSprite = Resources.Load<Sprite>("Title_Character/" + characterName);
+        Sprite characterSprite = Resources.Load<Sprite>("Title_Character/" + currentCharacterName);
         UpdateCharacterImage(characterSprite);
+        LoadScoresForCurrentSelection();
     }
 
     // Phương thức mới để cập nhật hình ảnh nhân vật
@@ -339,24 +250,142 @@ public class ScoreLoader : MonoBehaviour
             // characterImage.sprite = defaultSprite;
         }
     }
+    // Xóa các phương thức LoadCharacterSprites() và Dictionary characterSprites
 
-    // New method to delete all global scores
-    public void DeleteAllGlobalScores()
+    private void ToggleGameMode()
     {
-        DatabaseReference globalScoresRef = dbReference.Child("globalScores");
+        // Toggle between SinglePlayer and BotMode
+        currentGameMode = currentGameMode == GameMode.SinglePlayer ? 
+                         GameMode.BotMode : 
+                         GameMode.SinglePlayer;
 
-        globalScoresRef.SetValueAsync(null).ContinueWithOnMainThread(task =>
+        UpdateGameModeText();
+        LoadScoresForCurrentSelection();
+    }
+
+    private void ToggleMap()
+    {
+        // Cycle through available maps
+        int currentIndex = Array.IndexOf(availableMaps, currentMap);
+        currentIndex = (currentIndex + 1) % availableMaps.Length;
+        currentMap = availableMaps[currentIndex];
+
+        UpdateMapText();
+        LoadScoresForCurrentSelection();
+    }
+
+    private void UpdateGameModeText()
+    {
+        if (gameModeText != null)
+        {
+            switch (currentGameMode)
+            {
+                case GameMode.SinglePlayer:
+                    gameModeText.text = "Single Player";
+                    break;
+                case GameMode.BotMode:
+                    gameModeText.text = "Bot Mode";
+                    break;
+            }
+        }
+    }
+
+    private void UpdateMapText()
+    {
+        if (mapText != null)
+        {
+            mapText.text = $"Map: {currentMap}";
+        }
+    }
+
+    private void LoadScoresForCurrentSelection()
+    {
+        if (isPersonalScores)
+        {
+            LoadPersonalScoresForMode();
+        }
+        else
+        {
+            LoadGlobalScoresForMode();
+        }
+    }
+
+    private void LoadPersonalScoresForMode()
+    {
+        if (user == null)
+        {
+            Debug.LogError("No user signed in to load scores.");
+            return;
+        }
+
+        string userId = user.UserId;
+        string gameModePath = currentGameMode.ToString().ToLower();
+
+        Debug.Log($"Loading personal scores for User: {userId}, Mode: {gameModePath}, Map: {currentMap}");
+        
+        DatabaseReference scoresRef = dbReference.Child("users")
+            .Child(userId)
+            .Child("scores")
+            .Child(gameModePath)
+            .Child(currentMap);
+
+        scoresRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted)
             {
-                Debug.LogError("Error deleting global scores: " + task.Exception);
+                Debug.LogError($"Error retrieving personal scores: {task.Exception}");
+                return;
             }
-            else if (task.IsCompleted)
+
+            if (task.IsCompleted)
             {
-                Debug.Log("All global scores have been successfully deleted.");
+                DataSnapshot snapshot = task.Result;
+                Debug.Log($"Retrieved data exists: {snapshot.Exists}, Child count: {snapshot.ChildrenCount}");
+                PopulateScoreList(snapshot, true);
             }
         });
     }
 
-    // Xóa các phương thức LoadCharacterSprites() và Dictionary characterSprites
+    private void LoadGlobalScoresForMode()
+    {
+        string gameModePath = currentGameMode.ToString().ToLower();
+
+        Debug.Log($"Loading global scores for Mode: {gameModePath}, Map: {currentMap}");
+        
+        DatabaseReference scoresRef = dbReference.Child("globalScores")
+            .Child(gameModePath)
+            .Child(currentMap);
+
+        scoresRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"Error retrieving global scores: {task.Exception}");
+                return;
+            }
+
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                Debug.Log($"Retrieved data exists: {snapshot.Exists}, Child count: {snapshot.ChildrenCount}");
+                PopulateScoreList(snapshot, false);
+            }
+        });
+    }
+
+    // Thêm phương thức mới để xử lý việc chuyển đổi
+    private void ToggleScoreView()
+    {
+        isPersonalScores = !isPersonalScores;
+        UpdateToggleButtonText();
+        LoadScoresForCurrentSelection();
+    }
+
+    private void UpdateToggleButtonText()
+    {
+        if (toggleButtonText != null)
+        {
+            toggleButtonText.text = isPersonalScores ? "Personal Scores" : "Global Scores";
+        }
+    }
 }

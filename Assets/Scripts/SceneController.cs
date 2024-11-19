@@ -7,7 +7,7 @@ public class SceneController : MonoBehaviour
 {
     private FirebaseAuth auth;
     public static SceneController instance;
-
+    GameMode gamemode;
     void Start()
     {
         // Khởi tạo FirebaseAuth
@@ -25,6 +25,12 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(sceneName);
         Time.timeScale = 1f;
     }
+    public void MapChoose(){
+        // CharacterSelected.instance.nameMap = sceneName;
+            PlayerPrefs.SetInt("GameMode", (int)gamemode);  // Lưu gamemode vào PlayerPrefs
+    SceneManager.LoadScene(CharacterSelected.instance.nameMap);
+        // SceneManager.LoadScene(CharacterSelected.instance.nameMap);
+    }
     public void LogoutUser()
     {
         if (auth.CurrentUser != null)
@@ -32,10 +38,9 @@ public class SceneController : MonoBehaviour
             auth.SignOut();
             Debug.Log("Đăng xuất thành công.");
             // Đặt biến isSignedIn thành false
-            FirebaseController firebaseController = FindObjectOfType<FirebaseController>();
-            if (firebaseController != null)
+            if (FirebaseController.instance != null)
             {
-                firebaseController.isSignedIn = false;
+                FirebaseController.instance.isSignedIn = false;
             }
             SceneChange("Login");
         }

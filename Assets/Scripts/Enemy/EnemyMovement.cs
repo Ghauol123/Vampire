@@ -11,8 +11,8 @@ public class EnemyMovement : MonoBehaviour
     float knockbackDuration;
     SpriteRenderer _spr;
 
-    public enum OutOffFrameAction {none, respawnAtEdge, despawn}
-    public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
+    // public enum OutOffFrameAction {none, respawnAtEdge, despawn}
+    // public OutOffFrameAction outOffFrameAction = OutOffFrameAction.respawnAtEdge;
     protected bool spawnedOutOfFrame = false;
     private bool isFlipped = false;
     protected Rigidbody2D rb;
@@ -34,17 +34,19 @@ public class EnemyMovement : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (knockbackDuration > 0)
-        {
-            rb.velocity = knockbackVelocity;
-            knockbackDuration -= Time.fixedDeltaTime;
-        }
-        else
-        {
-            Vector2 direction = (player.position - transform.position).normalized;
+        // if (knockbackDuration > 0)
+        // {
+        //     rb.velocity = knockbackVelocity;
+        //     knockbackDuration -= Time.fixedDeltaTime;
+        // }
+        // else
+        // {
+        //     Vector2 direction = (player.position - transform.position).normalized;
+        //     rb.velocity = direction * enemyStats.Actual.moveSpeed;
+        //     // HandleOutOfFrameAction();
+        // }
+                    Vector2 direction = (player.position - transform.position).normalized;
             rb.velocity = direction * enemyStats.Actual.moveSpeed;
-            // HandleOutOfFrameAction();
-        }
     }
 
     public void KnockBack(Vector2 velocity, float duration)

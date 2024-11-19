@@ -9,6 +9,15 @@ public class CharacterManager : MonoBehaviour
     [SerializeField]
     private List<CostumeData> costumeDataList; // List of CostumeData ScriptableObjects
 
+    private void Start() {
+        // // Load all CharacterData ScriptableObjects
+        // characterDataList = new List<CharacterData>(Resources.LoadAll<CharacterData>("CharacterData"));
+
+        // // Load all CostumeData ScriptableObjects
+        // costumeDataList = new List<CostumeData>(Resources.LoadAll<CostumeData>("CostumeData"));
+        characterDataList = FirebaseController.instance.characterDataList;
+    }
+
     // Get CharacterData by character name
     public CharacterData GetCharacterData(string characterName)
     {
@@ -37,12 +46,6 @@ public class CharacterManager : MonoBehaviour
         return null;
     }
 
-    // Update character costumes (this could involve updating the UI or other elements)
-    public void UpdateCharacterCostumes(CharacterData characterData)
-    {
-        // Implement your logic to update the character's appearance based on the new costumes
-        Debug.Log("Updated character costumes for: " + characterData.Name);
-    }
         public List<CharacterData> GetAllCharacters()
     {
         return characterDataList;

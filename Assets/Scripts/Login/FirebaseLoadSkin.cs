@@ -89,11 +89,7 @@ public class FirebaseLoadSkin : MonoBehaviour
                     {
                         Debug.LogWarning("Costume not found: " + costumeName);
                     }
-                }
-
-                // Update the character's costumes
-                characterManager.UpdateCharacterCostumes(characterData);
-            }
+                }            }
             else
             {
                 Debug.LogWarning("CharacterData not found for character: " + characterName);

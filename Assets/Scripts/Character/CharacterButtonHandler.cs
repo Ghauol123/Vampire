@@ -19,6 +19,7 @@ public class CharacterButtonHandler : CharacterLoadLevel
     private async void Start()
     {
         firebaseController = FirebaseController.instance;
+        characters = firebaseController.characterDataList;
         currentGold = await FirebaseLoadCoin.instance.GetCurrentCoinFromFirebase(); // Get gold from Firebase
         for (int i = 0; i < characters.Count; i++)
         {

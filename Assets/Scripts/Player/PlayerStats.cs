@@ -26,8 +26,8 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    PlayerPickUp playerPickUp;
-    float currentHeal;
+    protected PlayerPickUp playerPickUp;
+    protected float currentHeal;
 
     #region Current Stats Properties
     public float CurrentHeal
@@ -88,21 +88,21 @@ public class PlayerStats : MonoBehaviour
     public TMP_Text healDisplay;
     public TMP_Text coinDisplay;
     public TMP_Text killnumberDisplay;
-    PlayerData playerData;
-    GameManager gameManager;
-    DataPersistenceManager dataPersistenceManager;
-    CostumeData costumeData;
+    // PlayerData playerData;
+    protected GameManager gameManager;
+    // DataPersistenceManager dataPersistenceManager;
+    protected CostumeData costumeData;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-                if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        //         if (instance == null)
+        // {
+        //     instance = this;
+        // }
+        // else
+        // {
+        //     Destroy(gameObject);
+        // }
 
         gameManager = FindObjectOfType<GameManager>();
             InitializeNewGame();
@@ -110,12 +110,10 @@ public class PlayerStats : MonoBehaviour
     }
 
 
-public void InitializeNewGame()
+public virtual void InitializeNewGame()
 {
-    // Khởi tạo cho trò chơi mới
-    // cst = CharacterSelected.GetData();
     cst = CharacterSelected.instance.characterData;
-    costumeData = CharacterSelected.GetSelectedCostume();
+    costumeData = CharacterSelected.instance.costumeData;
     spriteRenderer = GetComponent<SpriteRenderer>();
     animator = GetComponent<Animator>();
 
@@ -135,10 +133,10 @@ public void InitializeNewGame()
     }
 
     
-    if (CharacterSelected.instance != null && CharacterSelected.instance.gameObject.activeInHierarchy)
-    {
-        CharacterSelected.instance.DestroyInstance();
-    }
+    // if (CharacterSelected.instance != null && CharacterSelected.instance.gameObject.activeInHierarchy)
+    // {
+    //     CharacterSelected.instance.DestroyInstance();
+    // }
 
     playerInventory = GetComponent<PlayerInventory>();
     playerPickUp = GetComponentInChildren<PlayerPickUp>();
@@ -172,7 +170,7 @@ public void InitializeNewGame()
     }
 
 
-    public void RecalculatedStats()
+    public virtual void RecalculatedStats()
     {
         actualStats = baseStat;
         foreach(PlayerInventory.Slot s in playerInventory.passiveSlot)
@@ -187,7 +185,7 @@ public void InitializeNewGame()
         playerPickUp.SetMagnet(actualStats.magnet);
     }
 
-    public void ApplyStatsUpgrade(){
+    public virtual void ApplyStatsUpgrade(){
          actualStats = baseStat;
         foreach(PlayerInventory.StatSlot s in playerInventory.statSlot)
         {
@@ -201,7 +199,7 @@ public void InitializeNewGame()
         playerPickUp.SetMagnet(actualStats.magnet);
     }
 
-    public void IncreaseExperience(int amount)
+    public virtual void IncreaseExperience(int amount)
     {
         int adjustedAmount = Mathf.CeilToInt(amount * actualStats.expMultiplier);
         // Debug.Log("Exp: " + adjustedAmount);
@@ -396,7 +394,10 @@ public void updateExpBar()
         {
             GameManager.instance.AssignLevel(level);
             GameManager.instance.AssignScore(score);
-            GameManager.instance.AssignWeaponAndPassiveItem(playerInventory.weaponSlot, playerInventory.passiveSlot);
+            GameManager.instance.AssignWeaponAndPassiveItem(
+                playerInventory.weaponSlot.Cast<PlayerInventory.Slot>().ToList(),
+                playerInventory.passiveSlot.Cast<PlayerInventory.Slot>().ToList()
+            );
             GameManager.instance.GameOver();
         }
     }
@@ -412,45 +413,6 @@ public void updateExpBar()
         if (healDisplay != null)
         {
             healDisplay.text = $"{currentHeal} / {actualStats.maxHeal}";
-        }
-    }
-
-    public void RecalculateWeaponStats()
-    {
-        // Lấy tất cả các vũ khí đang được trang bị
-        Weapon[] equippedWeapons = GetComponentsInChildren<Weapon>();
-        
-        foreach (Weapon weapon in equippedWeapons)
-        {
-            if (weapon != null)
-            {
-                // Lưu lại các prefab
-                Projectile projectilePrefab = weapon.currentStats.projectilePrefabs;
-                Bomb bombPrefab = weapon.currentStats.bombPrefabs;
-                Aura auraPrefab = weapon.currentStats.auraPrefabs;
-                Melee meleePrefab = weapon.currentStats.meleePrefabs;
-
-
-
-                // Áp dụng tất cả các passive boost
-                foreach (Passive passive in GetComponentsInChildren<Passive>())
-                {
-                    if (passive != null)
-                    {
-                        weapon.currentStats += passive.currentWeaponBoosts;
-                    }
-                }
-
-                // Khôi phục lại các prefab
-                if (weapon.currentStats.projectilePrefabs == null) 
-                    weapon.currentStats.projectilePrefabs = projectilePrefab;
-                if (weapon.currentStats.bombPrefabs == null) 
-                    weapon.currentStats.bombPrefabs = bombPrefab;
-                if (weapon.currentStats.auraPrefabs == null) 
-                    weapon.currentStats.auraPrefabs = auraPrefab;
-                if (weapon.currentStats.meleePrefabs == null) 
-                    weapon.currentStats.meleePrefabs = meleePrefab;
-            }
         }
     }
 }

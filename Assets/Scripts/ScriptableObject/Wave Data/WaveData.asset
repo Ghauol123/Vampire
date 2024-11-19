@@ -19,5 +19,5 @@ MonoBehaviour:
   spawnDuration: 30
   startingEnemyCount: 10
   maxEnemies: 500
-  exitCondition: 2
-  mustKillAllEnemies: 0
+  exitCondition: 1
+  mustKillAllEnemies: 1

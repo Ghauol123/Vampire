@@ -9,18 +9,18 @@ public class PlayerPickUp : MonoBehaviour
     public AudioClip hitSound; // Clip âm thanh va chạm
     private AudioSource audioSource; // Component AudioSource
 
-    PlayerStats playerStats;
+    protected PlayerStats playerStats;
     CircleCollider2D playerCollector;
     public float pullSpeed;
-    private void Start()
+    protected virtual void Start()
     {
-        playerStats = GetComponentInParent<PlayerStats>();
+        playerStats = FindAnyObjectByType<PlayerStats>();
     }
     public void SetMagnet(float r){
         if(!playerCollector) playerCollector = GetComponent<CircleCollider2D>();
         playerCollector.radius = r;
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.TryGetComponent(out Pickup p)){
             PlayCollisionSound();

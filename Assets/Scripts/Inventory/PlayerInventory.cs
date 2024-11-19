@@ -13,29 +13,24 @@ using System.Linq;
 /// managing the UI for item upgrades. It interacts with the player's stats
 /// and the game manager to apply changes and handle level-up scenarios.
 /// </summary>
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : BaseInventory
 {
-    /// <summary>
-    /// Represents a slot in the inventory for weapons and passive items.
-    /// Handles assigning, clearing, and retrieving items from the slot.
-    /// </summary>
     [System.Serializable]
-    public class Slot{
-        public Item item;
+    public class Slot : BaseSlot
+    {
         public UnityEngine.UI.Image image;
-
-        /// <summary>
-        /// Assigns an item to the slot and updates the UI accordingly.
-        /// </summary>
-        /// <param name="assignItem">The item to be assigned to the slot.</param>
-        public void Assign(Item assignItem){
+        
+        public override void Assign(Item assignItem)
+        {
             item = assignItem;
-            if(item is Weapon){
+            if(item is Weapon)
+            {
                 Weapon w = item as Weapon;
                 image.enabled = true;
                 image.sprite = w.data.icon;
             }
-            else{
+            else
+            {
                 Passive p = item as Passive;
                 image.enabled = true;
                 image.sprite = p.data.icon;
@@ -43,88 +38,29 @@ public class PlayerInventory : MonoBehaviour
             Debug.Log("Assign " + item.name + " to player");
         }
 
-        /// <summary>
-        /// Clears the slot, removing the item and resetting the UI.
-        /// </summary>
-        public void Clear(){
+        public override void Clear()
+        {
             item = null;
             image.enabled = false;
             image.sprite = null;
         }
-
-        /// <summary>
-        /// Checks if the slot is empty.
-        /// </summary>
-        /// <returns>True if the slot is empty, false otherwise.</returns>
-        public bool IstEmpty() { return item == null;}
-
-        /// <summary>
-        /// Retrieves the weapon from the slot, if present.
-        /// </summary>
-        /// <returns>The weapon in the slot, or null if not a weapon.</returns>
-        public Weapon GetWeapon()
-        {
-            return item as Weapon;
-        }
-
-        /// <summary>
-        /// Retrieves the passive item from the slot, if present.
-        /// </summary>
-        /// <returns>The passive item in the slot, or null if not a passive item.</returns>
-        public Passive GetPassiveItem()
-        {
-            return item as Passive;
-        }
     }
-    
-    /// <summary>
-    /// Represents a slot in the inventory specifically for stat items.
-    /// Handles assigning, clearing, and retrieving stat items from the slot.
-    /// </summary>
-    [System.Serializable]
-    public class StatSlot{
-        public Item item;
 
-        /// <summary>
-        /// Assigns a stat item to the slot.
-        /// </summary>
-        /// <param name="assignItem">The stat item to be assigned.</param>
-        public void Assign(Item assignItem){
+    [System.Serializable]
+    public class StatSlot : BaseStatSlot
+    {
+        public override void Assign(Item assignItem)
+        {
             item = assignItem;
             Debug.Log("Assign " + item.name + " to player");
         }
 
-        /// <summary>
-        /// Clears the stat slot.
-        /// </summary>
-        public void Clear(){
+        public override void Clear()
+        {
             item = null;
         }
-
-        /// <summary>
-        /// Checks if the stat slot is empty.
-        /// </summary>
-        /// <returns>True if the slot is empty, false otherwise.</returns>
-        public bool IstEmpty() { return item == null;}
-
-        /// <summary>
-        /// Retrieves the stats item from the slot.
-        /// </summary>
-        /// <returns>The stats item in the slot, or null if not a stats item.</returns>
-        public Stats GetStats()
-        {
-            return item as Stats;
-        }
     }
-    public List<Slot> weaponSlot = new List<Slot>(6);
-    public List<Slot> passiveSlot = new List<Slot>(4);
-    public List<StatSlot> statSlot = new List<StatSlot>(4);
-    public bool isInventoryFullAndMaxLevel;
-    /// <summary>
-    /// Represents the UI elements for displaying upgrade options to the player.
-    /// Contains references to text displays, icons, and buttons for upgrades.
-    /// </summary>
-    [System.Serializable]
+        [System.Serializable]
     public class UpgradeUI{
         public TMP_Text upgradeNameDisplay;
         public TMP_Text upgradeDescripionDisplay;
@@ -132,19 +68,14 @@ public class PlayerInventory : MonoBehaviour
         public UnityEngine.UI.Image upgradeIcon;
         public Button upgradeButton;
     }
-
-    [Header("UI Element")]
-    public List<WeaponData> availableWeapons = new List<WeaponData>();
-    public List<PassiveData> availablePassive = new List<PassiveData>();
-    public List<StatsData> availableStats = new List<StatsData>();
+      public List<Slot> weaponSlot = new List<Slot>(6);
+    public List<Slot> passiveSlot = new List<Slot>(4);
+    public List<StatSlot> statSlot = new List<StatSlot>(4);
     public List<UpgradeUI> upgradeUIOpitons = new List<UpgradeUI>();
     PlayerStats playerStats;
-    private void Awake() {
+    protected virtual void Awake() {
     playerStats = FindAnyObjectByType<PlayerStats>();
 }
-    // private void Start() {
-    //     playerStats = FindAnyObjectByType<PlayerStats>();
-    // }
     // Check if the inventory has an item of a certain type
     public bool Has(ItemData type) {return Get(type);}
     // Get an item from the inventory based on its type
@@ -187,46 +118,54 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
-    // Remove a weapon of a particular type from the inventory
-    public bool Remove(WeaponData data, bool removeUpgradeAvailable = false){
-        if(removeUpgradeAvailable) availableWeapons.Remove(data);
-        for(int i=0; i< weaponSlot.Count; i++){
-            Weapon w = weaponSlot[i].item as Weapon;
-            if(w.data == data){
-                weaponSlot[i].Clear();
-                w.OnUnEquip();
-                Destroy(w.gameObject);
-                return true;
-            }
-        }
-        return false;
-    }
-    // Remove a passive item of a particular type from the inventory
-    public bool Remove(PassiveData data, bool removeUpgradeAvailable = false){
-        if(removeUpgradeAvailable) availablePassive.Remove(data);
-        for(int i=0; i< passiveSlot.Count; i++){
-            Passive p = passiveSlot[i].item as Passive;
-            if(p.data == data){
-                passiveSlot[i].Clear();
-                p.OnUnEquip();
-                Destroy(p.gameObject);
-                return true;
-            }
-        }
-        return false;
-    }
-    public bool Remove(StatsData data, bool removeUpgradeAvailable = false){
-        if(removeUpgradeAvailable) availableStats.Remove(data);
-        for(int i=0; i< statSlot.Count; i++){
-            Stats s = statSlot[i].item as Stats;
-            if(s.data == data){
-                statSlot[i].Clear();
-                s.OnUnEquip();
-                Destroy(s.gameObject);
-                return true;
-            }
-        }
-        return false;
+    // // Remove a weapon of a particular type from the inventory
+    // public bool Remove(WeaponData data, bool removeUpgradeAvailable = false){
+    //     if(removeUpgradeAvailable) availableWeapons.Remove(data);
+    //     for(int i=0; i< weaponSlot.Count; i++){
+    //         Weapon w = weaponSlot[i].item as Weapon;
+    //         if(w.data == data){
+    //             weaponSlot[i].Clear();
+    //             w.OnUnEquip();
+    //             Destroy(w.gameObject);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+    // // Remove a passive item of a particular type from the inventory
+    // public bool Remove(PassiveData data, bool removeUpgradeAvailable = false){
+    //     if(removeUpgradeAvailable) availablePassive.Remove(data);
+    //     for(int i=0; i< passiveSlot.Count; i++){
+    //         Passive p = passiveSlot[i].item as Passive;
+    //         if(p.data == data){
+    //             passiveSlot[i].Clear();
+    //             p.OnUnEquip();
+    //             Destroy(p.gameObject);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+    // public bool Remove(StatsData data, bool removeUpgradeAvailable = false){
+    //     if(removeUpgradeAvailable) availableStats.Remove(data);
+    //     for(int i=0; i< statSlot.Count; i++){
+    //         Stats s = statSlot[i].item as Stats;
+    //         if(s.data == data){
+    //             statSlot[i].Clear();
+    //             s.OnUnEquip();
+    //             Destroy(s.gameObject);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+        // Add an item to the inventory based on its type
+    public int Add(ItemData data){
+        if(data is WeaponData) return Add(data as WeaponData);
+        else if(data is PassiveData) return Add(data as PassiveData);
+        else if(data is StatsData) return Add(data as StatsData);
+        return -1;
     }
     // Add a weapon to the inventory
     public int Add(WeaponData data){
@@ -262,33 +201,33 @@ public class PlayerInventory : MonoBehaviour
         }
         return -1;
     }
-    // Get a weapon from a specific slot in the inventory
-    public Weapon GetWeaponBySlot(int slotNum)
-    {
-        if (slotNum >= 0 && slotNum < weaponSlot.Capacity && !weaponSlot[slotNum].IstEmpty())
-        {
-            return weaponSlot[slotNum].GetWeapon(); // Assuming GetWeapon retrieves the weapon from the slot
-        }
-        return null;
-    }
-    // Get a passive item from a specific slot in the inventory
-    public Passive GetPassiveBySlot(int slotNum)
-    {
-        if (slotNum >= 0 && slotNum < passiveSlot.Capacity && !passiveSlot[slotNum].IstEmpty())
-        {
-            return passiveSlot[slotNum].GetPassiveItem(); // Assuming GetWeapon retrieves the weapon from the slot
-        }
-        return null;
-    }
-    // Get a stats item from a specific slot in the inventory
-    public Stats GetStatsBySlot(int slotNum)
-    {
-        if (slotNum >= 0 && slotNum < statSlot.Capacity && !statSlot[slotNum].IstEmpty())
-        {
-            return statSlot[slotNum].GetStats(); // Assuming GetWeapon retrieves the weapon from the slot
-        }
-        return null;
-    }
+    // // Get a weapon from a specific slot in the inventory
+    // public Weapon GetWeaponBySlot(int slotNum)
+    // {
+    //     if (slotNum >= 0 && slotNum < weaponSlot.Capacity && !weaponSlot[slotNum].IstEmpty())
+    //     {
+    //         return weaponSlot[slotNum].GetWeapon(); // Assuming GetWeapon retrieves the weapon from the slot
+    //     }
+    //     return null;
+    // }
+    // // Get a passive item from a specific slot in the inventory
+    // public Passive GetPassiveBySlot(int slotNum)
+    // {
+    //     if (slotNum >= 0 && slotNum < passiveSlot.Capacity && !passiveSlot[slotNum].IstEmpty())
+    //     {
+    //         return passiveSlot[slotNum].GetPassiveItem(); // Assuming GetWeapon retrieves the weapon from the slot
+    //     }
+    //     return null;
+    // }
+    // // Get a stats item from a specific slot in the inventory
+    // public Stats GetStatsBySlot(int slotNum)
+    // {
+    //     if (slotNum >= 0 && slotNum < statSlot.Capacity && !statSlot[slotNum].IstEmpty())
+    //     {
+    //         return statSlot[slotNum].GetStats(); // Assuming GetWeapon retrieves the weapon from the slot
+    //     }
+    //     return null;
+    // }
     
     // Add a passive item to the inventory
     public int Add(PassiveData data){
@@ -346,13 +285,6 @@ public class PlayerInventory : MonoBehaviour
     }
 
     
-    // Add an item to the inventory based on its type
-    public int Add(ItemData data){
-        if(data is WeaponData) return Add(data as WeaponData);
-        else if(data is PassiveData) return Add(data as PassiveData);
-        else if(data is StatsData) return Add(data as StatsData);
-        return -1;
-    }
     // Level up an item in the inventory
     public bool LevelUp(ItemData data){
         Item item = Get(data);
@@ -377,18 +309,11 @@ public class PlayerInventory : MonoBehaviour
         return true;
     }
     // Get the number of empty slots in a list of slots
-    int GetSlotLeft(List<Slot> slots){
+    int GetSlotLeft<T>(List<T> slots) where T : class
+    {
         int count = 0;
-        foreach(Slot s in slots){
-            if(s.IstEmpty()) count++;
-        }
-        return count;
-    }
-    // Get the number of empty slots in a list of stat slots
-    int GetSlotLeft(List<StatSlot> slots){
-        int count = 0;
-        foreach(StatSlot s in slots){
-            if(s.IstEmpty()) count++;
+        foreach(T s in slots){
+            if((s as BaseSlot)?.IstEmpty() ?? (s as BaseStatSlot)?.IstEmpty() ?? false) count++;
         }
         return count;
     }

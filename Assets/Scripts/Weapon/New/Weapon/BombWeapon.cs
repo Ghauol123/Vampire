@@ -13,17 +13,24 @@ public class BombWeapon : ProjectileWeapon
             return false;
         }
         if (!canAttack()) return false;
-
         // Spawn bomb from the object pool
         GameObject bombObj = ObjectPool.Instance.GetObject(currentStats.bombPrefabs.gameObject);
-        bombObj.transform.position = owner.transform.position + (Vector3)GetSpawnOffset(GetSpawnAngle());
+        // bombObj.transform.position = ownerTransform.transform.position + (Vector3)GetSpawnOffset(GetSpawnAngle());
+        bombObj.transform.position = ownerTransform.transform.position;
+
         bombObj.transform.rotation = Quaternion.identity;
 
         Bomb bomb = bombObj.GetComponent<Bomb>();
         if (bomb != null)
         {
             bomb.weapon = this;
+            // bomb.owner = owner;
+                        if(owner != null && bOTowner == null){
             bomb.owner = owner;
+        }
+        else{
+            bomb.botOwner = bOTowner;
+        }
             bomb.Initialize(); // Initialize the bomb
             
             // Ensure the bomb is active and visible

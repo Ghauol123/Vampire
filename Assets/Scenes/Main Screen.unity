@@ -1473,12 +1473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e206d495ac45f4298b26c230b58db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterDataList:
-  - {fileID: 11400000, guid: cf15880ff46ad834eaf3a83c38ac8b42, type: 2}
-  - {fileID: 11400000, guid: ce7c33d8316f702489a08221df698267, type: 2}
-  - {fileID: 11400000, guid: a4387eef8179898418c7929960bd21b5, type: 2}
-  - {fileID: 11400000, guid: b7fe1392b1c785f418b03fc1c83a6c7e, type: 2}
-  - {fileID: 11400000, guid: 73521451c772daf4997ecf68f4e9e4ed, type: 2}
+  characterDataList: []
   costumeDataList:
   - {fileID: 11400000, guid: c713c77dabba58b44bae73721b0eb5b2, type: 2}
   - {fileID: 11400000, guid: 40f168dc05869ef44b729509d6056535, type: 2}

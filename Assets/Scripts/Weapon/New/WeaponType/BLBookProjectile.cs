@@ -22,7 +22,9 @@ public override void Initialize()
         if (es)
         {
             Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
-            es.TakeDamage(GetDamage(), source);
+                        DamageBOP sourceDamage = owner != null ? DamageBOP.Player : DamageBOP.BOT;
+            es.TakeDamage(GetDamage(), source, 5f, 0.2f, sourceDamage);
+            
 
             // Custom behavior for BLBookProjectile - do not decrement pierce
             Weapon.Stats stats = weapon.GetStats();

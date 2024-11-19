@@ -8,15 +8,19 @@ public class CharacterSelected : MonoBehaviour
 {
     public static CharacterSelected instance;
     public CharacterData characterData;
+    public string nameMap;
 
     public GameObject[] skinObjects;
     public CostumeData costumeData;
     public GameObject skinChoose;
     public GameObject chooseCharacter;
+    public GameObject mapChoose;
+    public GameObject gameModeChoose;
 
     public GameObject skinButtonPrefab; // Prefab for the skin button
     public Transform skinButtonContainer; // Container to hold the instantiated buttons
-        public GameObject playbutton;
+    public GameObject playbutton;
+    public GameMode gamemode;
 
     private void Awake()
     {
@@ -33,6 +37,9 @@ public class CharacterSelected : MonoBehaviour
 
     private void Start()
     {
+        if(chooseCharacter !=null){
+            chooseCharacter.SetActive(true);
+        }
         playbutton.SetActive(false);
         if (skinChoose != null)
         {
@@ -42,7 +49,12 @@ public class CharacterSelected : MonoBehaviour
         {
             skinObject.SetActive(false);
         }
-
+        if(mapChoose !=null){
+            mapChoose.SetActive(false);
+        }
+        if(gameModeChoose != null){
+            gameModeChoose.SetActive(false);
+        }
         if (costumeData == null && characterData != null && characterData.costumes.Count > 0)
         {
             costumeData = characterData.costumes[0];
@@ -68,24 +80,6 @@ public class CharacterSelected : MonoBehaviour
         {
             RevertToCharacterSelection();
         }
-    }
-
-    public static CostumeData GetSelectedCostume()
-    {
-        return instance?.costumeData ?? instance?.characterData.costumes[0];
-    }
-
-    public static CharacterData GetData()
-    {
-        if (instance && instance.characterData) 
-            return instance.characterData;
-
-        CharacterData[] characters = Resources.FindObjectsOfTypeAll<CharacterData>();
-        if (characters.Length > 0)
-        {
-            return characters[Random.Range(0, characters.Length)];
-        }
-        return null;
     }
 
     public void SelectCharacter(CharacterData character)
@@ -130,8 +124,6 @@ public class CharacterSelected : MonoBehaviour
         {
             costumeData = characterData.costumes[0];
         }
-
-        PopulateSkinObjects();
     }
 
     public void DestroyInstance()
@@ -140,62 +132,54 @@ public class CharacterSelected : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void PopulateSkinObjects()
-    {
-        if (characterData == null) return;
-
-        int skinCount = characterData.costumes.Count;
-
-        for (int i = 0; i < skinObjects.Length; i++)
-        {
-            if (i < skinCount)
-            {
-                skinObjects[i].SetActive(true);
-                Image image = skinObjects[i].GetComponent<Image>();
-
-                CostumeData costume = characterData.costumes[i];
-
-                if (image != null)
-                {
-                    image.sprite = costume.CostumeSprite;
-                }
-
-                UISpriteAnimation spriteAnimation = skinObjects[i].GetComponent<UISpriteAnimation>();
-
-                if (spriteAnimation != null)
-                {
-                    spriteAnimation.costumeData = costume;
-                }
-            }
-            else
-            {
-                skinObjects[i].SetActive(false);
-            }
-        }
-    }
-
     public void SelectSkin(int skinIndex)
     {
         if (characterData != null && skinIndex >= 0 && skinIndex < characterData.costumes.Count)
         {
             costumeData = characterData.costumes[skinIndex];
+            if (skinChoose != null)
+            {
+                skinChoose.SetActive(false);
+            }
+            if(mapChoose != null){
+                gameModeChoose.SetActive(true);
+            }
             Debug.Log($"Selected costume: {costumeData.name}");
-
-            // Update UI to reflect the selected skin
-            UpdateSelectedSkinUI(skinIndex);
         }
         else
         {
             Debug.LogWarning("Invalid skin index or character not selected.");
         }
     }
-
-    private void UpdateSelectedSkinUI(int selectedIndex)
+    public void selectMap(string map){
+        this.nameMap = map;
+        
+        // if(map == "Easy"){
+        //     gamemode = GameMode.SinglePlayer;
+        // }
+        // else{
+        //     gamemode = GameMode.BotMode;
+        // }
+        playbutton.SetActive(true);
+    }
+        public void SelectMode(GameMode mode)
     {
-        // Implement this method to update the UI, e.g., highlight the selected button
-        // You might want to add some visual feedback to show which skin is currently selected
+        this.gamemode = mode;
+        Debug.Log($"Selected game mode: {mode}");
+    }
+    public void SelectSinglePlayerMode()
+    {
+        SelectMode(GameMode.SinglePlayer);
+        mapChoose.SetActive(true);
+        gameModeChoose.SetActive(false);
     }
 
+    public void SelectBotMode()
+    {
+        SelectMode(GameMode.BotMode);
+        mapChoose.SetActive(true);
+        gameModeChoose.SetActive(false);
+    }
     // Quay lại màn hình chọn nhân vật khi nhấn ESC
     public void RevertToCharacterSelection()
     {
@@ -203,7 +187,9 @@ public class CharacterSelected : MonoBehaviour
         {
             skinChoose.SetActive(false); // Ẩn màn hình chọn skin
         }
-
+        if(mapChoose != null){
+            mapChoose.SetActive(false);
+        }
         if (chooseCharacter != null)
         {
             chooseCharacter.SetActive(true); // Hiển thị lại màn hình chọn nhân vật

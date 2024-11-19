@@ -12,6 +12,10 @@ public class Stats : Item
         public string type;
         public CharacterData.Stats boots;
     }
+        protected override void Start()
+    {
+        base.Start();
+    }
     // For dynamically create passive, call initialise to set everything up
     public virtual void Initialise(StatsData data){
         base.Initialise(data);

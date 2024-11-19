@@ -70,12 +70,19 @@ public class ProjectileWeapon : Weapon
 
     float spawnAngle = GetSpawnAngle();
     GameObject projectileObj = ObjectPool.Instance.GetObject(currentStats.projectilePrefabs.gameObject);
-    projectileObj.transform.position = owner.transform.position + (Vector3)GetSpawnOffset(spawnAngle);
+    projectileObj.transform.position = ownerTransform.transform.position;
     projectileObj.transform.rotation = Quaternion.Euler(0, 0, spawnAngle);
-
+    // projectileObj.transform.position = owner.transform.position;
+    // projectileObj.transform.rotation = Quaternion.identity;
     currentProjectile = projectileObj.GetComponent<Projectile>();
     currentProjectile.weapon = this;
-    currentProjectile.owner = owner;
+    // currentProjectile.owner = owner;
+            if(owner != null && bOTowner == null){
+            currentProjectile.owner = owner;
+        }
+        else{
+            currentProjectile.botOwner = bOTowner;
+        }
     currentProjectile.Initialize();
 
     if(currentCooldown <=0) currentCooldown += currentStats.cooldown;
@@ -86,10 +93,18 @@ public class ProjectileWeapon : Weapon
     }
     return true;
 }
-    protected virtual float GetSpawnAngle(){
-        // trả về góc quay(hướng quay) của nhân vật ở đơn vị radian sau đó chuyển về đơn vị độ
+protected virtual float GetSpawnAngle(){
+    // Determine the direction based on the actual owner
+    if (owner != null) {
         return Mathf.Atan2(movement.lastMovedVector.y, movement.lastMovedVector.x) * Mathf.Rad2Deg;
+    } else if (bOTowner != null) {
+        BotMoving botMove = bOTowner.GetComponent<BotMoving>();
+        if (botMove != null) {
+            return Mathf.Atan2(botMove.lastMovedVector.y, botMove.lastMovedVector.x) * Mathf.Rad2Deg;
+        }
     }
+    return 0f; // Default angle if no owner is found
+}
     protected virtual Vector2 GetSpawnOffset(float spawnAngle = 0){
         // tính toán vị trí xuất phát ngẫu nhiên của vũ khí dựa trên góc quay
         return Quaternion.Euler(0,0,spawnAngle) * new Vector2(

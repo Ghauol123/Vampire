@@ -33,7 +33,9 @@ public class BounceBall : Projectile
         if (enemy != null)
         {
             Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
-            enemy.TakeDamage(GetDamage(), source);
+                        DamageBOP sourceDamage = owner != null ? DamageBOP.Player : DamageBOP.BOT;
+            enemy.TakeDamage(GetDamage(), source, 5f, 0.2f, sourceDamage);
+            
         }
 
         // Check if max bounces have been reached

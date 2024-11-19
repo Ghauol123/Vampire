@@ -101,11 +101,11 @@ public class CharacterData : ScriptableObject
     public Stats stats = new Stats();
     public Stats currentStat;
 
-    private void OnEnable()
-    {
-        // Initialize currentStat with baseStat when the ScriptableObject is enabled
-        currentStat = stats;
-    }
+    // private void OnEnable()
+    // {
+    //     // Initialize currentStat with baseStat when the ScriptableObject is enabled
+    //     currentStat = stats;
+    // }
 
     public void ResetToBaseStats()
     {

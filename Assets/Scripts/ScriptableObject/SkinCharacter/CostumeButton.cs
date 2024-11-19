@@ -47,7 +47,7 @@ public class CostumeButton : MonoBehaviour
         private void OnButtonClick()
     {
         characterSelected.SelectSkin(costumeIndex);
-        characterSelected.playbutton.SetActive(true);
+        // characterSelected.playbutton.SetActive(true);
     }
 
     public void SetupSpriteAnimation()

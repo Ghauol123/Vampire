@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleSpawnPrefaps:
   - {fileID: 8363618435026398200, guid: c39cb5da4768653448f4763cc53f820e, type: 3}
-  spawnTime: {x: 1, y: 2}
-  spawnPerTic: {x: 1, y: 2}
-  spawnDuration: 30
-  startingEnemyCount: 0
-  maxEnemies: 1
-  exitCondition: 2
+  spawnTime: {x: 1, y: 1}
+  spawnPerTic: {x: 1, y: 1}
+  spawnDuration: 1
+  startingEnemyCount: 1
+  maxEnemies: 500
+  exitCondition: -1
   mustKillAllEnemies: 0

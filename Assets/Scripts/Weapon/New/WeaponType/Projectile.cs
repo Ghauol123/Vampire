@@ -19,7 +19,7 @@ public class Projectile : WeaponEffect
 {
     rb = GetComponent<Rigidbody2D>();
     Weapon.Stats stats = weapon.GetStats();
-    if(rb.bodyType == RigidbodyType2D.Dynamic){
+    if(rb.bodyType == RigidbodyType2D.Kinematic){
         rb.angularVelocity = rotationSpeed.z;
         rb.velocity = transform.right * stats.speed;
     }
@@ -31,7 +31,7 @@ public class Projectile : WeaponEffect
     );
     pierce = stats.piercing;
     if(stats.lifespan >0) Invoke("ReturnToPool", stats.lifespan);
-    if(hasAutoAim) AcquireAutoAimFacing();
+    // if(hasAutoAim) AcquireAutoAimFacing();
 }
 
 protected virtual void ReturnToPool()
@@ -39,19 +39,19 @@ protected virtual void ReturnToPool()
     CancelInvoke("ReturnToPool");
     ObjectPool.Instance.ReturnObject(gameObject);
 }
-    public virtual void AcquireAutoAimFacing(){
-        float aimAngle;
-        EnemyStats[] targets = FindObjectsOfType<EnemyStats>();
-        if(targets.Length > 0){
-            EnemyStats selectedTarget = targets[UnityEngine.Random.Range(0,targets.Length)];
-            Vector2 difference = selectedTarget.transform.position - transform.position;
-            aimAngle = Mathf.Atan2(difference.y,difference.x) * Mathf.Rad2Deg;
-        }
-        else{
-            aimAngle = UnityEngine.Random.Range(0f,360f);
-        }
-        transform.rotation = Quaternion.Euler(0,0,aimAngle);
-    }
+    // public virtual void AcquireAutoAimFacing(){
+    //     float aimAngle;
+    //     EnemyStats[] targets = FindObjectsOfType<EnemyStats>();
+    //     if(targets.Length > 0){
+    //         EnemyStats selectedTarget = targets[UnityEngine.Random.Range(0,targets.Length)];
+    //         Vector2 difference = selectedTarget.transform.position - transform.position;
+    //         aimAngle = Mathf.Atan2(difference.y,difference.x) * Mathf.Rad2Deg;
+    //     }
+    //     else{
+    //         aimAngle = UnityEngine.Random.Range(0f,360f);
+    //     }
+    //     transform.rotation = Quaternion.Euler(0,0,aimAngle);
+    // }
     protected virtual void FixedUpdate() {
         rb = GetComponent<Rigidbody2D>();
                 if (weapon == null) 
@@ -88,7 +88,9 @@ protected virtual void ReturnToPool()
         EnemyStats es = other.GetComponent<EnemyStats>();
         if(es){
             Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
-            es.TakeDamage(GetDamage(), source);
+                        DamageBOP sourceDamage = owner != null ? DamageBOP.Player : DamageBOP.BOT;
+            es.TakeDamage(GetDamage(), source, 5f, 0.2f, sourceDamage);
+            
             Weapon.Stats stats = weapon.GetStats();
             pierce--;
             if(stats.hitEffect){

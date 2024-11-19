@@ -58,6 +58,7 @@ public class EnemyStats : MonoBehaviour
     // public float currentDamage;
     Transform playerMoving;
     PlayerStats PlayerStats;
+    BOTStats bOTStats;
     [Header("Damage Feedback")]
     public Color damageColor = new Color(0,0,0); // what the color of the damage flash should be
     public float damageFlashDuration = 0.2f; // How ong the flash should last
@@ -69,7 +70,8 @@ public class EnemyStats : MonoBehaviour
         
     public AudioClip hitSound; // Clip âm thanh va chạm
     private AudioSource audioSource; // Component AudioSource
-
+    private Melee melee;
+    DamageBOP damageBOP;
     public static int count;
     private void Awake() {
         count ++;
@@ -82,10 +84,12 @@ public class EnemyStats : MonoBehaviour
         currentHealth = currentStats.maxHealth;
         playerMoving = FindObjectOfType<PlayerMoving>().transform;
         PlayerStats = FindObjectOfType<PlayerStats>();
+        bOTStats = FindAnyObjectByType<BOTStats>();
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
         movement = GetComponent<EnemyMovement>();
         col =  GetComponent<Collider2D>();
+        melee =  FindAnyObjectByType<Melee>();
     }
     public void RecalculateStats(){
 
@@ -95,7 +99,7 @@ public class EnemyStats : MonoBehaviour
         // currentStats = baseStats;
 
     }
-    public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f){
+    public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f,DamageBOP sourceDamage = DamageBOP.Player){
         // currentHealth -= dmg;
         // Debug.Log(dmg);
         // StartCoroutine(DamageFlash());
@@ -106,7 +110,7 @@ public class EnemyStats : MonoBehaviour
         // if(currentHealth <= 0){
         //     Kill();
         // }
-        if(Mathf.Approximately(dmg, currentStats.damage)){
+        if(Mathf.Approximately(dmg, currentStats.maxHealth)){
             if(UnityEngine.Random.value < currentStats.resitances.kill){
                 return;
             }
@@ -115,7 +119,7 @@ public class EnemyStats : MonoBehaviour
         // Debug.Log(dmg);
         StartCoroutine(DamageFlash());
         if(currentHealth <= 0){
-            Kill();
+            Kill(sourceDamage);
         }
     }
     
@@ -124,18 +128,25 @@ public class EnemyStats : MonoBehaviour
         yield return new WaitForSeconds(damageFlashDuration);
         sr.color = originalColor;
     }
-    public void Kill()
-    {
-        col.enabled = false; 
-        StartCoroutine(KillFade());
+public void Kill(DamageBOP sourceDamage = DamageBOP.Player)
+{
+    col.enabled = false; 
+    StartCoroutine(KillFade());
+    // Only increase kill count for player
+    if (sourceDamage == DamageBOP.Player) {
         PlayerStats.IncreaseKillnumber(1);
+                PlayerStats.PlusScore();
 
-        // Drop items before returning to the pool
-        DropRateManager dropManager = FindObjectOfType<DropRateManager>();
-        if (dropManager != null) {
-            dropManager.DropItems(transform.position);
-        }
     }
+    else if(sourceDamage == DamageBOP.BOT){
+        bOTStats.IncreaseKillnumber(1);
+    }
+    
+    DropRateManager dropManager = FindObjectOfType<DropRateManager>();
+    if (dropManager != null) {
+        dropManager.DropItems(transform.position);
+    }
+}
     IEnumerator KillFade()
     {
         WaitForEndOfFrame w = new WaitForEndOfFrame();
@@ -146,7 +157,6 @@ public class EnemyStats : MonoBehaviour
             t += Time.deltaTime;
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, (1 - t / deathFadeTime) * origiAlpha);
         }
-        PlayerStats.PlusScore();
         ObjectPool.Instance.ReturnObject(gameObject);
 
     }

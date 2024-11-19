@@ -6,6 +6,7 @@ using System;
 public class Melee : WeaponEffect
 {
     public enum DamageSource {Melee, owner}; // dame đến từ đâu từ vũ khí hay người chơi để tính được đường đẩy lùi enemy
+    // public enum DamageBOP {Player, BOT}
     public DamageSource damageSource = DamageSource.Melee; // lấy ra projectile
     // Start is called before the first frame update
     void Start()
@@ -29,9 +30,13 @@ public class Melee : WeaponEffect
         EnemyStats es = other.GetComponent<EnemyStats>();
         if(es){
             Vector3 source = damageSource == DamageSource.owner && owner ? owner.transform.position : transform.position;
-            es.TakeDamage(GetDamage(), source);
+            // Determine damage source based on owner
+            DamageBOP sourceDamage = owner != null ? DamageBOP.Player : DamageBOP.BOT;
+                    Debug.Log($"Damage source: {sourceDamage}, Owner: {(owner != null ? "Player" : "BOT")}");
+
+            es.TakeDamage(GetDamage(), source, 5f, 0.2f, sourceDamage);
+            
             Weapon.Stats stats = weapon.GetStats();
-            // Debug.Log(stats.damage + stats.number);
             if(stats.hitEffect){
                 Destroy(Instantiate(stats.hitEffect,transform.position,Quaternion.identity), 5f);
             }
