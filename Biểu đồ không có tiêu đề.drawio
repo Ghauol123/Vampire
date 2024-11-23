@@ -1465,6 +1465,9 @@
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-83" value="continue to damage enemy" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="-960" y="-680" width="120" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="Ic7lBn4BcBawPIOhwsYf-103" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ic7lBn4BcBawPIOhwsYf-84" target="Ic7lBn4BcBawPIOhwsYf-102">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-84" value="" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="-1080" y="-110" width="30" height="30" as="geometry" />
         </mxCell>
@@ -1504,11 +1507,20 @@
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-96" value="Fight with monsters" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="165" y="-1000" width="120" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="Ic7lBn4BcBawPIOhwsYf-105" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Ic7lBn4BcBawPIOhwsYf-97" target="Ic7lBn4BcBawPIOhwsYf-104">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-97" value="Damage Enemy" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="165" y="-900" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.491;entryY=0.119;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="9NRpBOzgv3lKmYA5aLHx-70" target="9NRpBOzgv3lKmYA5aLHx-86">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Ic7lBn4BcBawPIOhwsYf-102" value="Kill Boss" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-1125" y="-15" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ic7lBn4BcBawPIOhwsYf-104" value="Kill enemy" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="165" y="-800" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
