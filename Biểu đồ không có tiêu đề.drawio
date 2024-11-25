@@ -1575,6 +1575,24 @@
         <mxCell id="hlxDgSDik5aE1Ny6MeYf-19" value="Map Icon for Map" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="620" y="120" width="120" height="100" as="geometry" />
         </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-20" value="BarIcon for SideBar" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="150" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0.96;entryY=0.7;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="hlxDgSDik5aE1Ny6MeYf-2" target="hlxDgSDik5aE1Ny6MeYf-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.95;entryY=0.39;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="hlxDgSDik5aE1Ny6MeYf-2" target="hlxDgSDik5aE1Ny6MeYf-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.55;entryY=0.95;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="hlxDgSDik5aE1Ny6MeYf-2" target="hlxDgSDik5aE1Ny6MeYf-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0.133;entryY=0.65;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="hlxDgSDik5aE1Ny6MeYf-2" target="hlxDgSDik5aE1Ny6MeYf-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hlxDgSDik5aE1Ny6MeYf-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.1;entryY=0.63;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="hlxDgSDik5aE1Ny6MeYf-2" target="hlxDgSDik5aE1Ny6MeYf-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
