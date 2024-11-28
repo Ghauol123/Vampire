@@ -643,6 +643,9 @@
         <mxCell id="pt03gfFMaVnff2l4p2JT-13" value="&amp;lt;&amp;lt;extends&amp;gt;&amp;gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1020" y="90" width="60" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="pt03gfFMaVnff2l4p2JT-14" value="Inventory" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2800" y="-1080" width="60" height="30" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
