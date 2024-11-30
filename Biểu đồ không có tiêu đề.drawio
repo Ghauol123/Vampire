@@ -958,7 +958,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bCTpYDHUXSb-iR40pK8q-148" value="WaveData" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=19;" parent="1" vertex="1">
-          <mxGeometry x="1730" y="576" width="530" height="268" as="geometry" />
+          <mxGeometry x="2180" y="-240" width="530" height="268" as="geometry" />
         </mxCell>
         <mxCell id="UV_o4AbTWV2YxU862uTE-8" value="+ GameObject[] possibleSpawnPrefaps" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=19;" parent="bCTpYDHUXSb-iR40pK8q-148" vertex="1">
           <mxGeometry y="26" width="530" height="26" as="geometry" />
@@ -1016,9 +1016,6 @@
         </mxCell>
         <mxCell id="bCTpYDHUXSb-iR40pK8q-172" value="+ Kill()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=19;" parent="bCTpYDHUXSb-iR40pK8q-163" vertex="1">
           <mxGeometry y="190" width="265" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="bCTpYDHUXSb-iR40pK8q-174" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=0;endSize=19;" parent="1" source="bCTpYDHUXSb-iR40pK8q-159" target="bCTpYDHUXSb-iR40pK8q-167" edge="1">
-          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="l-O9Ujzwn11oEUhIGtm5-8" value="PlayerInventory" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=19;" parent="1" vertex="1">
           <mxGeometry x="610" y="1130" width="350" height="268" as="geometry" />
