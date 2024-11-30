@@ -661,7 +661,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="bCTpYDHUXSb-iR40pK8q-6" value="CharacterSelecterd" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fontSize=19;" parent="1" vertex="1">
-          <mxGeometry x="620" y="208" width="360" height="242" as="geometry" />
+          <mxGeometry x="1070" y="-60" width="360" height="242" as="geometry" />
         </mxCell>
         <mxCell id="bCTpYDHUXSb-iR40pK8q-7" value="+ CharacterData characterData" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontSize=19;" parent="bCTpYDHUXSb-iR40pK8q-6" vertex="1">
           <mxGeometry y="26" width="360" height="26" as="geometry" />
