@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="24.9.3" pages="5">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="25.0.3" pages="5">
   <diagram name="Trang-1" id="_9UZo5vtLW2tMfMYqqjR">
     <mxGraphModel dx="2261" dy="1913" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -1101,7 +1101,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="d9B0ZtTSeDsrBDuweL8n" name="class">
-    <mxGraphModel dx="3341" dy="3206" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3341" dy="3213" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1120,17 +1120,11 @@
         <mxCell id="9NRpBOzgv3lKmYA5aLHx-6" value="&lt;font&gt;Check Internet&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;" parent="1" vertex="1">
           <mxGeometry x="270" y="140" width="120" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="9NRpBOzgv3lKmYA5aLHx-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=18;" parent="1" source="9NRpBOzgv3lKmYA5aLHx-9" target="9NRpBOzgv3lKmYA5aLHx-11" edge="1">
+        <mxCell id="GOGvdEgxuH1e7EpqJbYl-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="9NRpBOzgv3lKmYA5aLHx-9" target="Ic7lBn4BcBawPIOhwsYf-117">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="9NRpBOzgv3lKmYA5aLHx-9" value="&lt;font&gt;Internet connection error message&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;fontSize=18;" parent="1" vertex="1">
           <mxGeometry x="640" y="190" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="Ic7lBn4BcBawPIOhwsYf-124" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=18;" parent="1" source="9NRpBOzgv3lKmYA5aLHx-11" target="Ic7lBn4BcBawPIOhwsYf-117" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="9NRpBOzgv3lKmYA5aLHx-11" value="&lt;font&gt;Wait for reconnection&lt;/font&gt;" style="whiteSpace=wrap;html=1;rounded=1;fontSize=18;" parent="1" vertex="1">
-          <mxGeometry x="640" y="290" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="Ic7lBn4BcBawPIOhwsYf-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=18;" parent="1" source="9NRpBOzgv3lKmYA5aLHx-13" target="9NRpBOzgv3lKmYA5aLHx-39" edge="1">
           <mxGeometry relative="1" as="geometry" />
